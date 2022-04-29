@@ -1,2 +1,4 @@
-package logic;public class ControlGenerator {
+package logic;
+
+public class ControlGenerator {
 }
