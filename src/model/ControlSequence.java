@@ -46,6 +46,8 @@ public class ControlSequence {
 // TO DO
         if (column == 0 && sequenceCaption2 != null) {
             return sequenceCaption1 + " " + row;
+        } if (column == 0 && sequenceCaption2 != null) {
+            return sequenceCaption1 + " " + row;
         }
 
         return sequenceCaption1 + " " + row;
