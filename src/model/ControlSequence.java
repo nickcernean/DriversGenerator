@@ -12,28 +12,31 @@ public class ControlSequence {
     private final String sequenceCaption1;
     @Nullable
     private final String sequenceCaption2;
-    private final String command;
+    private final String command1;
+    @Nullable
+    private final String command2;
 
-    public ControlSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, String command, boolean carriageReturn, boolean lineFeed) {
+    public ControlSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
         this.columns = columns;
         this.sequenceCaption1 = sequenceCaption1;
         this.sequenceCaption2 = sequenceCaption2;
-        this.command = command;
-
+        this.command1 = command1;
+        this.command2 = command2;
     }
-    private String data_generator(int row) {
+
+    private String dataGenerator(int row) {
 
         if (carriageReturn && lineFeed) {
-            return command + row + "\\r" + "\\n";
+            return command1 + row + "\\r" + "\\n";
         } else if (carriageReturn) {
-            return command + row + "\\r";
+            return command1 + row + "\\r";
         } else if (lineFeed) {
-            return command + row + "\\n";
+            return command1 + row + "\\n";
         }
-        return command + row;
+        return command1 + row;
     }
 
     public String sequenceCaptionGenerator(int row) {
@@ -41,11 +44,10 @@ public class ControlSequence {
             return sequenceCaption1 + " " + row;
         } else {
             return sequenceCaption1 + " " + row + " " + sequenceCaption2;
-
         }
     }
-    public String matrixCaptionGenerator(int row, int column) {
 
+    public String matrixCaptionGenerator(int row, int column) {
 
         if (column == 0 && sequenceCaption2 == null) {
             return sequenceCaption1 + " " + rows;
@@ -56,27 +58,27 @@ public class ControlSequence {
         }
         return sequenceCaption1 + " " + rows;
     }
-
-    public String[] sequenceGenerator() {
-        String[] objectTypeArray = new String[rows];
-        for (int i = 0; i <= rows-1 ; i++) {
-            objectTypeArray[i] = sequence(i);
-        }
-        return objectTypeArray;
-    }
     public String sequence(int row) {
 
         return "<Sequence Name=\"" + Generator.sequenceNameGenerator() + "\" Caption=\"" + sequenceCaptionGenerator(row) + "\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" SequenceType=\"Control\" Deletable=\"True\" HasData=\"False\" UseHeaderFooter=\"True\">\n" +
                 "              <Description />\n" +
                 "              <Image />\n" +
                 "              <Command>\n" +
-                "                <Data1>\n" + data_generator(row) +
+                "                <Data1>\n" + dataGenerator(row) +
                 "                </Data1>\n" +
                 "                <Data2 />\n" +
                 "                <Lock1 Value=\"100\" />\n" +
                 "                <Lock2 Value=\"2\" />\n" +
                 "              </Command>\n" +
                 "            </Sequence>\n";
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
     }
 
     @Override

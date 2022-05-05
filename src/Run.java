@@ -11,14 +11,13 @@ import java.util.Arrays;
 
 public class Run {
     public static void main(String[] args) {
-
-        ControlSequence sequence = new ControlSequence(20, 0, "Mute", null, "av mute ", true, true);
-
-
-
-
         WriteToFile fileWriter = new WriteToFile("C:/Users/Nicolae.Cernean/OneDrive - Biamp Systems/Desktop/Result.txt");
-        fileWriter.writeTo(sequence.sequenceGenerator());
+        ControlSequence sequence = new ControlSequence(20, 0, "Mute", null, "av mute ", null, true, true);
+        IControlGenerator controlGenerator = new ControlGenerator(sequence);
+        fileWriter.writeTo(controlGenerator.generateControlSequence());
+        System.out.println(Arrays.toString( controlGenerator.generateControlSequence()));
+        //fileWriter.writeTo(sequence.sequenceGenerator());
+
 
     }
 }

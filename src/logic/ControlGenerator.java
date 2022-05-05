@@ -16,8 +16,7 @@ public class ControlGenerator implements IControlGenerator {
 
     @Override
     public Object[] generateControlSequence() {
-        return null;//generator.sequenceGenerator(controlSequence.sequenceCaptionGenerator(),rows);
-
+        return  generator.sequenceGenerator(controlSequence,controlSequence.getRows());
     }
 
     @Override

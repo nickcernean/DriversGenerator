@@ -15,7 +15,7 @@ public class Generator<T> {
         return objectTypeArray;
     }
 
-    public  Object[] sequenceGenerator(T objectType, int rows) {
+    public  Object[] sequenceGenerator(T objectType,int rows) {
         Object[] objectTypeArray = new Object[rows];
         for (int i = 0; i <= rows-1; i++) {
             objectTypeArray[i] = objectType;
