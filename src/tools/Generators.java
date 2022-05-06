@@ -1,24 +1,26 @@
 package tools;
 
+import model.Sequence;
+
 import java.util.Random;
 
-public class Generator<T> {
+public class Generators<T> {
 
 
-    public Object[][] matrixSequenceGenerator(T objectType, int rows, int columns) {
+    public static Object[][] matrixSequenceGenerator(Sequence sequence, int rows, int columns) {
         Object[][] objectTypeArray = new Object[rows][columns];
-        for (int i = 0; i <= rows; i++) {
-            for (int j = 0; j <= columns; j++) {
-                objectTypeArray[i][j] = objectType;
+        for (int i = 0; i <= rows-1; i++) {
+            for (int j = 0; j <= columns-1; j++) {
+                objectTypeArray[i][j] = sequence.sequence(i,j);
             }
         }
         return objectTypeArray;
     }
 
-    public  Object[] sequenceGenerator(T objectType,int rows) {
+    public static   Object[] sequenceGenerator(Sequence sequence, int rows) {
         Object[] objectTypeArray = new Object[rows];
         for (int i = 0; i <= rows-1; i++) {
-            objectTypeArray[i] = objectType;
+            objectTypeArray[i] = sequence.sequence(i,-1);
         }
         return objectTypeArray;
     }

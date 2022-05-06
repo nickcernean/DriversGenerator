@@ -2,25 +2,26 @@ package logic;
 
 import interfaces.IControlGenerator;
 import model.ControlSequence;
-import tools.Generator;
+import model.Sequence;
+import tools.Generators;
 
 public class ControlGenerator implements IControlGenerator {
 
-    private Generator<ControlSequence> generator;
+    private Generators<ControlSequence> generators;
     private ControlSequence controlSequence;
 
     public ControlGenerator(ControlSequence controlSequence) {
-        this.generator = new Generator<>();
-        this.controlSequence=controlSequence;
+        this.generators = new Generators<>();
+        this.controlSequence = controlSequence;
     }
 
     @Override
     public Object[] generateControlSequence() {
-        return  generator.sequenceGenerator(controlSequence,controlSequence.getRows());
+        return generators.sequenceGenerator(controlSequence, controlSequence.getRows());
     }
 
     @Override
-    public String generateMatrixControlSequence(ControlSequence controlSequence) {
-        return null;
+    public Object[][] generateMatrixControlSequence() {
+        return generators.matrixSequenceGenerator(controlSequence, controlSequence.getRows(), controlSequence.getColumns());
     }
 }

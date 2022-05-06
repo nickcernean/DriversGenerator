@@ -2,8 +2,7 @@ package interfaces;
 
 import model.ControlSequence;
 
-public interface IControlGenerator {
+public interface ISourceGenerator {
     Object[] generateControlSequence();
     Object[][] generateMatrixControlSequence();
-
 }
