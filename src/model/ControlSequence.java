@@ -1,5 +1,6 @@
 package model;
 
+
 import org.jetbrains.annotations.Nullable;
 import tools.Generators;
 
@@ -9,6 +10,7 @@ public class ControlSequence extends Sequence {
     private final int columns;
     private final boolean carriageReturn;
     private final boolean lineFeed;
+
     private final String sequenceCaption1;
     @Nullable
     private final String sequenceCaption2;
@@ -63,6 +65,8 @@ public class ControlSequence extends Sequence {
     }
 
     public String sequenceCaptionGenerator(int row, int column) {
+        row=row+1;
+        column=column+1;
         if (column == -1) {
             if (sequenceCaption2 == null) {
                 return sequenceCaption1 + " " + row;
