@@ -35,45 +35,38 @@ public class ControlSequence extends Sequence {
     private String dataGenerator(int row, int column) {
         if (column == -1) {
             if (carriageReturn && lineFeed) {
-                return dataEncoder(command1 + row + CR + LF);
+                return Generators.dataEncoder(command1 + row + CR + LF);
             } else if (carriageReturn) {
-                return dataEncoder(command1 + row + CR);
+                return Generators.dataEncoder(command1 + row + CR);
             } else if (lineFeed) {
-                return dataEncoder(command1 + row + LF);
+                return Generators.dataEncoder(command1 + row + LF);
             }
-            return dataEncoder(command1 + row);
+            return Generators.dataEncoder(command1 + row);
         } else {
             if (carriageReturn && lineFeed) {
-                return dataEncoder(command1 + row + command2 + column + CR + LF);
+                return Generators.dataEncoder(command1 + row + command2 + column + CR + LF);
             } else if (carriageReturn) {
-                return dataEncoder(command1 + row + command2 + column + CR);
+                return Generators.dataEncoder(command1 + row + command2 + column + CR);
             } else if (lineFeed) {
-                return dataEncoder(command1 + row + command2 + column + LF);
+                return Generators.dataEncoder(command1 + row + command2 + column + LF);
             }
-            return dataEncoder(command1 + row + command2 + column);
+            return Generators.dataEncoder(command1 + row + command2 + column);
         }
     }
 
-    private String dataEncoder(String dataPassed) {
-        StringBuilder resultString = new StringBuilder();
-        byte[] byteArr = dataPassed.getBytes();
-
-        for (byte bytePosition : byteArr) {
-            resultString.append(String.format("%02x", bytePosition));
-        }
-        return resultString.toString().toUpperCase();
-    }
 
     public String sequenceCaptionGenerator(int row, int column) {
-        row=row+1;
-        column=column+1;
+
         if (column == -1) {
+            row = row + 1;
             if (sequenceCaption2 == null) {
                 return sequenceCaption1 + " " + row;
             } else {
                 return sequenceCaption1 + " " + row + " " + sequenceCaption2;
             }
         } else {
+            row = row + 1;
+            column = column + 2;
             if (sequenceCaption2 == null) {
                 return sequenceCaption1 + " " + row + " " + column;
             } else {

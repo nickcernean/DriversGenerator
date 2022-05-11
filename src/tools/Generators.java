@@ -41,5 +41,15 @@ public class Generators<T> {
         }
         return sb.toString();
     }
+    //*
+    public static String dataEncoder(String dataPassed) {
+        StringBuilder resultString = new StringBuilder();
+        byte[] byteArr = dataPassed.getBytes();
+
+        for (byte bytePosition : byteArr) {
+            resultString.append(String.format("%02x", bytePosition));
+        }
+        return resultString.toString().toUpperCase();
+    }
 
 }
