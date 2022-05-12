@@ -24,7 +24,10 @@ public class Run {
         *  Argument 8: will the line feed be generated or not (CAN BE TRUE/FALSE)
          * NB: The order of CR and LF will be same as in the object
          * */
-        ControlSequence sequence = new ControlSequence(4, 4, "Mute Input", "Off", "av input", "On", true, true);
+
+        /*------------------------------------------------------------*/
+
+        ControlSequence sequence = new ControlSequence(4,"Mute Input", "Off", "av input", "On", true, true);
 
         /* The interface that contains the functions to generate either sequence or matrix*/
         IControlGenerator controlGenerator = new ControlGenerator(sequence);
@@ -39,14 +42,16 @@ public class Run {
 
         /*------------------------------------------------------------*/
 
+        ControlSequence matrixSequence = new ControlSequence(4, 4, "Mute Input", "Off", "av input", "On", true, true);
         /* The function that generates the control matrices,
          * be aware that in order to generate the sequence the column should not be -1!!!
          *
          *  */
+        IControlGenerator controlGenerator2 = new ControlGenerator(matrixSequence);
         //To use the function generator just remove the "//" before the method call
-        //fileWriter.writeTo(controlGenerator.generateMatrixControlSequence());
+        fileWriter.writeTo(controlGenerator2.generateMatrixControlSequence());
 
-        /*---------------------------------------------------------------------------------------*/
+        /*------------------------------------------------------------*/
 
 
     }

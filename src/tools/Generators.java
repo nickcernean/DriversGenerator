@@ -41,7 +41,7 @@ public class Generators<T> {
         }
         return sb.toString();
     }
-    //*
+
     public static String dataEncoder(String dataPassed) {
         StringBuilder resultString = new StringBuilder();
         byte[] byteArr = dataPassed.getBytes();
@@ -51,5 +51,6 @@ public class Generators<T> {
         }
         return resultString.toString().toUpperCase();
     }
+
 
 }

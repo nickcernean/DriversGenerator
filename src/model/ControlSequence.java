@@ -1,6 +1,7 @@
 package model;
 
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tools.Generators;
 
@@ -32,31 +33,50 @@ public class ControlSequence extends Sequence {
         this.command2 = command2;
     }
 
+    public ControlSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, boolean carriageReturn, boolean lineFeed) {
+        this.carriageReturn = carriageReturn;
+        this.lineFeed = lineFeed;
+        this.rows = rows;
+        this.columns = -1;
+        this.sequenceCaption1 = sequenceCaption1;
+        this.sequenceCaption2 = sequenceCaption2;
+        this.command1 = command1;
+        this.command2 = command2;
+    }
+
     private String dataGenerator(int row, int column) {
+        return getString(row, column, carriageReturn, lineFeed, command1, CR, LF, command2);
+    }
+
+    @NotNull
+    static String getString(int row, int column, boolean carriageReturn, boolean lineFeed, String command1, char cr, char lf, String command2) {
         if (column == -1) {
             if (carriageReturn && lineFeed) {
-                return Generators.dataEncoder(command1 + row + CR + LF);
+                return Generators.dataEncoder(command1 + row + cr + lf);
             } else if (carriageReturn) {
-                return Generators.dataEncoder(command1 + row + CR);
+                return Generators.dataEncoder(command1 + row + cr);
             } else if (lineFeed) {
-                return Generators.dataEncoder(command1 + row + LF);
+                return Generators.dataEncoder(command1 + row + lf);
             }
             return Generators.dataEncoder(command1 + row);
         } else {
             if (carriageReturn && lineFeed) {
-                return Generators.dataEncoder(command1 + row + command2 + column + CR + LF);
+                return Generators.dataEncoder(command1 + row + command2 + column + cr + lf);
             } else if (carriageReturn) {
-                return Generators.dataEncoder(command1 + row + command2 + column + CR);
+                return Generators.dataEncoder(command1 + row + command2 + column + cr);
             } else if (lineFeed) {
-                return Generators.dataEncoder(command1 + row + command2 + column + LF);
+                return Generators.dataEncoder(command1 + row + command2 + column + lf);
             }
             return Generators.dataEncoder(command1 + row + command2 + column);
         }
     }
 
+    private String sequenceCaptionGenerator(int row, int column) {
+        return getString(row, column, sequenceCaption1, sequenceCaption2);
+    }
 
-    public String sequenceCaptionGenerator(int row, int column) {
-
+    @NotNull
+    static String getString(int row, int column, String sequenceCaption1, String sequenceCaption2) {
         if (column == -1) {
             row = row + 1;
             if (sequenceCaption2 == null) {
@@ -72,9 +92,7 @@ public class ControlSequence extends Sequence {
             } else {
                 return sequenceCaption1 + " " + row + " " + sequenceCaption2 + " " + column;
             }
-
         }
-
     }
 
     public String sequence(int row, int column) {
