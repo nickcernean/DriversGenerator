@@ -76,13 +76,14 @@ public class SourceSequence extends Sequence {
         return getString(row, column, sequenceCaption1, sequenceCaption2);
     }
 
+
     @Override
     public int getRows() {
-        return 0;
+        return rows;
     }
 
     @Override
     public int getColumns() {
-        return 0;
+        return columns;
     }
 }

@@ -86,7 +86,7 @@ public class ControlSequence extends Sequence {
             }
         } else {
             row = row + 1;
-            column = column + 2;
+            column = column + 1;
             if (sequenceCaption2 == null) {
                 return sequenceCaption1 + " " + row + " " + column;
             } else {

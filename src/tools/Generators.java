@@ -7,7 +7,7 @@ import java.util.Random;
 public class Generators<T> {
 
 
-    public static Object[][] matrixSequenceGenerator(Sequence sequence, int rows, int columns) {
+    public Object[][] matrixSequenceGenerator(Sequence sequence, int rows, int columns) {
         Object[][] objectTypeArray = new Object[rows][columns];
         for (int i = 0; i <= rows-1; i++) {
             for (int j = 0; j <= columns-1; j++) {
@@ -17,7 +17,7 @@ public class Generators<T> {
         return objectTypeArray;
     }
 
-    public static   Object[] sequenceGenerator(Sequence sequence, int rows) {
+    public Object[] sequenceGenerator(Sequence sequence, int rows) {
         Object[] objectTypeArray = new Object[rows];
         for (int i = 0; i <= rows-1; i++) {
             objectTypeArray[i] = sequence.sequence(i,-1);

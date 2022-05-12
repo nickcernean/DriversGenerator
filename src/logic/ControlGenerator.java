@@ -2,13 +2,12 @@ package logic;
 
 import interfaces.IControlGenerator;
 import model.ControlSequence;
-import model.Sequence;
 import tools.Generators;
 
 public class ControlGenerator implements IControlGenerator {
 
-    private Generators<ControlSequence> generators;
-    private ControlSequence controlSequence;
+    private final Generators<ControlSequence> generators;
+    private final ControlSequence controlSequence;
 
     public ControlGenerator(ControlSequence controlSequence) {
         this.generators = new Generators<>();
