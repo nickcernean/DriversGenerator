@@ -24,7 +24,7 @@ public class LevelSequence extends Sequence {
     private final String command2;
     private final static char CR = '\r';
     private final static char LF = '\n';
-    private static int REPEATSPEED = 100;
+    private final static int REPEATSPEED = 100;
 
     public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, TypeValues typeValue, String command1, @Nullable String command2, int minimumValue, int maximumValue, int stepValue, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
@@ -100,7 +100,7 @@ public class LevelSequence extends Sequence {
     private String dataGenerator(int row, int column) {
         return getString(row, column, carriageReturn, lineFeed, command1, CR, LF, command2);
     }
-    
+
     @Override
     public int getRows() {
         return rows;

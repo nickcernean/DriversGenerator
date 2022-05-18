@@ -46,26 +46,24 @@ public class SourceSequence extends Sequence {
 
     @Override
     public String sequence(int row, int column) {
-
-        return "<Sequence Name=\"" + Generators.sequenceNameGenerator() + "\"Caption=\"" + sequenceCaptionGenerator(row, column) + "\" " +
-                "\"DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" SequenceType=\"Source\" Deletable=\"True\" HasData=\"False\" UseHeaderFooter=\"True\">\n"
-                + "<Reply Name=\"" + Generators.sequenceNameGenerator() + "\"Caption=\"Reply\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" SequenceType=\"Reply\" UseHeaderFooter=\"True\">\n"
-                + "<Image />\n"
-                + "<Command>\n"
-                + "<Data1 />\n"
-                + "< SeekOffset Value = \"0\"/>\n"
-                + "</Command >\n"
-                + "</Reply >\n"
-                + "<Description/>\n"
-                + "<Image / >\n"
-                + "<Command >\n"
-                + "<Data1>" + dataGenerator(row, column) + "</Data1>\n"
-                + "<Data2/>\n"
-                + "<Lock1 Value = \"100\"/>\n"
-                + "<Lock2 Value = \"2\"/>\n"
-                + "</Command >\n"
-                + "</Sequence >\n";
-
+        return "<Sequence Name=\""+Generators.sequenceNameGenerator()+"\" Caption=\""+sequenceCaptionGenerator(row, column)+"\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" SequenceType=\"Source\" Deletable=\"True\" HasData=\"False\" UseHeaderFooter=\"True\">\n" +
+                "              <Reply Name=\""+Generators.sequenceNameGenerator()+"\" Caption=\"Reply\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" SequenceType=\"Reply\" UseHeaderFooter=\"True\">\n" +
+                "                <Image />\n" +
+                "                <Command>\n" +
+                "                  <Data1 />\n" +
+                "                  <SeekOffset Value=\"0\" />\n" +
+                "                </Command>\n" +
+                "              </Reply>\n" +
+                "              <Description />\n" +
+                "              <Image />\n" +
+                "              <Command>\n" +
+                "                <Data1>" +dataGenerator(row, column)+
+                "</Data1>\n" +
+                "                <Data2 />\n" +
+                "                <Lock1 Value=\"100\" />\n" +
+                "                <Lock2 Value=\"2\" />\n" +
+                "              </Command>\n" +
+                "            </Sequence>\n";
     }
 
     private String dataGenerator(int row, int column) {

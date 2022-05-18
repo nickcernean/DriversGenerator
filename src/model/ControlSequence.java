@@ -51,6 +51,7 @@ public class ControlSequence extends Sequence {
     @NotNull
     static String getString(int row, int column, boolean carriageReturn, boolean lineFeed, String command1, char cr, char lf, String command2) {
         if (column == -1) {
+            row = row + 1;
             if (carriageReturn && lineFeed) {
                 return Generators.dataEncoder(command1 + row + cr + lf);
             } else if (carriageReturn) {
@@ -60,6 +61,8 @@ public class ControlSequence extends Sequence {
             }
             return Generators.dataEncoder(command1 + row);
         } else {
+            row = row + 1;
+            column = column + 1;
             if (carriageReturn && lineFeed) {
                 return Generators.dataEncoder(command1 + row + command2 + column + cr + lf);
             } else if (carriageReturn) {

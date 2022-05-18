@@ -15,7 +15,7 @@ public class Run {
         WriteToFile fileWriter = new WriteToFile(WORKDESTINATION);
 
         /* Object to be used to generate control sequences*/
-        /* Argument 1: number of rows to be generated
+        /*  Argument 1: number of rows to be generated
          *  Argument 2: number of columns to be generated (relevant for matrices)
          *  Argument 3: name of the command that will be generated
          *  Argument 4: a second name that will be generated /CAN BE NULL/
@@ -28,10 +28,9 @@ public class Run {
          *  Argument 8: will the line feed be generated or not (CAN BE TRUE/FALSE)
          * NB: The order of CR and LF will be same as in the object
          * */
-
         /*------------------------------------------------------------*/
 
-        ControlSequence controlSequence = new ControlSequence(4, "Mute Input", "Off", "av input", "On", true, true);
+        ControlSequence controlSequence = new ControlSequence(2, "Mute Input", "Off", "av input", "On", false, true);
 
         /* The interface that contains the functions to generate either sequence or matrix*/
         IControlGenerator controlGenerator = new ControlGenerator(controlSequence);
@@ -51,6 +50,7 @@ public class Run {
          * be aware that in order to generate the sequence the column should not be -1!!!
          *
          *  */
+
         IControlGenerator controlGenerator2 = new ControlGenerator(matrixSequence);
         //To use the function generator just remove the "//" before the method call
         //fileWriter.writeTo(controlGenerator2.generateMatrixControlSequence());
@@ -58,7 +58,7 @@ public class Run {
         /*------------------------------------------------------------*/
 
 
-        SourceSequence sourceSequence = new SourceSequence(4, "src Input", "Off", "av input", "On", true, true);
+        SourceSequence sourceSequence = new SourceSequence(10, "Switch Camera Input ", null, "XCN:", null, true, true);
 
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISourceGenerator sourceGenerator = new SourceGenerator(sourceSequence);
@@ -68,18 +68,18 @@ public class Run {
          *
          *  */
         //To use the function generator just remove the "//" before the method call
-        //fileWriter.writeTo(sourceGenerator.generateSourceSequence());
+        fileWriter.writeTo(sourceGenerator.generateSourceSequence());
 
         /*------------------------------------------------------------*/
 
-        SourceSequence matrixSourceSequence = new SourceSequence(4, 4, "Source Input", "Off", "av input", "On", true, true);
+        SourceSequence matrixSourceSequence = new SourceSequence(40, 10, "Switch Group Camera Input ", "to", "XCN:02:", ":", true, true);
         /* The function that generates the control matrices,
          * be aware that in order to generate the sequence the column should not be -1!!!
          *
          *  */
         ISourceGenerator matrixSourceSequenceGenerator = new SourceGenerator(matrixSourceSequence);
         //To use the function generator just remove the "//" before the method call
-        fileWriter.writeTo(matrixSourceSequenceGenerator.generateMatrixSourceSequence());
+        //fileWriter.writeTo(matrixSourceSequenceGenerator.generateMatrixSourceSequence());
 
         /*------------------------------------------------------------*/
 
