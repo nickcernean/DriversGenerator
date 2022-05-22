@@ -1,8 +1,11 @@
 import interfaces.IControlGenerator;
+import interfaces.ILevelGenerator;
 import interfaces.ISourceGenerator;
 import logic.ControlGenerator;
+import logic.LevelGenerator;
 import logic.SourceGenerator;
 import model.ControlSequence;
+import model.LevelSequence;
 import model.SourceSequence;
 import tools.WriteToFile;
 
@@ -30,7 +33,7 @@ public class Run {
          * */
         /*------------------------------------------------------------*/
 
-        ControlSequence controlSequence = new ControlSequence(2, "Mute Input", "Off", "av input", "On", false, true);
+        ControlSequence controlSequence = new ControlSequence(8, "Output", "Mute Off", "9B129C12A19212 ", "On", false, false);
 
         /* The interface that contains the functions to generate either sequence or matrix*/
         IControlGenerator controlGenerator = new ControlGenerator(controlSequence);
@@ -41,7 +44,7 @@ public class Run {
          *  */
 
         //To use the function generator just remove the "//" before the method call
-        //fileWriter.writeTo(controlGenerator.generateControlSequence());
+        fileWriter.writeTo(controlGenerator.generateControlSequence());
 
         /*------------------------------------------------------------*/
 
@@ -68,7 +71,7 @@ public class Run {
          *
          *  */
         //To use the function generator just remove the "//" before the method call
-        fileWriter.writeTo(sourceGenerator.generateSourceSequence());
+        //fileWriter.writeTo(sourceGenerator.generateSourceSequence());
 
         /*------------------------------------------------------------*/
 
@@ -80,6 +83,22 @@ public class Run {
         ISourceGenerator matrixSourceSequenceGenerator = new SourceGenerator(matrixSourceSequence);
         //To use the function generator just remove the "//" before the method call
         //fileWriter.writeTo(matrixSourceSequenceGenerator.generateMatrixSourceSequence());
+
+        /*------------------------------------------------------------*/
+
+
+
+        LevelSequence levelSequence = new LevelSequence(8,"Input","Mute On");
+
+        /* The interface that contains the functions to generate either sequence or matrix*/
+        ILevelGenerator levelGenerator = new LevelGenerator(levelSequence);
+
+        /* The function that generates the sequences,
+         *
+         *
+         *  */
+        //To use the function generator just remove the "//" before the method call
+        //fileWriter.writeTo(levelGenerator.generateLevelSequence());
 
         /*------------------------------------------------------------*/
 

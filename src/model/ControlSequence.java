@@ -18,8 +18,13 @@ public class ControlSequence extends Sequence {
     private final String command1;
     @Nullable
     private final String command2;
+
+//    private final int command1integer;
+//    @Nullable
+//    private final int command2integer;
     private final static char CR = '\r';
     private final static char LF = '\n';
+
 
 
     public ControlSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, boolean carriageReturn, boolean lineFeed) {
@@ -43,6 +48,16 @@ public class ControlSequence extends Sequence {
         this.command1 = command1;
         this.command2 = command2;
     }
+//    public ControlSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, int command1, @Nullable int command2, boolean carriageReturn, boolean lineFeed) {
+//        this.carriageReturn = carriageReturn;
+//        this.lineFeed = lineFeed;
+//        this.rows = rows;
+//        this.columns = -1;
+//        this.sequenceCaption1 = sequenceCaption1;
+//        this.sequenceCaption2 = sequenceCaption2;
+//        this.command1integer = command1;
+//        this.command2integer = command2;
+//    }
 
     private String dataGenerator(int row, int column) {
         return getString(row, column, carriageReturn, lineFeed, command1, CR, LF, command2);

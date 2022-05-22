@@ -2,6 +2,7 @@ package tools;
 
 import model.Sequence;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 public class Generators<T> {
@@ -9,9 +10,9 @@ public class Generators<T> {
 
     public Object[][] matrixSequenceGenerator(Sequence sequence, int rows, int columns) {
         Object[][] objectTypeArray = new Object[rows][columns];
-        for (int i = 0; i <= rows-1; i++) {
-            for (int j = 0; j <= columns-1; j++) {
-                objectTypeArray[i][j] = sequence.sequence(i,j);
+        for (int i = 0; i <= rows - 1; i++) {
+            for (int j = 0; j <= columns - 1; j++) {
+                objectTypeArray[i][j] = sequence.sequence(i, j);
             }
         }
         return objectTypeArray;
@@ -19,8 +20,8 @@ public class Generators<T> {
 
     public Object[] sequenceGenerator(Sequence sequence, int rows) {
         Object[] objectTypeArray = new Object[rows];
-        for (int i = 0; i <= rows-1; i++) {
-            objectTypeArray[i] = sequence.sequence(i,-1);
+        for (int i = 0; i <= rows - 1; i++) {
+            objectTypeArray[i] = sequence.sequence(i, -1);
         }
         return objectTypeArray;
     }
@@ -43,13 +44,23 @@ public class Generators<T> {
     }
 
     public static String dataEncoder(String dataPassed) {
-        StringBuilder resultString = new StringBuilder();
-        byte[] byteArr = dataPassed.getBytes();
 
-        for (byte bytePosition : byteArr) {
-            resultString.append(String.format("%02x", bytePosition));
+        if (!isHexadecimal(dataPassed)) {
+            StringBuilder resultString = new StringBuilder();
+            byte[] byteArr = dataPassed.getBytes();
+            for (byte bytePosition : byteArr) {
+                resultString.append(String.format("%02X", bytePosition));
+            }
+            return resultString.toString();
+        } else {
+            return dataPassed;
         }
-        return resultString.toString().toUpperCase();
+    }
+
+    protected static boolean isHexadecimal(String s) {
+        return s.chars()
+                .skip(s.startsWith("-") ? 1 : 0)
+                .allMatch(c -> "0123456789ABCDEFabcdef".indexOf(c) >= 0);
     }
 
 
