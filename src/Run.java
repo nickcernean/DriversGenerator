@@ -7,6 +7,7 @@ import logic.SourceGenerator;
 import model.ControlSequence;
 import model.LevelSequence;
 import model.SourceSequence;
+import model.TypeValues;
 import tools.WriteToFile;
 
 public class Run {
@@ -44,7 +45,7 @@ public class Run {
          *  */
 
         //To use the function generator just remove the "//" before the method call
-        fileWriter.writeTo(controlGenerator.generateControlSequence());
+        //fileWriter.writeTo(controlGenerator.generateControlSequence());
 
         /*------------------------------------------------------------*/
 
@@ -87,9 +88,9 @@ public class Run {
         /*------------------------------------------------------------*/
 
 
+        LevelSequence levelSequence = new LevelSequence(3, "Input", "Mute On", TypeValues.InDecrement, "1A2B3C5D7F4312", "4312", 12, 150, 2, false, false);
 
-        LevelSequence levelSequence = new LevelSequence(8,"Input","Mute On");
-
+        levelSequence.addCounter(7, 9,"Hexadecimal");
         /* The interface that contains the functions to generate either sequence or matrix*/
         ILevelGenerator levelGenerator = new LevelGenerator(levelSequence);
 
@@ -98,7 +99,7 @@ public class Run {
          *
          *  */
         //To use the function generator just remove the "//" before the method call
-        //fileWriter.writeTo(levelGenerator.generateLevelSequence());
+        fileWriter.writeTo(levelGenerator.generateLevelSequence());
 
         /*------------------------------------------------------------*/
 

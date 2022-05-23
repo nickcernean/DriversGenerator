@@ -58,9 +58,7 @@ public class Generators<T> {
     }
 
     protected static boolean isHexadecimal(String s) {
-        return s.chars()
-                .skip(s.startsWith("-") ? 1 : 0)
-                .allMatch(c -> "0123456789ABCDEFabcdef".indexOf(c) >= 0);
+        return s.chars().allMatch(c -> "0123456789ABCDEFabcdef".indexOf(c) >= 0);
     }
 
 

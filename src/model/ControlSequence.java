@@ -68,13 +68,13 @@ public class ControlSequence extends Sequence {
         if (column == -1) {
             row = row + 1;
             if (carriageReturn && lineFeed) {
-                return Generators.dataEncoder(command1 + row + cr + lf);
+                return Generators.dataEncoder(command1 + row +command2+ cr + lf);
             } else if (carriageReturn) {
-                return Generators.dataEncoder(command1 + row + cr);
+                return Generators.dataEncoder(command1 + row+command2 + cr);
             } else if (lineFeed) {
-                return Generators.dataEncoder(command1 + row + lf);
+                return Generators.dataEncoder(command1 + row+command2 + lf);
             }
-            return Generators.dataEncoder(command1 + row);
+            return Generators.dataEncoder(command1 + row + command2);
         } else {
             row = row + 1;
             column = column + 1;
