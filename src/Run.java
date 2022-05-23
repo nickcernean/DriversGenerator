@@ -36,7 +36,7 @@ public class Run {
          * */
         /*------------------------------------------------------------*/
 
-        ControlSequence controlSequence = new ControlSequence(3, "Input ", "Mute Off", "CALL·/MEDIA/XP/VIDEO:unmuteSource(I", ")","" ,true, true);
+        ControlSequence controlSequence = new ControlSequence(3, "Input ", "Mute Off", "CALL·/MEDIA/XP/VIDEO:unmuteSource(I", ")","" ,false, true);
 
         /* The interface that contains the functions to generate either sequence or matrix*/
         IControlGenerator controlGenerator = new ControlGenerator(controlSequence);
@@ -47,7 +47,7 @@ public class Run {
          *  */
 
         //To use the function generator just remove the "//" before the method call
-        fileWriter.writeTo(controlGenerator.generateControlSequence());
+        //fileWriter.writeTo(controlGenerator.generateControlSequence());
 
         /*------------------------------------------------------------*/
 
@@ -90,9 +90,10 @@ public class Run {
         /*------------------------------------------------------------*/
 
 
-        LevelSequence levelSequence = new LevelSequence(3, "Input", "Mute On", LevelSequence.TypeValues.Continous, "1A2B3C5D7F4312", "4312", null,12, 150, 2, false, false);
+        LevelSequence levelSequence = new LevelSequence(3, "Input", "Mute On", LevelSequence.TypeValues.InDecrement, "1A2B3C5D7F4312", "4312", null,12, 150, 2, false, false);
 
-        //levelSequence.addCounter(7, 9,"Hexadecimal");
+        //levelSequence.addStringCounter(6,7,LevelSequence.CountFormat.Decimal,100,1,0,150);
+        //levelSequence.addBinaryCounter(6,7,LevelSequence.ByteOrder.LSB,100,1,0,150);
         /* The interface that contains the functions to generate either sequence or matrix*/
         ILevelGenerator levelGenerator = new LevelGenerator(levelSequence);
 
@@ -101,7 +102,7 @@ public class Run {
          *
          *  */
         //To use the function generator just remove the "//" before the method call
-        //fileWriter.writeTo(levelGenerator.generateLevelSequence());
+        fileWriter.writeTo(levelGenerator.generateLevelSequence());
 
         /*------------------------------------------------------------*/
 
