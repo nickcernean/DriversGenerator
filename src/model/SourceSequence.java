@@ -18,11 +18,13 @@ public class SourceSequence extends Sequence {
     private final String command1;
     @Nullable
     private final String command2;
+    @Nullable
+    private final String command3;
     private final static char CR = '\r';
     private final static char LF = '\n';
 
 
-    public SourceSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, boolean carriageReturn, boolean lineFeed) {
+    public SourceSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -31,9 +33,10 @@ public class SourceSequence extends Sequence {
         this.sequenceCaption2 = sequenceCaption2;
         this.command1 = command1;
         this.command2 = command2;
+        this.command3 = command3;
     }
 
-    public SourceSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, boolean carriageReturn, boolean lineFeed) {
+    public SourceSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -42,6 +45,7 @@ public class SourceSequence extends Sequence {
         this.sequenceCaption2 = sequenceCaption2;
         this.command1 = command1;
         this.command2 = command2;
+        this.command3 = command3;
     }
 
     @Override
@@ -67,7 +71,7 @@ public class SourceSequence extends Sequence {
     }
 
     private String dataGenerator(int row, int column) {
-        return getString(row, column, command1, command2, carriageReturn, lineFeed, CR, LF);
+        return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
     }
 
     private String sequenceCaptionGenerator(int row, int column) {

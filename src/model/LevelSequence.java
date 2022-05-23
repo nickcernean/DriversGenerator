@@ -7,13 +7,29 @@ import tools.Generators;
 import static model.ControlSequence.getString;
 
 public class LevelSequence extends Sequence {
+    public enum CountType {
+        String, Binary
+    }
+
+    public enum CountFormat {
+        Binary, Decimal, Hexdecimal
+    }
+
+    public enum TypeValues {
+        Continous, InDecrement, StartStop
+    }
+
+    public enum ByteOrder {
+        MSB, LSB
+    }
+
     private final int rows;
     private final int columns;
     private final boolean carriageReturn;
     private final boolean lineFeed;
-    private final int minimumValue;
-    private final int maximumValue;
-    private final int stepValue;
+    private int minimumValue;
+    private int maximumValue;
+    private int stepValue;
     private final TypeValues typeValues;
 
     private final String sequenceCaption1;
@@ -22,13 +38,17 @@ public class LevelSequence extends Sequence {
     private final String command1;
     @Nullable
     private final String command2;
+    @Nullable
+    private final String command3;
     private int countStartByte;
     private int countEndByte;
     private final static char CR = '\r';
     private final static char LF = '\n';
-    private final static int REPEATSPEED = 100;
+    private int repeatSpeed;
+    private CountType countType;
+    private ByteOrder byteOrder;
 
-    public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, TypeValues typeValue, String command1, @Nullable String command2, int minimumValue, int maximumValue, int stepValue, boolean carriageReturn, boolean lineFeed) {
+    public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, int minimumValue, int maximumValue, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -37,15 +57,17 @@ public class LevelSequence extends Sequence {
         this.sequenceCaption2 = sequenceCaption2;
         this.command1 = command1;
         this.command2 = command2;
+        this.command3 = command3;
         this.minimumValue = minimumValue;
         this.maximumValue = maximumValue;
-        this.stepValue = stepValue;
         this.typeValues = typeValue;
         this.countStartByte = 0;
         this.countEndByte = 0;
+        this.repeatSpeed = 500;
+        this.stepValue = 1;
     }
 
-    public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, TypeValues typeValue, String command1, @Nullable String command2, int minimumValue, int maximumValue, boolean carriageReturn, boolean lineFeed) {
+    public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -54,15 +76,15 @@ public class LevelSequence extends Sequence {
         this.sequenceCaption2 = sequenceCaption2;
         this.command1 = command1;
         this.command2 = command2;
-        this.minimumValue = minimumValue;
-        this.maximumValue = maximumValue;
-        this.stepValue = 100;
+        this.command3 = command3;
         this.typeValues = typeValue;
         this.countStartByte = 0;
         this.countEndByte = 0;
+        this.repeatSpeed = 500;
+        this.stepValue = 1;
     }
 
-    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String command1, @Nullable String command2, int minimumValue, int maximumValue, int stepValue, boolean carriageReturn, boolean lineFeed) {
+    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, int minimumValue, int maximumValue, int stepValue, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -71,15 +93,18 @@ public class LevelSequence extends Sequence {
         this.sequenceCaption2 = sequenceCaption2;
         this.command1 = command1;
         this.command2 = command2;
+        this.command3 = command3;
         this.minimumValue = minimumValue;
         this.maximumValue = maximumValue;
         this.stepValue = stepValue;
         this.typeValues = typeValue;
         this.countStartByte = 0;
         this.countEndByte = 0;
+        this.repeatSpeed = 500;
+        this.countType = CountType.String;
     }
 
-    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String command1, @Nullable String command2, int minimumValue, int maximumValue, boolean carriageReturn, boolean lineFeed) {
+    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, int minimumValue, int maximumValue, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -88,12 +113,15 @@ public class LevelSequence extends Sequence {
         this.sequenceCaption2 = sequenceCaption2;
         this.command1 = command1;
         this.command2 = command2;
+        this.command3 = command3;
         this.minimumValue = minimumValue;
         this.maximumValue = maximumValue;
         this.stepValue = 100;
         this.typeValues = typeValue;
         this.countStartByte = 0;
         this.countEndByte = 0;
+        this.repeatSpeed = 500;
+        this.countType = CountType.String;
     }
 
     @Override
@@ -117,7 +145,7 @@ public class LevelSequence extends Sequence {
                 "        <MinimumVolume Value=\"" + minimumValue + "\" />\n" +
                 "        <MaximumVolume Value=\"" + maximumValue + "\" />\n" +
                 "        <VolumeStep Value=\"" + stepValue + "\" />\n" +
-                "        <RepeatSpeed Value=\"" + REPEATSPEED + "\" />\n" +
+                "        <RepeatSpeed Value=\"" + repeatSpeed + "\" />\n" +
                 "        <CountType Value=\"String\" />\n" +
                 "        <ByteOrder Value=\"LSB\" />\n" +
                 "        <CheckSum Name=\"\" Caption=\"\" Value=\"None\">\n" +
@@ -137,13 +165,27 @@ public class LevelSequence extends Sequence {
                 "    </Sequence>";
     }
 
-    public void addCounter(int startByte, int endByte,String countType) {
+    public void addStringCounter(int startByte, int endByte, CountType countType, int repeatSpeed, int minimumValue, int maximumValue) {
         this.countStartByte = startByte;
         this.countEndByte = endByte;
+        this.minimumValue = minimumValue;
+        this.maximumValue = maximumValue;
+        this.repeatSpeed = repeatSpeed;
+        this.countType = countType;
+    }
+
+    public void addBinaryCounter(int startByte, int endByte, CountType countType, ByteOrder byteOrder, int repeatSpeed, int minimumValue, int maximumValue) {
+        this.countStartByte = startByte;
+        this.countEndByte = endByte;
+        this.minimumValue = minimumValue;
+        this.maximumValue = maximumValue;
+        this.repeatSpeed = repeatSpeed;
+        this.countType = countType;
+        this.byteOrder = byteOrder;
     }
 
     private String dataGenerator(int row, int column) {
-        return getString(row, column,command1, command2, carriageReturn, lineFeed,CR, LF);
+        return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
     }
 
     private String sequenceCaptionGenerator(int row, int column) {
@@ -159,4 +201,6 @@ public class LevelSequence extends Sequence {
     public int getColumns() {
         return columns;
     }
+
 }
+
