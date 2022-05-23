@@ -143,7 +143,7 @@ public class LevelSequence extends Sequence {
     }
 
     private String dataGenerator(int row, int column) {
-        return getString(row, column, carriageReturn, lineFeed, command1, CR, LF, command2);
+        return getString(row, column,command1, command2, carriageReturn, lineFeed,CR, LF);
     }
 
     private String sequenceCaptionGenerator(int row, int column) {

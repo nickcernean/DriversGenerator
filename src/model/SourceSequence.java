@@ -46,8 +46,8 @@ public class SourceSequence extends Sequence {
 
     @Override
     public String sequence(int row, int column) {
-        return "<Sequence Name=\""+Generators.sequenceNameGenerator()+"\" Caption=\""+sequenceCaptionGenerator(row, column)+"\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" SequenceType=\"Source\" Deletable=\"True\" HasData=\"False\" UseHeaderFooter=\"True\">\n" +
-                "              <Reply Name=\""+Generators.sequenceNameGenerator()+"\" Caption=\"Reply\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" SequenceType=\"Reply\" UseHeaderFooter=\"True\">\n" +
+        return "<Sequence Name=\"" + Generators.sequenceNameGenerator() + "\" Caption=\"" + sequenceCaptionGenerator(row, column) + "\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" SequenceType=\"Source\" Deletable=\"True\" HasData=\"False\" UseHeaderFooter=\"True\">\n" +
+                "              <Reply Name=\"" + Generators.sequenceNameGenerator() + "\" Caption=\"Reply\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" SequenceType=\"Reply\" UseHeaderFooter=\"True\">\n" +
                 "                <Image />\n" +
                 "                <Command>\n" +
                 "                  <Data1 />\n" +
@@ -57,7 +57,7 @@ public class SourceSequence extends Sequence {
                 "              <Description />\n" +
                 "              <Image />\n" +
                 "              <Command>\n" +
-                "                <Data1>" +dataGenerator(row, column)+
+                "                <Data1>" + dataGenerator(row, column) +
                 "</Data1>\n" +
                 "                <Data2 />\n" +
                 "                <Lock1 Value=\"100\" />\n" +
@@ -67,7 +67,7 @@ public class SourceSequence extends Sequence {
     }
 
     private String dataGenerator(int row, int column) {
-        return getString(row, column, carriageReturn, lineFeed, command1, CR, LF, command2);
+        return getString(row, column, command1, command2, carriageReturn, lineFeed, CR, LF);
     }
 
     private String sequenceCaptionGenerator(int row, int column) {

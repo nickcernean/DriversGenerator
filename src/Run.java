@@ -76,21 +76,21 @@ public class Run {
 
         /*------------------------------------------------------------*/
 
-        SourceSequence matrixSourceSequence = new SourceSequence(40, 10, "Switch Group Camera Input ", "to", "XCN:02:", ":", true, true);
+        SourceSequence matrixSourceSequence = new SourceSequence(8, 8, "Input", "Output", "B3210000A60001000", "0", false, false);
         /* The function that generates the control matrices,
          * be aware that in order to generate the sequence the column should not be -1!!!
          *
          *  */
         ISourceGenerator matrixSourceSequenceGenerator = new SourceGenerator(matrixSourceSequence);
         //To use the function generator just remove the "//" before the method call
-        //fileWriter.writeTo(matrixSourceSequenceGenerator.generateMatrixSourceSequence());
+        fileWriter.writeTo(matrixSourceSequenceGenerator.generateMatrixSourceSequence());
 
         /*------------------------------------------------------------*/
 
 
         LevelSequence levelSequence = new LevelSequence(3, "Input", "Mute On", TypeValues.InDecrement, "1A2B3C5D7F4312", "4312", 12, 150, 2, false, false);
 
-        levelSequence.addCounter(7, 9,"Hexadecimal");
+        //levelSequence.addCounter(7, 9,"Hexadecimal");
         /* The interface that contains the functions to generate either sequence or matrix*/
         ILevelGenerator levelGenerator = new LevelGenerator(levelSequence);
 
@@ -99,7 +99,7 @@ public class Run {
          *
          *  */
         //To use the function generator just remove the "//" before the method call
-        fileWriter.writeTo(levelGenerator.generateLevelSequence());
+        //fileWriter.writeTo(levelGenerator.generateLevelSequence());
 
         /*------------------------------------------------------------*/
 

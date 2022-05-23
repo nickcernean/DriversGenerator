@@ -19,12 +19,11 @@ public class ControlSequence extends Sequence {
     @Nullable
     private final String command2;
 
-//    private final int command1integer;
+    //    private final int command1integer;
 //    @Nullable
 //    private final int command2integer;
     private final static char CR = '\r';
     private final static char LF = '\n';
-
 
 
     public ControlSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, boolean carriageReturn, boolean lineFeed) {
@@ -60,24 +59,23 @@ public class ControlSequence extends Sequence {
 //    }
 
     private String dataGenerator(int row, int column) {
-        return getString(row, column, carriageReturn, lineFeed, command1, CR, LF, command2);
+        return getString(row, column, command1, command2, carriageReturn, lineFeed, CR, LF);
     }
 
     @NotNull
-    static String getString(int row, int column, boolean carriageReturn, boolean lineFeed, String command1, char cr, char lf, String command2) {
+    static String getString(int row, int column, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
         if (column == -1) {
             row = row + 1;
             if (carriageReturn && lineFeed) {
-                return Generators.dataEncoder(command1 + row +command2+ cr + lf);
+                return Generators.dataEncoder(command1 + row + command2 + cr + lf);
             } else if (carriageReturn) {
-                return Generators.dataEncoder(command1 + row+command2 + cr);
+                return Generators.dataEncoder(command1 + row + command2 + cr);
             } else if (lineFeed) {
-                return Generators.dataEncoder(command1 + row+command2 + lf);
+                return Generators.dataEncoder(command1 + row + command2 + lf);
             }
             return Generators.dataEncoder(command1 + row + command2);
         } else {
-            row = row + 1;
-            column = column + 1;
+
             if (carriageReturn && lineFeed) {
                 return Generators.dataEncoder(command1 + row + command2 + column + cr + lf);
             } else if (carriageReturn) {
