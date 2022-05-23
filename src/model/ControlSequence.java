@@ -67,7 +67,8 @@ public class ControlSequence extends Sequence {
             }
             return Generators.dataEncoder(command1 + row + command2 + command3);
         } else {
-
+            row = row + 1;
+            column = column + 1;
             if (carriageReturn && lineFeed) {
                 return Generators.dataEncoder(command1 + row + command2 + column + command3 + cr + lf);
             } else if (carriageReturn) {

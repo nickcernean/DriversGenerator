@@ -8,6 +8,9 @@ import model.ControlSequence;
 import model.LevelSequence;
 import model.SourceSequence;
 import tools.WriteToFile;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class Run {
     private final static String DESTINATION = "D:/Desktop/Result.txt";
@@ -33,10 +36,10 @@ public class Run {
          * */
         /*------------------------------------------------------------*/
 
-        //ControlSequence controlSequence = new ControlSequence(8, "Output", "Mute Off", "9B129C12A19212 ", "On", false, false);
+        ControlSequence controlSequence = new ControlSequence(3, "Input ", "Mute Off", "CALL·/MEDIA/XP/VIDEO:unmuteSource(I", ")","" ,true, true);
 
         /* The interface that contains the functions to generate either sequence or matrix*/
-        //IControlGenerator controlGenerator = new ControlGenerator(controlSequence);
+        IControlGenerator controlGenerator = new ControlGenerator(controlSequence);
 
         /* The function that generates the sequences,
          * be aware that in order to generate the sequence the column has to be initialized to -1!!!
@@ -44,7 +47,7 @@ public class Run {
          *  */
 
         //To use the function generator just remove the "//" before the method call
-        //fileWriter.writeTo(controlGenerator.generateControlSequence());
+        fileWriter.writeTo(controlGenerator.generateControlSequence());
 
         /*------------------------------------------------------------*/
 
@@ -75,7 +78,7 @@ public class Run {
 
         /*------------------------------------------------------------*/
 
-        SourceSequence matrixSourceSequence = new SourceSequence(8, 8,"", "Input", "Output", "B3210000A60001000", "0", false, false);
+        SourceSequence matrixSourceSequence = new SourceSequence(24, 24,"Input", "Output", "CALL/MEDIA/XP/VIDEO:switch(I", ":O", ")", true, true);
         /* The function that generates the control matrices,
          * be aware that in order to generate the sequence the column should not be -1!!!
          *
@@ -98,10 +101,11 @@ public class Run {
          *
          *  */
         //To use the function generator just remove the "//" before the method call
-        fileWriter.writeTo(levelGenerator.generateLevelSequence());
+        //fileWriter.writeTo(levelGenerator.generateLevelSequence());
 
         /*------------------------------------------------------------*/
 
     }
+
 }
 

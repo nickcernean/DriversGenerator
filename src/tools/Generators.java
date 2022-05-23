@@ -47,7 +47,7 @@ public class Generators<T> {
 
         if (!isHexadecimal(dataPassed)) {
             StringBuilder resultString = new StringBuilder();
-            byte[] byteArr = dataPassed.getBytes();
+            byte[] byteArr = dataPassed.getBytes(StandardCharsets.ISO_8859_1);
             for (byte bytePosition : byteArr) {
                 resultString.append(String.format("%02X", bytePosition));
             }
