@@ -1,11 +1,10 @@
 package logic;
 
-import interfaces.ISourceGenerator;
-import model.ControlSequence;
+import interfaces.ISequencesGenerator;
 import model.SourceSequence;
 import tools.Generators;
 
-public class SourceGenerator implements ISourceGenerator {
+public class SourceGenerator implements ISequencesGenerator {
 
     private final Generators<SourceSequence> generators;
     private final SourceSequence sourceSequence;
@@ -17,12 +16,12 @@ public class SourceGenerator implements ISourceGenerator {
 
 
     @Override
-    public Object[] generateSourceSequence() {
+    public Object[] generateSequence() {
         return generators.sequenceGenerator(sourceSequence, sourceSequence.getRows());
     }
 
     @Override
-    public Object[][] generateMatrixSourceSequence() {
+    public Object[][] generateMatrixSequence() {
         return generators.matrixSequenceGenerator(sourceSequence, sourceSequence.getRows(), sourceSequence.getColumns());
     }
 }

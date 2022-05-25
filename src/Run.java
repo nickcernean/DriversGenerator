@@ -1,6 +1,4 @@
-import interfaces.IControlGenerator;
-import interfaces.ILevelGenerator;
-import interfaces.ISourceGenerator;
+import interfaces.ISequencesGenerator;
 import logic.ControlGenerator;
 import logic.LevelGenerator;
 import logic.SourceGenerator;
@@ -8,10 +6,6 @@ import model.ControlSequence;
 import model.LevelSequence;
 import model.SourceSequence;
 import tools.WriteToFile;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class Run {
     private final static String DESTINATION = "D:/Desktop/Result.txt";
@@ -40,7 +34,7 @@ public class Run {
         ControlSequence controlSequence = new ControlSequence(3, "Input ", "Mute Off", "CALL·/MEDIA/XP/VIDEO:unmuteSource(I", ")", "", false, true);
 
         /* The interface that contains the functions to generate either sequence or matrix*/
-        IControlGenerator controlGenerator = new ControlGenerator(controlSequence);
+        ISequencesGenerator controlGenerator = new ControlGenerator(controlSequence);
 
         /* The function that generates the sequences,
          * be aware that in order to generate the sequence the column has to be initialized to -1!!!
@@ -58,7 +52,7 @@ public class Run {
          *
          *  */
 
-        IControlGenerator controlGenerator2 = new ControlGenerator(matrixSequence);
+        ISequencesGenerator controlGenerator2 = new ControlGenerator(matrixSequence);
         //To use the function generator just remove the "//" before the method call
         //fileWriter.writeTo(controlGenerator2.generateMatrixControlSequence());
 
@@ -68,7 +62,7 @@ public class Run {
         SourceSequence sourceSequence = new SourceSequence(5, "Switch USB Input", null, "CALL·/V1/MEDIA/USB/XP:switch(U", ":H1)", "", true, true);
 
         /* The interface that contains the functions to generate either sequence or matrix*/
-        ISourceGenerator sourceGenerator = new SourceGenerator(sourceSequence);
+        ISequencesGenerator sourceGenerator = new SourceGenerator(sourceSequence);
 
         /* The function that generates the sequences,
          *
@@ -84,7 +78,7 @@ public class Run {
          * be aware that in order to generate the sequence the column should not be -1!!!
          *
          *  */
-        ISourceGenerator matrixSourceSequenceGenerator = new SourceGenerator(matrixSourceSequence);
+        ISequencesGenerator matrixSourceSequenceGenerator = new SourceGenerator(matrixSourceSequence);
         //To use the function generator just remove the "//" before the method call
         //fileWriter.writeTo(matrixSourceSequenceGenerator.generateMatrixSourceSequence());
 
@@ -96,7 +90,7 @@ public class Run {
         levelSequence.addStringCounter(6, 7, LevelSequence.CountFormat.Decimal, 100, 1, 0, 100);
         //levelSequence.addBinaryCounter(6,7,LevelSequence.ByteOrder.LSB,100,1,0,150);
         /* The interface that contains the functions to generate either sequence or matrix*/
-        ILevelGenerator levelGenerator = new LevelGenerator(levelSequence);
+        ISequencesGenerator levelGenerator = new LevelGenerator(levelSequence);
 
         /* The function that generates the sequences,
          *
@@ -109,17 +103,17 @@ public class Run {
 
         LevelSequence matrixLevelSequence = new LevelSequence(2, 2, "Mute Analog ", "Output On", LevelSequence.TypeValues.InDecrement, "SET•/MEDIA/STREAMS/AUDIO/D", "O", "/PORT.VolumePercent=30", true, true);
 
-        matrixLevelSequence.addStringCounter(50, 51, LevelSequence.CountFormat.Decimal, 100, 1, 0, 100);
+        //matrixLevelSequence.addStringCounter(50, 51, LevelSequence.CountFormat.Decimal, 100, 1, 0, 100);
         //matrixLevelSequence.addBinaryCounter(6,7,LevelSequence.ByteOrder.LSB,100,1,0,150);
         /* The interface that contains the functions to generate either sequence or matrix*/
-        ILevelGenerator matrixLevelGenerator = new LevelGenerator(matrixLevelSequence);
+        ISequencesGenerator matrixLevelGenerator = new LevelGenerator(matrixLevelSequence);
 
         /* The function that generates the sequences,
          *
          *
          *  */
         //To use the function generator just remove the "//" before the method call
-        fileWriter.writeTo(matrixLevelGenerator.generateMatrixLevelSequence());
+        //fileWriter.writeTo(matrixLevelGenerator.generateMatrixLevelSequence());
 
         /*------------------------------------------------------------*/
 

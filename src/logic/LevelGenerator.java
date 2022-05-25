@@ -1,11 +1,10 @@
 package logic;
 
-import interfaces.ILevelGenerator;
+import interfaces.ISequencesGenerator;
 import model.LevelSequence;
-import model.SourceSequence;
 import tools.Generators;
 
-public class LevelGenerator implements ILevelGenerator {
+public class LevelGenerator implements ISequencesGenerator {
 
 
     private final Generators<LevelSequence> generators;
@@ -17,12 +16,12 @@ public class LevelGenerator implements ILevelGenerator {
     }
 
     @Override
-    public Object[] generateLevelSequence() {
+    public Object[] generateSequence() {
         return generators.sequenceGenerator(levelSequence, levelSequence.getRows());
     }
 
     @Override
-    public Object[][] generateMatrixLevelSequence() {
+    public Object[][] generateMatrixSequence() {
         return generators.matrixSequenceGenerator(levelSequence, levelSequence.getRows(), levelSequence.getColumns());
     }
 }

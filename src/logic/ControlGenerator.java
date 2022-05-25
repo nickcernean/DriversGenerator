@@ -1,10 +1,10 @@
 package logic;
 
-import interfaces.IControlGenerator;
+import interfaces.ISequencesGenerator;
 import model.ControlSequence;
 import tools.Generators;
 
-public class ControlGenerator implements IControlGenerator {
+public class ControlGenerator implements ISequencesGenerator {
 
     private final Generators<ControlSequence> generators;
     private final ControlSequence controlSequence;
@@ -15,12 +15,12 @@ public class ControlGenerator implements IControlGenerator {
     }
 
     @Override
-    public Object[] generateControlSequence() {
+    public Object[] generateSequence() {
         return generators.sequenceGenerator(controlSequence, controlSequence.getRows());
     }
 
     @Override
-    public Object[][] generateMatrixControlSequence() {
+    public Object[][] generateMatrixSequence() {
         return generators.matrixSequenceGenerator(controlSequence, controlSequence.getRows(), controlSequence.getColumns());
     }
 }
