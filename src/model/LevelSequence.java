@@ -49,23 +49,7 @@ public class LevelSequence extends Sequence {
     private ByteOrder byteOrder;
     private CountFormat countFormat;
 
-    public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, int minimumValue, int maximumValue, boolean carriageReturn, boolean lineFeed) {
-        this.rows = rows;
-        this.columns = columns;
-        this.sequenceCaption1 = sequenceCaption1;
-        this.sequenceCaption2 = sequenceCaption2;
-        this.command1 = command1;
-        this.command2 = command2;
-        this.command3 = command3;
-        this.carriageReturn = carriageReturn;
-        this.lineFeed = lineFeed;
-        this.repeatSpeed = 500;
-        this.typeValues = typeValue;
-        this.countType = CountType.String;
-        this.byteOrder = ByteOrder.LSB;
-        this.countFormat = CountFormat.Decimal;
-        this.stepValue = 1;
-    }
+
 
     public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
         this.rows = rows;
@@ -85,7 +69,7 @@ public class LevelSequence extends Sequence {
         this.stepValue = 1;
     }
 
-    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, int minimumValue, int maximumValue, int stepValue, boolean carriageReturn, boolean lineFeed) {
+    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -103,64 +87,47 @@ public class LevelSequence extends Sequence {
         this.stepValue = 1;
     }
 
-    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, int minimumValue, int maximumValue, boolean carriageReturn, boolean lineFeed) {
-        this.rows = rows;
-        this.columns = -1;
-        this.sequenceCaption1 = sequenceCaption1;
-        this.sequenceCaption2 = sequenceCaption2;
-        this.command1 = command1;
-        this.command2 = command2;
-        this.command3 = command3;
-        this.carriageReturn = carriageReturn;
-        this.lineFeed = lineFeed;
-        this.repeatSpeed = 500;
-        this.typeValues = typeValue;
-        this.countType = CountType.String;
-        this.byteOrder = ByteOrder.LSB;
-        this.countFormat = CountFormat.Decimal;
-        this.stepValue = 1;
-    }
 
     @Override
     public String sequence(int row, int column) {
-        return "    <Sequence Name=\"" + Generators.sequenceNameGenerator() + "\" Caption=\"" + sequenceCaptionGenerator(row, column) + "\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" Deletable=\"True\" SequenceType=\"Volume\" UseHeaderFooter=\"True\">\n" +
-                "      <Description />\n" +
-                "      <Image />\n" +
-                "      <Type Value=\"" + typeValues + "\" />\n" +
-                "      <Command>\n" +
-                "        <Data1>\n" + dataGenerator(row, column) +
-                "       </Data1>\n" +
-                "        <Data2 />\n" +
-                "        <Data3 />\n" +
-                "        <Data4 />\n" +
-                "        <CountStart Value=\"" + countStartByte + "\" />\n" +
-                "        <CountStop Value=\"" + countEndByte + "\" />\n" +
-                "        <SecondCountStart Value=\"0\" />\n" +
-                "        <SecondCountStop Value=\"0\" />\n" +
-                "        <Delay Value=\"500\" />\n" +
-                "        <Delay2 Value=\"500\" />\n" +
-                "        <MinimumVolume Value=\"" + minimumValue + "\" />\n" +
-                "        <MaximumVolume Value=\"" + maximumValue + "\" />\n" +
-                "        <VolumeStep Value=\"" + stepValue + "\" />\n" +
-                "        <RepeatSpeed Value=\"" + repeatSpeed + "\" />\n" +
-                "        <CountType Value=\"" + countType + "\" />\n" +
-                "        <ByteOrder Value=\"" + byteOrder + "\" />\n" +
-                "        <CheckSum Name=\"\" Caption=\"\" Value=\"None\">\n" +
-                "          <Type>_</Type>\n" +
-                "          <FromByte>0</FromByte>\n" +
-                "          <ToByte>0</ToByte>\n" +
-                "          <TargetByte>0</TargetByte>\n" +
-                "          <CRCPoly>0</CRCPoly>\n" +
-                "          <CRCIntVal>0</CRCIntVal>\n" +
-                "          <CRCFinalXorVal>0</CRCFinalXorVal>\n" +
-                "          <CRCRevDataByte>0</CRCRevDataByte>\n" +
-                "          <CRCRevFinalCRC>0</CRCRevFinalCRC>\n" +
-                "          <CRCBitNumber>0</CRCBitNumber>\n" +
-                "        </CheckSum>\n" +
-                "        <CountFormat Value=\"" + countFormat + "\" />\n" +
-                "      </Command>\n" +
-                "    </Sequence>";
+        return "<Sequence Name=\""+Generators.sequenceNameGenerator()+"\" Caption=\"" + sequenceCaptionGenerator(row, column) + "\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" Deletable=\"True\" SequenceType=\"Volume\" UseHeaderFooter=\"True\">\n" +
+                "              <Description />\n" +
+                "              <Image />\n" +
+                "              <Type Value=\"" + typeValues + "\" />\n" +
+                "              <Command>\n" +
+                "                <Data1>"+dataGenerator(row, column)+"</Data1>\n" +
+                "                <Data2 />\n" +
+                "                <Data3 />\n" +
+                "                <Data4 />\n" +
+                "                <CountStart Value=\"" + countStartByte + "\" />\n" +
+                "                <CountStop Value=\"" + countEndByte + "\" />\n" +
+                "                <SecondCountStart Value=\"0\" />\n" +
+                "                <SecondCountStop Value=\"0\" />\n" +
+                "                <Delay Value=\"500\" />\n" +
+                "                <Delay2 Value=\"500\" />\n" +
+                "                <MinimumVolume Value=\"" + minimumValue + "\" />\n" +
+                "                <MaximumVolume Value=\"" + maximumValue + "\" />\n" +
+                "                <VolumeStep Value=\"" + stepValue + "\" />\n" +
+                "                <RepeatSpeed Value=\"" + repeatSpeed + "\" />\n" +
+                "                <CountType Value=\"" + countType + "\" />\n" +
+                "                <ByteOrder Value=\"" + byteOrder + "\" />\n" +
+                "                <CheckSum Name=\"\" Caption=\"\" Value=\"None\">\n" +
+                "                  <Type>_</Type>\n" +
+                "                  <FromByte>0</FromByte>\n" +
+                "                  <ToByte>0</ToByte>\n" +
+                "                  <TargetByte>0</TargetByte>\n" +
+                "                  <CRCPoly>0</CRCPoly>\n" +
+                "                  <CRCIntVal>0</CRCIntVal>\n" +
+                "                  <CRCFinalXorVal>0</CRCFinalXorVal>\n" +
+                "                  <CRCRevDataByte>0</CRCRevDataByte>\n" +
+                "                  <CRCRevFinalCRC>0</CRCRevFinalCRC>\n" +
+                "                  <CRCBitNumber>0</CRCBitNumber>\n" +
+                "                </CheckSum>\n" +
+                "                <CountFormat Value=\"" + countFormat + "\" />\n" +
+                "              </Command>\n" +
+                "            </Sequence>";
     }
+
 
     public void addStringCounter(int startByte, int endByte, CountFormat countFormat, int repeatSpeed,int stepValue , int minimumValue, int maximumValue) {
         this.countStartByte = startByte;
