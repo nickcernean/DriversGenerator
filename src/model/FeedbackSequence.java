@@ -68,6 +68,14 @@ public class FeedbackSequence extends Sequence {
                 "            </FeedbackSequence>";
     }
 
+
+    private String replySequence(int row, int column) {
+        return  "                <Reply Caption=\"Biamp reply\" Guid=\"" + Generators.sequenceNameGenerator() + "\">\n" +
+                "                  <Data>5341534153415341534153</Data>\n" +
+                "                  <MappedToSeq Value=\"\" />\n" +
+                "                </Reply>\n";
+    }
+
     @Override
     public int getRows() {
         return rows;

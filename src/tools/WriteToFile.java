@@ -3,13 +3,20 @@ package tools;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Date;
 
 public class WriteToFile {
     private final   File fileObject;
-
+    private final DateTimeFormatter dateTimeFormatter;
     public WriteToFile(String path) {
         fileObject = new File(path);
-
+        dateTimeFormatter=DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
     }
 
  public void writeTo(Object[] objects) {
@@ -19,9 +26,9 @@ public class WriteToFile {
              myWriter.write(objects[i].toString());
          }
          myWriter.close();
-         System.out.println("Successfully generated the commands to the source file.");
+         System.out.println("Successfully generated the commands to the source file. "+LocalTime.now().format(dateTimeFormatter));
      } catch (IOException e) {
-         System.out.println("An error occurred writing the content into the file.");
+         System.out.println("An error occurred writing the content into the file. "+ LocalTime.now().format(dateTimeFormatter));
          e.printStackTrace();
      }
  }
@@ -35,9 +42,9 @@ public class WriteToFile {
                 }
             }
             myWriter.close();
-            System.out.println("Successfully generated the commands to the source file.");
+            System.out.println("Successfully generated the commands to the source file. "+LocalTime.now().format(dateTimeFormatter));
         } catch (IOException e) {
-            System.out.println("An error occurred writing the content into the file.");
+            System.out.println("An error occurred writing the content into the file. "+LocalTime.now().format(dateTimeFormatter));
             e.printStackTrace();
         }
     }

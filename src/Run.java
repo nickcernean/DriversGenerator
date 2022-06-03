@@ -31,7 +31,7 @@ public class Run {
          * */
         /*------------------------------------------------------------*/
 
-        ControlSequence controlSequence = new ControlSequence(3, "Input ", "Mute Off", "CALL·/MEDIA/XP/VIDEO:unmuteSource(I", ")", "", false, true);
+        ControlSequence controlSequence = new ControlSequence(30, "Mute Input", "On", "CALL/MEDIA/XP/VIDEO:muteSource(I", ")", "", true, true);
 
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator controlGenerator = new ControlGenerator(controlSequence);
@@ -42,7 +42,7 @@ public class Run {
          *  */
 
         //To use the function generator just remove the "//" before the method call
-        //fileWriter.writeTo(controlGenerator.generateControlSequence());
+        fileWriter.writeTo(controlGenerator.generateSequence());
 
         /*------------------------------------------------------------*/
 
@@ -59,7 +59,7 @@ public class Run {
         /*------------------------------------------------------------*/
 
 
-        SourceSequence sourceSequence = new SourceSequence(5, "Switch USB Input", null, "CALL·/V1/MEDIA/USB/XP:switch(U", ":H1)", "", true, true);
+        SourceSequence sourceSequence = new SourceSequence(48, "Switch Input", "to All Outputs", "CALL /MEDIA/XP/VIDEO:switch(I4:O1)", ")", "", true, true);
 
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator sourceGenerator = new SourceGenerator(sourceSequence);
@@ -69,18 +69,18 @@ public class Run {
          *
          *  */
         //To use the function generator just remove the "//" before the method call
-        //fileWriter.writeTo(sourceGenerator.generateSourceSequence());
+        //fileWriter.writeTo(sourceGenerator.generateSequence());
 
         /*------------------------------------------------------------*/
 
-        SourceSequence matrixSourceSequence = new SourceSequence(5, 2, "Switch Input", "Output", "CALL·/V1/MEDIA/VIDEO/XP:switch(I", ":O", ")", true, true);
+        SourceSequence matrixSourceSequence = new SourceSequence(48, 48, "Switch Input", "to Output", "CALL/MEDIA/XP/VIDEO:switch(I", ":O", ")", true, true);
         /* The function that generates the control matrices,
          * be aware that in order to generate the sequence the column should not be -1!!!
          *
          *  */
         ISequencesGenerator matrixSourceSequenceGenerator = new SourceGenerator(matrixSourceSequence);
         //To use the function generator just remove the "//" before the method call
-        //fileWriter.writeTo(matrixSourceSequenceGenerator.generateMatrixSourceSequence());
+        //fileWriter.writeTo(matrixSourceSequenceGenerator.generateMatrixSequence());
 
         /*------------------------------------------------------------*/
 
@@ -97,7 +97,7 @@ public class Run {
          *
          *  */
         //To use the function generator just remove the "//" before the method call
-        //fileWriter.writeTo(levelGenerator.generateLevelSequence());
+        //fileWriter.writeTo(levelGenerator.generateSequence());
 
         /*------------------------------------------------------------*/
 
