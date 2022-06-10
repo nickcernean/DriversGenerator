@@ -37,6 +37,19 @@ public class ControlSequence extends Sequence {
         this.command3 = command3;
 
     }
+    public ControlSequence(String sequenceCaption1,int rows, @Nullable String sequenceCaption2,int columns, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
+        this.carriageReturn = carriageReturn;
+        this.lineFeed = lineFeed;
+        this.rows = rows;
+        this.columns = columns;
+        this.sequenceCaption1 = sequenceCaption1;
+        this.sequenceCaption2 = sequenceCaption2;
+        this.command1 = command1;
+        this.command2 = command2;
+        this.command3 = command3;
+
+    }
+
 
     public ControlSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;

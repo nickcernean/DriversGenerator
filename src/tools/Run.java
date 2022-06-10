@@ -1,3 +1,5 @@
+package tools;
+
 import interfaces.ISequencesGenerator;
 import logic.ControlGenerator;
 import logic.LevelGenerator;
@@ -42,7 +44,7 @@ public class Run {
          *  */
 
         //To use the function generator just remove the "//" before the method call
-        fileWriter.writeTo(controlGenerator.generateSequence());
+        //fileWriter.writeTo(controlGenerator.generateSequence());
 
         /*------------------------------------------------------------*/
 
@@ -54,7 +56,7 @@ public class Run {
 
         ISequencesGenerator controlGenerator2 = new ControlGenerator(matrixSequence);
         //To use the function generator just remove the "//" before the method call
-        //fileWriter.writeTo(controlGenerator2.generateMatrixControlSequence());
+        fileWriter.writeTo(controlGenerator2.generateMatrixSequence());
 
         /*------------------------------------------------------------*/
 
@@ -80,12 +82,12 @@ public class Run {
          *  */
         ISequencesGenerator matrixSourceSequenceGenerator = new SourceGenerator(matrixSourceSequence);
         //To use the function generator just remove the "//" before the method call
-        //fileWriter.writeTo(matrixSourceSequenceGenerator.generateMatrixSequence());
+        fileWriter.writeTo(matrixSourceSequenceGenerator.generateMatrixSequence());
 
         /*------------------------------------------------------------*/
 
 
-        LevelSequence levelSequence = new LevelSequence(2, "SET•/MEDIA/STREAMS/AUDIO/<in|out>/Port.VolumedB=", "Mute On", LevelSequence.TypeValues.InDecrement, "1A2B3C5D7F4312", "4312", "", false, false);
+        LevelSequence levelSequence = new LevelSequence(2, "SET/MEDIA/STREAMS/AUDIO/<in|out>/Port.VolumedB=", "Mute On", LevelSequence.TypeValues.InDecrement, "1A2B3C5D7F4312", "4312", "", false, false);
 
         levelSequence.addStringCounter(6, 7, LevelSequence.CountFormat.Decimal, 100, 1, 0, 100);
         //levelSequence.addBinaryCounter(6,7,LevelSequence.ByteOrder.LSB,100,1,0,150);
