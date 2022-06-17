@@ -1,14 +1,12 @@
 import interfaces.ISequencesGenerator;
 import logic.ControlGenerator;
 import model.ControlSequence;
-import tools.Run;
 import tools.WriteToFile;
 
-public class CreateControlSequences extends Run {
-    private final static String WORKDESTINATION = "C:/Users/Nicolae.Cernean/OneDrive - Biamp Systems/Desktop/Result.txt";
+public class CreateControlSequences  {
 
     public static void main(String[] args) {
-        WriteToFile fileWriter = new WriteToFile(WORKDESTINATION);
+        WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
 
         /* Object to be used to generate control sequences*/
         /*  Argument 1: number of rows to be generated

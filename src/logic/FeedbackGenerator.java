@@ -7,8 +7,6 @@ import tools.Generators;
 
 public class FeedbackGenerator implements ISequencesGenerator {
 
-
-
     private final Generators<FeedbackSequence> generators;
     private final FeedbackSequence feedbackSequence;
 

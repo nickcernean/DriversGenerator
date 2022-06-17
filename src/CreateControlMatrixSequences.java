@@ -2,9 +2,8 @@ import interfaces.ISequencesGenerator;
 import logic.ControlGenerator;
 import model.ControlSequence;
 import tools.WriteToFile;
-import tools.Run;
 
-public class CreateControlMatrixSequences extends Run {
+public class CreateControlMatrixSequences{
     private final static String WORKDESTINATION = "C:/Users/Nicolae.Cernean/OneDrive - Biamp Systems/Desktop/Result.txt";
 
 

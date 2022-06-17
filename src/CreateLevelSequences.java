@@ -1,16 +1,15 @@
 import interfaces.ISequencesGenerator;
 import logic.LevelGenerator;
 import model.LevelSequence;
-import tools.Run;
 import tools.WriteToFile;
 
 
-public class CreateLevelSequences extends Run {
-    private final static String WORKDESTINATION = "C:/Users/Nicolae.Cernean/OneDrive - Biamp Systems/Desktop/Result.txt";
+public class CreateLevelSequences  {
+
 
     public static void main(String[] args) {
 
-        WriteToFile fileWriter = new WriteToFile(WORKDESTINATION);
+        WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
         LevelSequence levelSequence = new LevelSequence(30, "Volume Output", "",
                 LevelSequence.TypeValues.InDecrement, "SET/MEDIA/PORTS/VIDEO/O", "/ANALOGAUDIO.VolumedB=", "-34", true, true);
 

@@ -1,15 +1,14 @@
 import interfaces.ISequencesGenerator;
 import logic.LevelGenerator;
 import model.LevelSequence;
-import tools.Run;
 import tools.WriteToFile;
 
-public class CreateLevelMatrixSequences extends Run {
-    private final static String WORKDESTINATION = "C:/Users/Nicolae.Cernean/OneDrive - Biamp Systems/Desktop/Result.txt";
+public class CreateLevelMatrixSequences  {
+
 
     public static void main(String[] args) {
 
-        WriteToFile fileWriter = new WriteToFile(WORKDESTINATION);
+        WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
         LevelSequence matrixLevelSequence = new LevelSequence(2, 2, "Mute Analog ", "Output On",
                 LevelSequence.TypeValues.InDecrement, "SET/MEDIA/STREAMS/AUDIO/D", "O", "/PORT.VolumePercent=30", true, true);
         /* To add counter to the level sequence remove each of the ´//´ before the line */

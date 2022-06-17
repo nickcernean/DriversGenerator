@@ -1,5 +1,6 @@
 package tools;
 
+import model.FeedbackSequence;
 import model.Sequence;
 
 import java.nio.charset.StandardCharsets;

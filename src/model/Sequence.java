@@ -5,4 +5,5 @@ public abstract class Sequence {
     public abstract int getRows();
     public abstract int getColumns();
 
+
 }
