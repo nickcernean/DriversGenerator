@@ -20,6 +20,7 @@ public class SourceSequence extends Sequence {
     private final String command2;
     @Nullable
     private final String command3;
+    private boolean startFromZero;
     private final static char CR = '\r';
     private final static char LF = '\n';
 
@@ -34,6 +35,7 @@ public class SourceSequence extends Sequence {
         this.command1 = command1;
         this.command2 = command2;
         this.command3 = command3;
+        this.startFromZero = false;
     }
 
     public SourceSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
@@ -46,6 +48,7 @@ public class SourceSequence extends Sequence {
         this.command1 = command1;
         this.command2 = command2;
         this.command3 = command3;
+        this.startFromZero = false;
     }
 
     @Override
@@ -71,14 +74,37 @@ public class SourceSequence extends Sequence {
     }
 
     private String dataGenerator(int row, int column) {
-        return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+        if (startFromZero) {
+            if (column <= 0) {
+                return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
+            } else {
+                return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+            }
+        }
+        if (column <= 0) {
+            row = row + 1;
+            return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
+        } else {
+            row = row + 1;
+            column = column + 1;
+            return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+        }
     }
 
     private String sequenceCaptionGenerator(int row, int column) {
         return getString(row, column, sequenceCaption1, sequenceCaption2);
     }
+    private static String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+        return getString(row, command1, command2, carriageReturn, lineFeed, cr, lf);
+    }
 
+    private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+        return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
+    }
 
+    public void startFromZero() {
+        startFromZero = true;
+    }
     @Override
     public int getRows() {
         return rows;

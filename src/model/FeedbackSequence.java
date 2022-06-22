@@ -22,6 +22,8 @@ public class FeedbackSequence extends Sequence {
     private final String replyCommand3;
     private final String requestCommand1;
     private final String requestCommand2;
+
+    private boolean startFromZero;
     private final static char CR = '\r';
     private final static char LF = '\n';
 
@@ -40,8 +42,36 @@ public class FeedbackSequence extends Sequence {
         this.requestCommand2 = requestCommand2;
     }
 
+    public FeedbackSequence(int rows, String requestCommand1, String requestCommand2, String sequenceCaption1, @Nullable String sequenceCaption2, String replyCommand1, @Nullable String replyCommand2, @Nullable String replyCommand3, boolean carriageReturn, boolean lineFeed) {
+        this.carriageReturn = carriageReturn;
+        this.lineFeed = lineFeed;
+        this.rows = rows;
+        this.columns = -1;
+        this.sequenceCaption1 = sequenceCaption1;
+        this.sequenceCaption2 = sequenceCaption2;
+        this.replyCommand1 = replyCommand1;
+        this.replyCommand2 = replyCommand2;
+        this.replyCommand3 = replyCommand3;
+        this.requestCommand1 = requestCommand1;
+        this.requestCommand2 = requestCommand2;
+    }
+
     private String dataGenerator(int row, int column) {
-        return getString(row, column, replyCommand1, replyCommand2, replyCommand3, carriageReturn, lineFeed, CR, LF);
+        if (startFromZero) {
+            if (column <= 0) {
+                return sequenceData(row, replyCommand1, replyCommand2, carriageReturn, lineFeed, CR, LF);
+            } else {
+                return matrixData(row, column, replyCommand1, replyCommand2, replyCommand3, carriageReturn, lineFeed, CR, LF);
+            }
+        }
+        if (column <= 0) {
+            row = row + 1;
+            return sequenceData(row, replyCommand1, replyCommand2, carriageReturn, lineFeed, CR, LF);
+        } else {
+            row = row + 1;
+            column = column + 1;
+            return matrixData(row, column, replyCommand1, replyCommand2, replyCommand3, carriageReturn, lineFeed, CR, LF);
+        }
     }
 
     private String sequenceCaptionGenerator(int row, int replyNumber) {
@@ -62,9 +92,7 @@ public class FeedbackSequence extends Sequence {
                 "              <ReplyTimeFormat Value=\"\" />\n" +
                 "              <ReplyByteOrder Value=\"\" />\n" +
                 "              <ReplyMaxNumberOfBytesForValue Value=\"\" />\n" +
-                "              <Replies>\n" +
-                replySequence(row, column)
-                +
+                "              <Replies>\n" + replySequence(row, column) +
                 "                </Reply>\n" +
                 "              </Replies>\n" +
                 "            </FeedbackSequence>";
@@ -95,9 +123,24 @@ public class FeedbackSequence extends Sequence {
 
         StringBuilder result = new StringBuilder();
         for (int i = 0; i <= column - 1; i++) {
-            result.append("                <Reply Caption=\"").append(sequenceCaptionGenerator(row, column)).append(" reply").append("\" Guid=\"").append(Generators.sequenceNameGenerator()).append("\">\n").append("                  <Data>" + dataGenerator(row, column) + "</Data>\n").append("                  <MappedToSeq Value=\"\" />\n").append("                </Reply>\n");
+            result.append("<Reply Caption=\"" + sequenceCaptionGenerator(row, column) + "\" Guid=\"" + Generators.sequenceNameGenerator() + "\">\n" +
+                    "                 <Data>" + dataGenerator(row, column) + "</Data>\n" +
+                    "                  <MappedToSeq Value=\"\" />\n" +
+                    "                </Reply>");
         }
         return result.toString();
+    }
+
+    public void startFromZero() {
+        startFromZero = true;
+    }
+
+    private static String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+        return getString(row, command1, command2, carriageReturn, lineFeed, cr, lf);
+    }
+
+    private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+        return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
     }
 
     @Override

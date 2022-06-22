@@ -1,9 +1,10 @@
 import interfaces.ISequencesGenerator;
 import logic.ControlGenerator;
 import model.ControlSequence;
+import tools.Generators;
 import tools.WriteToFile;
 
-public class CreateControlSequences  {
+public class CreateControlSequences {
 
     public static void main(String[] args) {
         WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
@@ -24,8 +25,9 @@ public class CreateControlSequences  {
          * */
         /*------------------------------------------------------------*/
 
-        ControlSequence controlSequence = new ControlSequence(30, "Mute Input", "Off",
+        ControlSequence controlSequence = new ControlSequence(5, "Mute Input9", "Off",
                 "CALL/MEDIA/XP/VIDEO:unmuteSource(I", ")", "", true, true);
+        controlSequence.startFromZero();
 
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator controlGenerator = new ControlGenerator(controlSequence);

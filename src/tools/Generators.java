@@ -8,7 +8,6 @@ import java.util.Random;
 
 public class Generators<T> {
 
-
     public Object[][] matrixSequenceGenerator(Sequence sequence, int rows, int columns) {
         Object[][] objectTypeArray = new Object[rows][columns];
         for (int i = 0; i <= rows - 1; i++) {
@@ -26,6 +25,8 @@ public class Generators<T> {
         }
         return objectTypeArray;
     }
+
+
 
     public static String sequenceNameGenerator() {
         StringBuilder AlphaNumericString = new StringBuilder();

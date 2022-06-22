@@ -48,7 +48,7 @@ public class LevelSequence extends Sequence {
     private CountType countType;
     private ByteOrder byteOrder;
     private CountFormat countFormat;
-
+    private boolean startFromZero;
 
 
     public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
@@ -67,6 +67,7 @@ public class LevelSequence extends Sequence {
         this.byteOrder = ByteOrder.LSB;
         this.countFormat = CountFormat.Decimal;
         this.stepValue = 1;
+        this.startFromZero=false;
     }
 
     public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
@@ -85,8 +86,8 @@ public class LevelSequence extends Sequence {
         this.byteOrder = ByteOrder.LSB;
         this.countFormat = CountFormat.Decimal;
         this.stepValue = 1;
+        this.startFromZero=false;
     }
-
 
     @Override
     public String sequence(int row, int column) {
@@ -152,9 +153,32 @@ public class LevelSequence extends Sequence {
     }
 
     private String dataGenerator(int row, int column) {
-        return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+        if (startFromZero) {
+            if (column <= 0) {
+                return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
+            } else {
+                return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+            }
+        }
+        if (column <= 0) {
+            row = row + 1;
+            return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
+        } else {
+            row = row + 1;
+            column = column + 1;
+            return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+        }
+    }
+    private static String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+        return getString(row, command1, command2, carriageReturn, lineFeed, cr, lf);
     }
 
+    private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+        return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
+    }
+    public void startFromZero() {
+        startFromZero = true;
+    }
     private String sequenceCaptionGenerator(int row, int column) {
         return getString(row, column, sequenceCaption1, sequenceCaption2);
     }

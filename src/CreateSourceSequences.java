@@ -10,7 +10,7 @@ public class CreateSourceSequences {
 
         WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
 
-        SourceSequence sourceSequence = new SourceSequence(48, "Switch Input", "to All Outputs", "CALL /MEDIA/XP/VIDEO:switch(I4:O1)", ")", "", true, true);
+        SourceSequence sourceSequence = new SourceSequence(9, "Switch Audio Output Mic", "", "< SET ", " AUDIO_OUT_LVL_SWITCH MIC_LVL >", "", false, false);
 
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator sourceGenerator = new SourceGenerator(sourceSequence);
