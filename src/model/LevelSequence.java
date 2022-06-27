@@ -1,6 +1,5 @@
 package model;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tools.Generators;
 
@@ -40,6 +39,12 @@ public class LevelSequence extends Sequence {
     private final String command2;
     @Nullable
     private final String command3;
+    @Nullable
+    private final String downCommand1;
+    @Nullable
+    private final String downCommand2;
+    @Nullable
+    private final String downCommand3;
     private int countStartByte;
     private int countEndByte;
     private final static char CR = '\r';
@@ -60,6 +65,9 @@ public class LevelSequence extends Sequence {
         this.command1 = command1;
         this.command2 = command2;
         this.command3 = command3;
+        this.downCommand1 = null;
+        this.downCommand2 = null;
+        this.downCommand3 = null;
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.repeatSpeed = 500;
@@ -82,6 +90,55 @@ public class LevelSequence extends Sequence {
         this.command1 = command1;
         this.command2 = command2;
         this.command3 = command3;
+        this.downCommand1 = null;
+        this.downCommand2 = null;
+        this.downCommand3 = null;
+        this.repeatSpeed = 500;
+        this.typeValues = typeValue;
+        this.countType = CountType.String;
+        this.byteOrder = ByteOrder.LSB;
+        this.countFormat = CountFormat.Decimal;
+        this.stepValue = 1;
+        this.startFromZero = false;
+        this.leadingZero = false;
+    }
+
+    public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, TypeValues typeValue, String upCommand1, @Nullable String upCommand2, @Nullable String upCommand3, @Nullable String downCommand1, @Nullable String downCommand2, @Nullable String downCommand3, boolean carriageReturn, boolean lineFeed) {
+        this.rows = rows;
+        this.columns = columns;
+        this.sequenceCaption1 = sequenceCaption1;
+        this.sequenceCaption2 = sequenceCaption2;
+        this.command1 = upCommand1;
+        this.command2 = upCommand2;
+        this.command3 = upCommand3;
+        this.downCommand1 = downCommand1;
+        this.downCommand2 = downCommand2;
+        this.downCommand3 = downCommand3;
+        this.carriageReturn = carriageReturn;
+        this.lineFeed = lineFeed;
+        this.repeatSpeed = 500;
+        this.typeValues = typeValue;
+        this.countType = CountType.String;
+        this.byteOrder = ByteOrder.LSB;
+        this.countFormat = CountFormat.Decimal;
+        this.stepValue = 1;
+        this.startFromZero = false;
+        this.leadingZero = false;
+    }
+
+    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String upCommand1, @Nullable String upCommand2, @Nullable String upCommand3, @Nullable String downCommand1, @Nullable String downCommand2, @Nullable String downCommand3, boolean carriageReturn, boolean lineFeed) {
+        this.carriageReturn = carriageReturn;
+        this.lineFeed = lineFeed;
+        this.rows = rows;
+        this.columns = -1;
+        this.sequenceCaption1 = sequenceCaption1;
+        this.sequenceCaption2 = sequenceCaption2;
+        this.command1 = upCommand1;
+        this.command2 = upCommand2;
+        this.command3 = upCommand3;
+        this.downCommand1 = downCommand1;
+        this.downCommand2 = downCommand2;
+        this.downCommand3 = downCommand3;
         this.repeatSpeed = 500;
         this.typeValues = typeValue;
         this.countType = CountType.String;
@@ -101,7 +158,7 @@ public class LevelSequence extends Sequence {
                 "              <Command>\n" +
                 "                <Data1>" + dataGenerator(row, column) + "</Data1>\n" +
                 "                <Data2 />\n" +
-                "                <Data3 />\n" +
+                "                <Data3>" + data2Generator(row, column) + "</Data3>\n" +
                 "                <Data4 />\n" +
                 "                <CountStart Value=\"" + countStartByte + "\" />\n" +
                 "                <CountStop Value=\"" + countEndByte + "\" />\n" +
@@ -163,44 +220,47 @@ public class LevelSequence extends Sequence {
     private String dataGenerator(int row, int column) {
         if (startFromZero) {
             if (column <= 0) {
-                return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
+                return sequenceData(row, command1, command2, carriageReturn, lineFeed);
             } else {
-                return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+                return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed);
             }
         }
         if (column <= 0) {
             row = row + 1;
-            return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
+            return sequenceData(row, command1, command2, carriageReturn, lineFeed);
         } else {
             row = row + 1;
             column = column + 1;
-            return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+            return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed);
         }
     }
+
     private String data2Generator(int row, int column) {
-        if (startFromZero) {
-            if (column <= 0) {
-                return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
-            } else {
-                return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+        if (typeValues.equals(TypeValues.Continous)) {
+            if (startFromZero) {
+                if (column <= 0) {
+                    return sequenceData(row, downCommand1, downCommand2, carriageReturn, lineFeed);
+                } else {
+                    return matrixData(row, column, downCommand1, downCommand2, downCommand3, carriageReturn, lineFeed);
+                }
             }
-        }
-        if (column <= 0) {
-            row = row + 1;
-            return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
-        } else {
-            row = row + 1;
-            column = column + 1;
-            return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
-        }
+            if (column <= 0) {
+                row = row + 1;
+                return sequenceData(row, downCommand1, downCommand2, carriageReturn, lineFeed);
+            } else {
+                row = row + 1;
+                column = column + 1;
+                return matrixData(row, column, downCommand1, downCommand2, downCommand3, carriageReturn, lineFeed);
+            }
+        } else return "<Data3/>\n";
     }
 
-    private static String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
-        return getString(row, command1, command2, carriageReturn, lineFeed, cr, lf);
+    private static String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed) {
+        return getString(row, command1, command2, carriageReturn, lineFeed, LevelSequence.CR, LevelSequence.LF);
     }
 
-    private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
-        return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
+    private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed) {
+        return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, LevelSequence.CR, LevelSequence.LF);
     }
 
     public void startFromZero() {
