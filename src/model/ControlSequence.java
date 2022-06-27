@@ -21,6 +21,8 @@ public class ControlSequence extends Sequence {
     @Nullable
     private final String command3;
     private boolean startFromZero;
+
+    private boolean leadingZero;
     private final static char CR = '\r';
     private final static char LF = '\n';
 
@@ -35,6 +37,7 @@ public class ControlSequence extends Sequence {
         this.command2 = command2;
         this.command3 = command3;
         this.startFromZero = false;
+        this.leadingZero = false;
     }
 
     public ControlSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
@@ -48,6 +51,8 @@ public class ControlSequence extends Sequence {
         this.command2 = command2;
         this.command3 = command3;
         this.startFromZero = false;
+        this.leadingZero = false;
+
     }
 
     private String dataGenerator(int row, int column) {
@@ -73,6 +78,16 @@ public class ControlSequence extends Sequence {
     }
 
     static String getString(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+        if (String.valueOf(row).matches("\\b([1-9]|9)\\b")) {
+            if (carriageReturn && lineFeed) {
+                return Generators.dataEncoder(command1 + 0 + row + command2 + cr + lf);
+            } else if (carriageReturn) {
+                return Generators.dataEncoder(command1 + 0 + row + command2 + cr);
+            } else if (lineFeed) {
+                return Generators.dataEncoder(command1 + 0 + row + command2 + lf);
+            }
+            return Generators.dataEncoder(command1 + 0 + row + command2);
+        }
         if (carriageReturn && lineFeed) {
             return Generators.dataEncoder(command1 + row + command2 + cr + lf);
         } else if (carriageReturn) {
@@ -88,6 +103,16 @@ public class ControlSequence extends Sequence {
     }
 
     static String getString(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+        if (String.valueOf(row).matches("\\b([1-9]|9)\\b") && String.valueOf(column).matches("\\b([1-9]|9)\\b")) {
+            if (carriageReturn && lineFeed) {
+                return Generators.dataEncoder(command1 + 0 + row + command2 + 0 + column + command3 + cr + lf);
+            } else if (carriageReturn) {
+                return Generators.dataEncoder(command1 + 0 + row + command2 + 0 + column + command3 + cr);
+            } else if (lineFeed) {
+                return Generators.dataEncoder(command1 + 0 + row + command2 + 0 + column + command3 + lf);
+            }
+            return Generators.dataEncoder(command1 + 0 + row + command2 + 0 + column + command3);
+        }
         if (carriageReturn && lineFeed) {
             return Generators.dataEncoder(command1 + row + command2 + column + command3 + cr + lf);
         } else if (carriageReturn) {
@@ -99,6 +124,9 @@ public class ControlSequence extends Sequence {
     }
 
     public void startFromZero() {
+        startFromZero = true;
+    }
+    public void addLeadingZero() {
         startFromZero = true;
     }
 

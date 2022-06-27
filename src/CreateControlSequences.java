@@ -4,6 +4,9 @@ import model.ControlSequence;
 import tools.Generators;
 import tools.WriteToFile;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class CreateControlSequences {
 
     public static void main(String[] args) {
@@ -25,9 +28,9 @@ public class CreateControlSequences {
          * */
         /*------------------------------------------------------------*/
 
-        ControlSequence controlSequence = new ControlSequence(5, "Mute Input9", "Off",
+        ControlSequence controlSequence = new ControlSequence(15, "Mute Input2", "Off",
                 "CALL/MEDIA/XP/VIDEO:unmuteSource(I", ")", "", true, true);
-        controlSequence.startFromZero();
+        //controlSequence.startFromZero();
 
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator controlGenerator = new ControlGenerator(controlSequence);

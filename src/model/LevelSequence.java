@@ -49,6 +49,7 @@ public class LevelSequence extends Sequence {
     private ByteOrder byteOrder;
     private CountFormat countFormat;
     private boolean startFromZero;
+    private boolean leadingZero;
 
 
     public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
@@ -67,7 +68,8 @@ public class LevelSequence extends Sequence {
         this.byteOrder = ByteOrder.LSB;
         this.countFormat = CountFormat.Decimal;
         this.stepValue = 1;
-        this.startFromZero=false;
+        this.startFromZero = false;
+        this.leadingZero = false;
     }
 
     public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
@@ -86,17 +88,18 @@ public class LevelSequence extends Sequence {
         this.byteOrder = ByteOrder.LSB;
         this.countFormat = CountFormat.Decimal;
         this.stepValue = 1;
-        this.startFromZero=false;
+        this.startFromZero = false;
+        this.leadingZero = false;
     }
 
     @Override
     public String sequence(int row, int column) {
-        return "<Sequence Name=\""+Generators.sequenceNameGenerator()+"\" Caption=\"" + sequenceCaptionGenerator(row, column) + "\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" Deletable=\"True\" SequenceType=\"Volume\" UseHeaderFooter=\"True\">\n" +
+        return "<Sequence Name=\"" + Generators.sequenceNameGenerator() + "\" Caption=\"" + sequenceCaptionGenerator(row, column) + "\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" Deletable=\"True\" SequenceType=\"Volume\" UseHeaderFooter=\"True\">\n" +
                 "              <Description />\n" +
                 "              <Image />\n" +
                 "              <Type Value=\"" + typeValues + "\" />\n" +
                 "              <Command>\n" +
-                "                <Data1>"+dataGenerator(row, column)+"</Data1>\n" +
+                "                <Data1>" + dataGenerator(row, column) + "</Data1>\n" +
                 "                <Data2 />\n" +
                 "                <Data3 />\n" +
                 "                <Data4 />\n" +
@@ -125,12 +128,13 @@ public class LevelSequence extends Sequence {
                 "                  <CRCBitNumber>0</CRCBitNumber>\n" +
                 "                </CheckSum>\n" +
                 "                <CountFormat Value=\"" + countFormat + "\" />\n" +
+                "                <AddLeadingZeros>" + leadingZero + "</AddLeadingZeros>" +
                 "              </Command>\n" +
                 "            </Sequence>";
     }
 
 
-    public void addStringCounter(int startByte, int endByte, CountFormat countFormat, int repeatSpeed,int stepValue , int minimumValue, int maximumValue) {
+    public void addStringCounter(int startByte, int endByte, CountFormat countFormat, int repeatSpeed, int stepValue, int minimumValue, int maximumValue) {
         this.countStartByte = startByte;
         this.countEndByte = endByte;
         this.minimumValue = minimumValue;
@@ -138,10 +142,10 @@ public class LevelSequence extends Sequence {
         this.repeatSpeed = repeatSpeed;
         this.countType = CountType.String;
         this.countFormat = countFormat;
-        this.stepValue=stepValue;
+        this.stepValue = stepValue;
     }
 
-    public void addBinaryCounter(int startByte, int endByte, ByteOrder byteOrder, int repeatSpeed,int stepValue, int minimumValue, int maximumValue) {
+    public void addBinaryCounter(int startByte, int endByte, ByteOrder byteOrder, int repeatSpeed, int stepValue, int minimumValue, int maximumValue) {
         this.countStartByte = startByte;
         this.countEndByte = endByte;
         this.minimumValue = minimumValue;
@@ -149,7 +153,11 @@ public class LevelSequence extends Sequence {
         this.repeatSpeed = repeatSpeed;
         this.countType = CountType.Binary;
         this.byteOrder = byteOrder;
-        this.stepValue=stepValue;
+        this.stepValue = stepValue;
+    }
+
+    public void addLeadingZero() {
+        this.leadingZero = true;
     }
 
     private String dataGenerator(int row, int column) {
@@ -169,6 +177,24 @@ public class LevelSequence extends Sequence {
             return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
         }
     }
+    private String data2Generator(int row, int column) {
+        if (startFromZero) {
+            if (column <= 0) {
+                return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
+            } else {
+                return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+            }
+        }
+        if (column <= 0) {
+            row = row + 1;
+            return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
+        } else {
+            row = row + 1;
+            column = column + 1;
+            return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+        }
+    }
+
     private static String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
         return getString(row, command1, command2, carriageReturn, lineFeed, cr, lf);
     }
@@ -176,9 +202,11 @@ public class LevelSequence extends Sequence {
     private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
         return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
     }
+
     public void startFromZero() {
         startFromZero = true;
     }
+
     private String sequenceCaptionGenerator(int row, int column) {
         return getString(row, column, sequenceCaption1, sequenceCaption2);
     }
