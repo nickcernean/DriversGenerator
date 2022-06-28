@@ -9,7 +9,7 @@ public class CreateFeedbackMatrixSequences {
     public static void main(String[] args) {
 
         WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
-        FeedbackSequence matrixFeedbackSequence = new FeedbackSequence(2, 2, "Mute Analog ", "Output On", "SET/MEDIA/STREAMS/AUDIO/D", "O", "/PORT.VolumePercent=30", null, null, true, true);
+        FeedbackSequence matrixFeedbackSequence = new FeedbackSequence(5, 2, "Mute Analog ", "Output On", "SET/MEDIA/STREAMS/AUDIO/D", "O", "/PORT.VolumePercent=30", null, null, true, true);
         /* To add counter to the level sequence remove each of the ´//´ before the line */
 
         /* To add string counter to the level sequence */

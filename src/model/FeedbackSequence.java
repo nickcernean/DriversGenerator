@@ -93,7 +93,6 @@ public class FeedbackSequence extends Sequence {
                 "              <ReplyByteOrder Value=\"\" />\n" +
                 "              <ReplyMaxNumberOfBytesForValue Value=\"\" />\n" +
                 "              <Replies>\n" + replySequence(row, column) +
-                "                </Reply>\n" +
                 "              </Replies>\n" +
                 "            </FeedbackSequence>";
     }
@@ -120,7 +119,6 @@ public class FeedbackSequence extends Sequence {
     }
 
     private String replySequence(int row, int column) {
-
         StringBuilder result = new StringBuilder();
         for (int i = 0; i <= column - 1; i++) {
             result.append("<Reply Caption=\"" + sequenceCaptionGenerator(row, column) + "\" Guid=\"" + Generators.sequenceNameGenerator() + "\">\n" +

@@ -39,16 +39,20 @@ public class CreateFeedbackSequences {
          *  */
 
         fileWriter.writeTo(feedbackGenerator.generateSequence());
-//        String string1 = "DW882ST;DX813;DW814;DX881ST";
-//        String string2 = "DX3350;DW3320;DH3331;DH3330;DU3340;DU3341";
-//        String string3 = "VS-44DT;VSM-4x4HFS;VS-44HN;VS-66HN;VS-84HN;VS-1616DN;VS-88DT;VS-62HA;VS-42UHD;VS-88UHDA;VSM-4x4A;VS-62H;VS-44UHDA;VS-48HN;VM-24HC;VS-1616D;VP-16x18AK;VP-8x4AK;VP-8x8AK;VS-88HDxl;VP-4x4K;VS-88HN;VS-3232DN;VS-82HDxl;VS-42HDCP;VS-44HDCP;VP-4x8AK;VP-885;VP-88K;VP-8x8TP;VS-88SDI;VS-1616DN-EM;VS-3232DN-EM;VS-88UHD;VS-62DT";
-//
-//
-//        List<String> l1 = new ArrayList<>(Arrays.asList(string1.split(";", 100)));
-//        List<String> l2 = new ArrayList<>(Arrays.asList(string2.split(";", 100)));
-//        List<String> l3 = new ArrayList<>(Arrays.asList(string3.split(";", 100)));
-//        System.out.println(l1.removeAll(l2));
-//
-//        System.out.println(Arrays.asList(string2.split(";", 100)).contains("NX9"));
+
+        String string1 = "SW8 HD 4K;SW6 HD 4K;SW4 HD 4K;SW2 HD 4K;SW2 HD 4K PLUS;SW4 HD 4K PLUS;SW6 HD 4K PLUS;SW8 HD 4K PLUS;SW2 HD 4K PLUS";
+        String string2 = "X1173;X1173A;X1273;X1140;X1140A;X1240;S1210;S1212;S1213";
+        String string3 = "NP-P554U;NP-P474U;NP-P554W;NP-P474W;NP-P604X;NP-P603X;NP-P523X;NP-PE523X";
+
+
+        List<String> l1 = new ArrayList<>(Arrays.asList(string1.split(";", 100)));
+        List<String> l2 = new ArrayList<>(Arrays.asList(string2.split(";", 100)));
+        List<String> l3 = new ArrayList<>(Arrays.asList(string3.split(";", 100)));
+        System.out.println("Comparisons"+l2.removeAll(l1));
+        System.out.println("Comparisons2"+l1.removeAll(l2));
+
+        System.out.println("Contains"+ l1.indexOf("S1213"));
+
+        System.out.println(Arrays.asList(string2.split(";", 100)).contains("PT-LB330J"));
     }
 }
