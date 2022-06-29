@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import tools.Generators;
 
 import static model.ControlSequence.getString;
+import static model.ControlSequence.sequenceDataWithoutLeadingZero;
 
 public class LevelSequence extends Sequence {
     public enum CountType {
@@ -213,10 +214,6 @@ public class LevelSequence extends Sequence {
         this.stepValue = stepValue;
     }
 
-    public void addLeadingZero() {
-        this.leadingZero = true;
-    }
-
     private String dataGenerator(int row, int column) {
         if (startFromZero) {
             if (column <= 0) {
@@ -256,7 +253,7 @@ public class LevelSequence extends Sequence {
     }
 
     private static String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed) {
-        return getString(row, command1, command2, carriageReturn, lineFeed, LevelSequence.CR, LevelSequence.LF);
+        return sequenceDataWithoutLeadingZero(row, command1, command2, carriageReturn, lineFeed, LevelSequence.CR, LevelSequence.LF);
     }
 
     private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed) {
@@ -265,6 +262,9 @@ public class LevelSequence extends Sequence {
 
     public void startFromZero() {
         startFromZero = true;
+    }
+    public void addLeadingZero() {
+        this.leadingZero = true;
     }
 
     private String sequenceCaptionGenerator(int row, int column) {

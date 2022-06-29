@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tools.Generators;
 
-import static model.ControlSequence.getString;
+import static model.ControlSequence.*;
 
 public class FeedbackSequence extends Sequence {
     private final int rows;
@@ -24,6 +24,7 @@ public class FeedbackSequence extends Sequence {
     private final String requestCommand2;
 
     private boolean startFromZero;
+    private boolean leadingZero;
     private final static char CR = '\r';
     private final static char LF = '\n';
 
@@ -40,6 +41,8 @@ public class FeedbackSequence extends Sequence {
         this.replyCommand3 = replyCommand3;
         this.requestCommand1 = requestCommand1;
         this.requestCommand2 = requestCommand2;
+        this.startFromZero=false;
+        this.leadingZero=false;
     }
 
     public FeedbackSequence(int rows, String requestCommand1, String requestCommand2, String sequenceCaption1, @Nullable String sequenceCaption2, String replyCommand1, @Nullable String replyCommand2, @Nullable String replyCommand3, boolean carriageReturn, boolean lineFeed) {
@@ -54,6 +57,8 @@ public class FeedbackSequence extends Sequence {
         this.replyCommand3 = replyCommand3;
         this.requestCommand1 = requestCommand1;
         this.requestCommand2 = requestCommand2;
+        this.startFromZero=false;
+        this.leadingZero=false;
     }
 
     private String dataGenerator(int row, int column) {
@@ -96,8 +101,6 @@ public class FeedbackSequence extends Sequence {
                 "              </Replies>\n" +
                 "            </FeedbackSequence>";
     }
-
-
     private String feedbackSequenceGenerator(int row) {
         row = row + 1;
         if (sequenceCaption2 == null) {
@@ -132,9 +135,15 @@ public class FeedbackSequence extends Sequence {
     public void startFromZero() {
         startFromZero = true;
     }
+    public void addLeadingZero() {
+        leadingZero = true;
+    }
 
-    private static String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
-        return getString(row, command1, command2, carriageReturn, lineFeed, cr, lf);
+    private String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+        if (leadingZero) {
+            return sequenceDataWithLeadingZero(row, command1, command2, carriageReturn, lineFeed, cr, lf);
+        }
+        return sequenceDataWithoutLeadingZero(row, command1, command2, carriageReturn, lineFeed, cr, lf);
     }
 
     private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {

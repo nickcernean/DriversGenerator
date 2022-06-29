@@ -28,10 +28,11 @@ public class CreateControlSequences {
          * */
         /*------------------------------------------------------------*/
 
-        ControlSequence controlSequence = new ControlSequence(15, "Mute Input2", "Off",
-                "CALL/MEDIA/XP/VIDEO:unmuteSource(I", ")", "", true, true);
+        ControlSequence controlSequence = new ControlSequence(8, "Power Input", "Off",
+                "SET ANLGIN/", "/PHANT:OFF", "", true, false);
         //controlSequence.startFromZero();
 
+       // controlSequence.startFromZero();
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator controlGenerator = new ControlGenerator(controlSequence);
 

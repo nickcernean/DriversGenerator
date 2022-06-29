@@ -73,11 +73,18 @@ public class ControlSequence extends Sequence {
         }
     }
 
-    private static String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
-        return getString(row, command1, command2, carriageReturn, lineFeed, cr, lf);
+    private String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+        if (leadingZero) {
+            return sequenceDataWithLeadingZero(row, command1, command2, carriageReturn, lineFeed, cr, lf);
+        }
+        return sequenceDataWithoutLeadingZero(row, command1, command2, carriageReturn, lineFeed, cr, lf);
     }
 
-    static String getString(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+    static String sequenceDataWithoutLeadingZero(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+     return  sequenceDataFormat(row, command1, command2, carriageReturn, lineFeed, cr, lf);
+    }
+
+    static String sequenceDataWithLeadingZero(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
         if (String.valueOf(row).matches("\\b([1-9]|9)\\b")) {
             if (carriageReturn && lineFeed) {
                 return Generators.dataEncoder(command1 + 0 + row + command2 + cr + lf);
@@ -88,6 +95,10 @@ public class ControlSequence extends Sequence {
             }
             return Generators.dataEncoder(command1 + 0 + row + command2);
         }
+        return sequenceDataFormat(row, command1, command2, carriageReturn, lineFeed, cr, lf);
+    }
+
+    private static String sequenceDataFormat(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
         if (carriageReturn && lineFeed) {
             return Generators.dataEncoder(command1 + row + command2 + cr + lf);
         } else if (carriageReturn) {
@@ -97,6 +108,7 @@ public class ControlSequence extends Sequence {
         }
         return Generators.dataEncoder(command1 + row + command2);
     }
+
 
     private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
         return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
@@ -126,8 +138,9 @@ public class ControlSequence extends Sequence {
     public void startFromZero() {
         startFromZero = true;
     }
+
     public void addLeadingZero() {
-        startFromZero = true;
+        leadingZero = true;
     }
 
     private String sequenceCaptionGenerator(int row, int column) {

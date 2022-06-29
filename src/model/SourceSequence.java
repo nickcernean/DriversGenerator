@@ -3,7 +3,7 @@ package model;
 import org.jetbrains.annotations.Nullable;
 import tools.Generators;
 
-import static model.ControlSequence.getString;
+import static model.ControlSequence.*;
 
 public class SourceSequence extends Sequence {
 
@@ -21,6 +21,7 @@ public class SourceSequence extends Sequence {
     @Nullable
     private final String command3;
     private boolean startFromZero;
+    private final boolean leadingZero;
     private final static char CR = '\r';
     private final static char LF = '\n';
 
@@ -36,6 +37,7 @@ public class SourceSequence extends Sequence {
         this.command2 = command2;
         this.command3 = command3;
         this.startFromZero = false;
+        this.leadingZero = false;
     }
 
     public SourceSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
@@ -49,6 +51,7 @@ public class SourceSequence extends Sequence {
         this.command2 = command2;
         this.command3 = command3;
         this.startFromZero = false;
+        this.leadingZero = false;
     }
 
     @Override
@@ -94,8 +97,12 @@ public class SourceSequence extends Sequence {
     private String sequenceCaptionGenerator(int row, int column) {
         return getString(row, column, sequenceCaption1, sequenceCaption2);
     }
-    private static String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
-        return getString(row, command1, command2, carriageReturn, lineFeed, cr, lf);
+
+    private String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+        if (leadingZero) {
+            return sequenceDataWithLeadingZero(row, command1, command2, carriageReturn, lineFeed, cr, lf);
+        }
+        return sequenceDataWithoutLeadingZero(row, command1, command2, carriageReturn, lineFeed, cr, lf);
     }
 
     private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
@@ -105,6 +112,7 @@ public class SourceSequence extends Sequence {
     public void startFromZero() {
         startFromZero = true;
     }
+
     @Override
     public int getRows() {
         return rows;
