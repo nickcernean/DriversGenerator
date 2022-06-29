@@ -15,8 +15,8 @@ public class WriteToFile {
     private final   File fileObject;
     private final DateTimeFormatter dateTimeFormatter;
 
-    public final static String WORKDESTINATION = "C:/Users/Nicolae.Cernean/OneDrive - Biamp Systems/Desktop/Result.txt";
-
+   // public final static String WORKDESTINATION = "C:/Users/Nicolae.Cernean/OneDrive - Biamp Systems/Desktop/Result.txt";
+    public final static String WORKDESTINATION = "C:/Users/Michael.Bruun/OneDrive - Biamp Systems/Desktop/Result.txt";
     public WriteToFile(String path) {
         fileObject = new File(path);
         dateTimeFormatter=DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
