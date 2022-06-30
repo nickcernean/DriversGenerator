@@ -17,7 +17,7 @@ public class LevelGenerator implements ISequencesGenerator {
 
     @Override
     public Object[] generateSequence() {
-        return generators.sequenceGenerator(levelSequence, levelSequence.getRows());
+        return generators.sequenceGenerator(levelSequence, levelSequence.getRows(),levelSequence.getColumns());
     }
 
     @Override

@@ -1,6 +1,5 @@
 package tools;
 
-import model.FeedbackSequence;
 import model.Sequence;
 
 import java.nio.charset.StandardCharsets;
@@ -18,10 +17,10 @@ public class Generators<T> {
         return objectTypeArray;
     }
 
-    public Object[] sequenceGenerator(Sequence sequence, int rows) {
+    public Object[] sequenceGenerator(Sequence sequence, int rows,int columns) {
         Object[] objectTypeArray = new Object[rows];
         for (int i = 0; i <= rows - 1; i++) {
-            objectTypeArray[i] = sequence.sequence(i, -1);
+            objectTypeArray[i] = sequence.sequence(i, columns);
         }
         return objectTypeArray;
     }

@@ -186,7 +186,7 @@ public class LevelSequence extends Sequence {
                 "                  <CRCBitNumber>0</CRCBitNumber>\n" +
                 "                </CheckSum>\n" +
                 "                <CountFormat Value=\"" + countFormat + "\" />\n" +
-                "                <AddLeadingZeros>" + leadingZero + "</AddLeadingZeros>" +
+                "                <AddLeadingZeros>" + leadingZero + "</AddLeadingZeros>\n" +
                 "              </Command>\n" +
                 "            </Sequence>";
     }

@@ -41,8 +41,8 @@ public class FeedbackSequence extends Sequence {
         this.replyCommand3 = replyCommand3;
         this.requestCommand1 = requestCommand1;
         this.requestCommand2 = requestCommand2;
-        this.startFromZero=false;
-        this.leadingZero=false;
+        this.startFromZero = false;
+        this.leadingZero = false;
     }
 
     public FeedbackSequence(int rows, String requestCommand1, String requestCommand2, String sequenceCaption1, @Nullable String sequenceCaption2, String replyCommand1, @Nullable String replyCommand2, @Nullable String replyCommand3, boolean carriageReturn, boolean lineFeed) {
@@ -57,36 +57,14 @@ public class FeedbackSequence extends Sequence {
         this.replyCommand3 = replyCommand3;
         this.requestCommand1 = requestCommand1;
         this.requestCommand2 = requestCommand2;
-        this.startFromZero=false;
-        this.leadingZero=false;
-    }
-
-    private String dataGenerator(int row, int column) {
-        if (startFromZero) {
-            if (column <= 0) {
-                return sequenceData(row, replyCommand1, replyCommand2, carriageReturn, lineFeed, CR, LF);
-            } else {
-                return matrixData(row, column, replyCommand1, replyCommand2, replyCommand3, carriageReturn, lineFeed, CR, LF);
-            }
-        }
-        if (column <= 0) {
-            row = row + 1;
-            return sequenceData(row, replyCommand1, replyCommand2, carriageReturn, lineFeed, CR, LF);
-        } else {
-            row = row + 1;
-            column = column + 1;
-            return matrixData(row, column, replyCommand1, replyCommand2, replyCommand3, carriageReturn, lineFeed, CR, LF);
-        }
-    }
-
-    private String sequenceCaptionGenerator(int row, int replyNumber) {
-        return getString(row, replyNumber, sequenceCaption1, sequenceCaption2);
+        this.startFromZero = false;
+        this.leadingZero = false;
     }
 
     @Override
     public String sequence(int row, int column) {
-        return "<FeedbackSequence Name=\"" + Generators.sequenceNameGenerator() + "\" Caption=\"" + feedbackSequenceGenerator(row) + "\" Mode=\"Pull\" UseHeaderFooter=\"True\">\n" +
-                "              <RequestCommand>" + requestDataGenerator() + "</RequestCommand>\n" +
+        return "<FeedbackSequence Name=\"" + Generators.sequenceNameGenerator() + "\" Caption=\"" + feedbackCaption(row) + "\" Mode=\"Pull\" UseHeaderFooter=\"True\">\n" +
+                "              <RequestCommand>" + requestCommandSequence(row) + "</RequestCommand>\n" +
                 "              <RequestInterval Value=\"3000\" />\n" +
                 "              <ReplyDataType Value=\"String\" />\n" +
                 "              <ReplyNumberRange Min=\"0\" Max=\"0\" />\n" +
@@ -97,12 +75,13 @@ public class FeedbackSequence extends Sequence {
                 "              <ReplyTimeFormat Value=\"\" />\n" +
                 "              <ReplyByteOrder Value=\"\" />\n" +
                 "              <ReplyMaxNumberOfBytesForValue Value=\"\" />\n" +
-                "              <Replies>\n" + replySequence(row, column) +
-                "              </Replies>\n" +
-                "            </FeedbackSequence>";
+                "                 <Replies>" + replySequence(row, column) +
+                "\n               </Replies>\n" +
+                "            </FeedbackSequence>\n";
     }
-    private String feedbackSequenceGenerator(int row) {
-        row = row + 1;
+
+    private String feedbackCaption(int row) {
+        row += 1;
         if (sequenceCaption2 == null) {
             return sequenceCaption1 + " " + row;
         } else {
@@ -110,44 +89,108 @@ public class FeedbackSequence extends Sequence {
         }
     }
 
-    private String requestDataGenerator() {
-        if (carriageReturn && lineFeed) {
-            return Generators.dataEncoder(requestCommand1 + requestCommand2 + CR + LF);
-        } else if (carriageReturn) {
-            return Generators.dataEncoder(requestCommand1 + requestCommand2 + CR);
-        } else if (lineFeed) {
-            return Generators.dataEncoder(requestCommand1 + requestCommand2 + LF);
+    private String replyCaption(int column) {
+        column += 1;
+        if (sequenceCaption2 == null) {
+            return sequenceCaption1 + " " + column + "reply";
+        } else {
+            return sequenceCaption1 + " " + column + " " + sequenceCaption2 + "reply";
         }
-        return Generators.dataEncoder(requestCommand1 + requestCommand2);
+
+    }
+
+    private String requestCommandSequence(int row) {
+        if (!startFromZero) {
+            row += 1;
+            return requestCommandFormatWithLeadingZero(row);
+        }
+        return requestCommandFormatWithLeadingZero(row);
+    }
+
+    private String requestCommandFormatWithLeadingZero(int row) {
+        if (leadingZero) {
+            if (String.valueOf(row).matches("\\b([0-9]|9)\\b")) {
+                if (carriageReturn && lineFeed) {
+                    return Generators.dataEncoder(requestCommand1 + 0 + row + requestCommand2 + CR + LF);
+                } else if (carriageReturn) {
+                    return Generators.dataEncoder(requestCommand1 + 0 + row + requestCommand2 + CR);
+                } else if (lineFeed) {
+                    return Generators.dataEncoder(requestCommand1 + 0 + row + requestCommand2 + LF);
+                }
+                return Generators.dataEncoder(requestCommand1 + 0 + row + requestCommand2);
+            }
+            return requestCommandFormat(row);
+        }
+        return requestCommandFormat(row);
+    }
+
+    private String requestCommandFormat(int row) {
+        if (carriageReturn && lineFeed) {
+            return Generators.dataEncoder(requestCommand1 + row + requestCommand2 + CR + LF);
+        } else if (carriageReturn) {
+            return Generators.dataEncoder(requestCommand1 + row + requestCommand2 + CR);
+        } else if (lineFeed) {
+            return Generators.dataEncoder(requestCommand1 + row + requestCommand2 + LF);
+        }
+        return Generators.dataEncoder(requestCommand1 + row + requestCommand2);
+    }
+
+    private String replyCommandSequence(int row, int column) {
+        if (!startFromZero) {
+            row += 1;
+            column += 1;
+            return replyDataFormatWithLeadingZero(row, column);
+        }
+        return replyDataFormatWithLeadingZero(row, column);
+    }
+
+    private String replyDataFormatWithLeadingZero(int row, int column) {
+        if (leadingZero) {
+            if (String.valueOf(column).matches("\\b([0-9]|9)\\b")) {
+                if (carriageReturn && lineFeed) {
+                    return Generators.dataEncoder(replyCommand1 + 0 + column + replyCommand2 + CR + LF);
+                } else if (carriageReturn) {
+                    return Generators.dataEncoder(replyCommand1 + 0 + column + replyCommand2 + CR);
+                } else if (lineFeed) {
+                    return Generators.dataEncoder(replyCommand1 + 0 + column + replyCommand2 + LF);
+                }
+                return Generators.dataEncoder(replyCommand1 + 0 + column + replyCommand2);
+            }
+            return replyCommandFormat(row, column);
+        }
+        return replyCommandFormat(row, column);
+    }
+
+    private String replyCommandFormat(int row, int column) {
+        if (carriageReturn && lineFeed) {
+            return Generators.dataEncoder(replyCommand1 + column + replyCommand2 + CR + LF);
+        } else if (carriageReturn) {
+            return Generators.dataEncoder(replyCommand1 + column + replyCommand2 + CR);
+        } else if (lineFeed) {
+            return Generators.dataEncoder(replyCommand1 + column + replyCommand2 + LF);
+        }
+        return Generators.dataEncoder(replyCommand1 + column + replyCommand2);
     }
 
     private String replySequence(int row, int column) {
-        StringBuilder result = new StringBuilder();
+        // StringBuilder result = new StringBuilder();
+        String result = "";
         for (int i = 0; i <= column - 1; i++) {
-            result.append("<Reply Caption=\"" + sequenceCaptionGenerator(row, column) + "\" Guid=\"" + Generators.sequenceNameGenerator() + "\">\n" +
-                    "                 <Data>" + dataGenerator(row, column) + "</Data>\n" +
-                    "                  <MappedToSeq Value=\"\" />\n" +
-                    "                </Reply>");
+            result += "\n                  <Reply Caption=\"" + replyCaption(i) +
+                    "\" Guid=\"" + Generators.sequenceNameGenerator() + "\">\n" +
+                    "                      <Data>" + replyCommandSequence(row, i) + "</Data>\n" +
+                    "                      <MappedToSeq Value=\"\" />\n" +
+                    "                   </Reply>";
         }
-        return result.toString();
+        return result;
     }
 
     public void startFromZero() {
         startFromZero = true;
     }
+
     public void addLeadingZero() {
         leadingZero = true;
-    }
-
-    private String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
-        if (leadingZero) {
-            return sequenceDataWithLeadingZero(row, command1, command2, carriageReturn, lineFeed, cr, lf);
-        }
-        return sequenceDataWithoutLeadingZero(row, command1, command2, carriageReturn, lineFeed, cr, lf);
-    }
-
-    private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
-        return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
     }
 
     @Override

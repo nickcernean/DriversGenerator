@@ -21,7 +21,7 @@ public class SourceSequence extends Sequence {
     @Nullable
     private final String command3;
     private boolean startFromZero;
-    private final boolean leadingZero;
+    private boolean leadingZero;
     private final static char CR = '\r';
     private final static char LF = '\n';
 
@@ -111,6 +111,9 @@ public class SourceSequence extends Sequence {
 
     public void startFromZero() {
         startFromZero = true;
+    }
+    public void addLeadingZero() {
+        leadingZero = true;
     }
 
     @Override

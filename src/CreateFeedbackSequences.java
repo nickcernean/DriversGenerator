@@ -27,11 +27,14 @@ public class CreateFeedbackSequences {
          * */
         /*------------------------------------------------------------*/
 
-        FeedbackSequence feedbackSequence = new FeedbackSequence(5, 2, "Mute Input State", "",
-                "Mute Input ", "State", " Mute Input ", "On", null, true, true);
+        FeedbackSequence feedbackSequence = new FeedbackSequence(16, 2, "Output Stream", "",
+                "GET OUT", " STREAM", "SET OUT", " STREAM ON", "", false, false);
 
+        //feedbackSequence.addLeadingZero();
+        //feedbackSequence.startFromZero();
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator feedbackGenerator = new FeedbackGenerator(feedbackSequence);
+
 
         /* The function that generates the sequences,
          * be aware that in order to generate the sequence the column has to be initialized to -1!!!

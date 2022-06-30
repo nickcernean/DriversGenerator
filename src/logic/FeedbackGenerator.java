@@ -16,7 +16,7 @@ public class FeedbackGenerator implements ISequencesGenerator {
     }
     @Override
     public Object[] generateSequence() {
-        return generators.sequenceGenerator(feedbackSequence, feedbackSequence.getRows());
+        return generators.sequenceGenerator(feedbackSequence, feedbackSequence.getRows(), feedbackSequence.getColumns());
     }
 
     @Override

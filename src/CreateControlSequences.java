@@ -28,11 +28,12 @@ public class CreateControlSequences {
          * */
         /*------------------------------------------------------------*/
 
-        ControlSequence controlSequence = new ControlSequence(8, "Power Input", "Off",
-                "SET ANLGIN/", "/PHANT:OFF", "", true, false);
-        //controlSequence.startFromZero();
+        ControlSequence controlSequence = new ControlSequence(16, "Output5 Stream", "Off",
+                "SET OUT", " STREAM OFF", "", false, false);
 
-       // controlSequence.startFromZero();
+
+        // controlSequence.startFromZero();
+        // controlSequence.addLeadingZero();
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator controlGenerator = new ControlGenerator(controlSequence);
 

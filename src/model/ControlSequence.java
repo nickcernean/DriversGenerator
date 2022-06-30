@@ -26,7 +26,7 @@ public class ControlSequence extends Sequence {
     private final static char CR = '\r';
     private final static char LF = '\n';
 
-    public ControlSequence(String sequenceCaption1, int rows, @Nullable String sequenceCaption2, int columns, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
+    public ControlSequence(int rows,int columns,String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -85,7 +85,7 @@ public class ControlSequence extends Sequence {
     }
 
     static String sequenceDataWithLeadingZero(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
-        if (String.valueOf(row).matches("\\b([1-9]|9)\\b")) {
+        if (String.valueOf(row).matches("\\b([0-9]|9)\\b")) {
             if (carriageReturn && lineFeed) {
                 return Generators.dataEncoder(command1 + 0 + row + command2 + cr + lf);
             } else if (carriageReturn) {
@@ -115,7 +115,7 @@ public class ControlSequence extends Sequence {
     }
 
     static String getString(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
-        if (String.valueOf(row).matches("\\b([1-9]|9)\\b") && String.valueOf(column).matches("\\b([1-9]|9)\\b")) {
+        if (String.valueOf(row).matches("\\b([0-9]|9)\\b") && String.valueOf(column).matches("\\b([0-9]|9)\\b")) {
             if (carriageReturn && lineFeed) {
                 return Generators.dataEncoder(command1 + 0 + row + command2 + 0 + column + command3 + cr + lf);
             } else if (carriageReturn) {

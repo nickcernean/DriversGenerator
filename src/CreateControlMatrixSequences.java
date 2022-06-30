@@ -32,7 +32,7 @@ public class CreateControlMatrixSequences{
          *
          *  */
 
-        ControlSequence matrixSequence = new ControlSequence("Input ", 1, "to Output ", 4,
+        ControlSequence matrixSequence = new ControlSequence(16,2,"Input ", "to Output ",
                 "av input", "On", "", true, true);
         /* The function that generates the control matrices,
          * be aware that in order to generate the sequence the column should not be -1 or 0!!!

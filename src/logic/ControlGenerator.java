@@ -16,7 +16,7 @@ public class ControlGenerator implements ISequencesGenerator {
 
     @Override
     public Object[] generateSequence() {
-        return generators.sequenceGenerator(controlSequence, controlSequence.getRows());
+        return generators.sequenceGenerator(controlSequence, controlSequence.getRows(), controlSequence.getColumns());
     }
 
     @Override

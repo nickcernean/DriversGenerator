@@ -17,7 +17,7 @@ public class SourceGenerator implements ISequencesGenerator {
 
     @Override
     public Object[] generateSequence() {
-        return generators.sequenceGenerator(sourceSequence, sourceSequence.getRows());
+        return generators.sequenceGenerator(sourceSequence, sourceSequence.getRows(),sourceSequence.getColumns());
     }
 
     @Override
