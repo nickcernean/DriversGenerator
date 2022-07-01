@@ -12,8 +12,8 @@ public class CreateSourceSequences {
 
         SourceSequence sourceSequence = new SourceSequence(16, "Switch Audio Output Mic", "", "< SET ", " AUDIO_OUT_LVL_SWITCH MIC_LVL >", "", false, false);
 
-        sourceSequence.startFromZero();
-        sourceSequence.addLeadingZero();
+        //sourceSequence.startFromZero();
+        //sourceSequence.addLeadingZero();
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator sourceGenerator = new SourceGenerator(sourceSequence);
 
@@ -23,6 +23,6 @@ public class CreateSourceSequences {
         //To use the function generator just remove the "//" before the method call
         fileWriter.writeTo(sourceGenerator.generateSequence());
 
-        /*------------------------------------------------------------*/
+        /*-----------------------------------------------------------*/
     }
 }
