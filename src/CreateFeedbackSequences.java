@@ -3,10 +3,6 @@ import logic.FeedbackGenerator;
 import model.FeedbackSequence;
 import tools.WriteToFile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class CreateFeedbackSequences {
     public static void main(String[] args) {
         WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
@@ -28,7 +24,7 @@ public class CreateFeedbackSequences {
         /*------------------------------------------------------------*/
 
         FeedbackSequence feedbackSequence = new FeedbackSequence(8, 3, "Audio In Video Input ", "State ",
-                "#AUD-EMB? ", ",0", "~01@AUD-EMB ", ",0,", "", true, false);
+                "", "", "#AUD-EMB? ", ",0", "~01@AUD-EMB ", ",0,", "", true, false);
 
         //feedbackSequence.addLeadingZero();
         feedbackSequence.startFromZero();
