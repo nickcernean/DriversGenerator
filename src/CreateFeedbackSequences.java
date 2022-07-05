@@ -27,11 +27,11 @@ public class CreateFeedbackSequences {
          * */
         /*------------------------------------------------------------*/
 
-        FeedbackSequence feedbackSequence = new FeedbackSequence(16, 2, "Output Stream", "",
-                "GET OUT", " STREAM", "SET OUT", " STREAM ON", "", false, false);
+        FeedbackSequence feedbackSequence = new FeedbackSequence(8, 3, "Audio In Video Input ", "State ",
+                "#AUD-EMB? ", ",0", "~01@AUD-EMB ", ",0,", "", true, false);
 
         //feedbackSequence.addLeadingZero();
-        //feedbackSequence.startFromZero();
+        feedbackSequence.startFromZero();
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator feedbackGenerator = new FeedbackGenerator(feedbackSequence);
 

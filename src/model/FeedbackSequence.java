@@ -92,9 +92,9 @@ public class FeedbackSequence extends Sequence {
     private String replyCaption(int column) {
         column += 1;
         if (sequenceCaption2 == null) {
-            return sequenceCaption1 + " " + column + "reply";
+            return sequenceCaption1 + " " + column + " reply";
         } else {
-            return sequenceCaption1 + " " + column + " " + sequenceCaption2 + "reply";
+            return sequenceCaption1 + " " + column + " " + sequenceCaption2 + " reply";
         }
 
     }
@@ -148,13 +148,13 @@ public class FeedbackSequence extends Sequence {
         if (leadingZero) {
             if (String.valueOf(column).matches("\\b([0-9]|9)\\b")) {
                 if (carriageReturn && lineFeed) {
-                    return Generators.dataEncoder(replyCommand1 + 0 + column + replyCommand2 + CR + LF);
+                    return Generators.dataEncoder(replyCommand1 + 0 + row + replyCommand2 + column);
                 } else if (carriageReturn) {
-                    return Generators.dataEncoder(replyCommand1 + 0 + column + replyCommand2 + CR);
+                    return Generators.dataEncoder(replyCommand1 + 0 + row + replyCommand2 + column);
                 } else if (lineFeed) {
-                    return Generators.dataEncoder(replyCommand1 + 0 + column + replyCommand2 + LF);
+                    return Generators.dataEncoder(replyCommand1 + 0 + row + replyCommand2 + column);
                 }
-                return Generators.dataEncoder(replyCommand1 + 0 + column + replyCommand2);
+                return Generators.dataEncoder(replyCommand1 + 0 + row + replyCommand2 + column);
             }
             return replyCommandFormat(row, column);
         }
@@ -163,13 +163,13 @@ public class FeedbackSequence extends Sequence {
 
     private String replyCommandFormat(int row, int column) {
         if (carriageReturn && lineFeed) {
-            return Generators.dataEncoder(replyCommand1 + column + replyCommand2 + CR + LF);
+            return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + column);
         } else if (carriageReturn) {
-            return Generators.dataEncoder(replyCommand1 + column + replyCommand2 + CR);
+            return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + column);
         } else if (lineFeed) {
-            return Generators.dataEncoder(replyCommand1 + column + replyCommand2 + LF);
+            return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + column);
         }
-        return Generators.dataEncoder(replyCommand1 + column + replyCommand2);
+        return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + column);
     }
 
     private String replySequence(int row, int column) {

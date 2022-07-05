@@ -32,13 +32,13 @@ public class CreateControlMatrixSequences{
          *
          *  */
 
-        ControlSequence matrixSequence = new ControlSequence(16,2,"Set Audio HDMI", "Analog",
-                "#AUD-EMB ", ",", "", true, true);
+        ControlSequence matrixSequence = new ControlSequence(8,3,"Set Audio In Video Input ", "to Status ",
+                "#AUD-EMB ", ",0,", "", true, false);
         /* The function that generates the control matrices,
          * be aware that in order to generate the sequence the column should not be -1 or 0!!!
          *
          *  */
-
+        matrixSequence.startFromZero();
         ISequencesGenerator controlGenerator = new ControlGenerator(matrixSequence);
         //To use the function generator just remove the "//" before the method call
         fileWriter.writeTo(controlGenerator.generateMatrixSequence());
