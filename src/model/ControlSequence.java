@@ -57,13 +57,13 @@ public class ControlSequence extends Sequence {
 
     private String dataGenerator(int row, int column) {
         if (startFromZero) {
-            if (column <= 0) {
+            if (column < 0) {
                 return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
             } else {
                 return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
             }
         }
-        if (column <= 0) {
+        if (column < 0) {
             row = row + 1;
             return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
         } else {
@@ -149,7 +149,7 @@ public class ControlSequence extends Sequence {
 
     @NotNull
     static String getString(int row, int column, String sequenceCaption1, String sequenceCaption2) {
-        if (column <= 0) {
+        if (column < 0) {
             row = row + 1;
             if (sequenceCaption2 == null) {
                 return sequenceCaption1 + " " + row;
