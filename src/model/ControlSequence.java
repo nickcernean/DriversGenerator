@@ -149,7 +149,7 @@ public class ControlSequence extends Sequence {
 
     @NotNull
     static String getString(int row, int column, String sequenceCaption1, String sequenceCaption2) {
-        if (column <= 0) {
+        if (column < 0) {
             row = row + 1;
             if (sequenceCaption2 == null) {
                 return sequenceCaption1 + " " + row;

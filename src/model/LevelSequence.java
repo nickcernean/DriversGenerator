@@ -261,7 +261,7 @@ public class LevelSequence extends Sequence {
     }
 
     public void startFromZero() {
-        startFromZero = true;
+        this.startFromZero = true;
     }
     public void addLeadingZero() {
         this.leadingZero = true;

@@ -1,6 +1,7 @@
 import interfaces.ISequencesGenerator;
 import logic.ControlGenerator;
 import model.ControlSequence;
+import tools.ChecksumCalculator;
 import tools.Generators;
 import tools.WriteToFile;
 
@@ -8,7 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CreateControlSequences {
-
     public static void main(String[] args) {
         WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
 
@@ -28,11 +28,11 @@ public class CreateControlSequences {
          * */
         /*------------------------------------------------------------*/
 
-        ControlSequence controlSequence = new ControlSequence(16, "Output5 Stream", "Off",
-                "SET OUT", " STREAM OFF", "", false, false);
+        ControlSequence controlSequence = new ControlSequence(4, "Mute Output", "Off",
+                "#MUTE ", ",1", "", true, false);
 
 
-        // controlSequence.startFromZero();
+        //controlSequence.startFromZero();
         // controlSequence.addLeadingZero();
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator controlGenerator = new ControlGenerator(controlSequence);
@@ -43,5 +43,12 @@ public class CreateControlSequences {
          *  */
 
         fileWriter.writeTo(controlGenerator.generateSequence());
+
+//        System.out.println(ChecksumCalculator.Add("474b169c89969f101286ca894305e9", 3, 5));
+//
+//       // System.out.println(ChecksumCalculator.hexToBinary("474b169c89969f101286ca894305e9"));
+//        System.out.println(ChecksumCalculator.BitwiseAND("474b169c89969f101286ca894305e9",0,9));
+//        System.out.println(ChecksumCalculator.hexToBinary("474b169c89969f101286ca894305e9"));
+//        System.out.println(Integer.parseInt("01000111",2));
     }
 }
