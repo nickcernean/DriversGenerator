@@ -23,8 +23,9 @@ public class CreateFeedbackSequences {
          * */
         /*------------------------------------------------------------*/
 
-        FeedbackSequence feedbackSequence = new FeedbackSequence(8, 3, "Audio In Video Input ", "State ",
-                "", "", "#AUD-EMB? ", ",0", "~01@AUD-EMB ", ",0,", "", true, false);
+        FeedbackSequence feedbackSequence = new FeedbackSequence(13, 3, "Audio In Video Input", "State",
+                "#AUD-EMB? ", ",0", "Audio In Video State", "", "~01@AUD-EMB "
+                , ",0,", "", true, false);
 
         //feedbackSequence.addLeadingZero();
         feedbackSequence.startFromZero();
@@ -38,5 +39,6 @@ public class CreateFeedbackSequences {
          *  */
 
         fileWriter.writeTo(feedbackGenerator.generateSequence());
+        System.out.println(String.valueOf(9).matches("\\b([0-9]|9)\\b"));
     }
 }

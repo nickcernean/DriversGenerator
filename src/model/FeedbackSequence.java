@@ -30,7 +30,7 @@ public class FeedbackSequence extends Sequence {
     private final static char LF = '\n';
 
 
-    public FeedbackSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, String requestCommand1, String requestCommand2,String replyCaption1, @Nullable String replyCaption2, String replyCommand1, @Nullable String replyCommand2, @Nullable String replyCommand3, boolean carriageReturn, boolean lineFeed) {
+    public FeedbackSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, String requestCommand1, String requestCommand2, String replyCaption1, @Nullable String replyCaption2, String replyCommand1, @Nullable String replyCommand2, @Nullable String replyCommand3, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -65,6 +65,7 @@ public class FeedbackSequence extends Sequence {
         this.startFromZero = false;
         this.leadingZero = false;
     }
+
     @Override
     public String sequence(int row, int column) {
         return "<FeedbackSequence Name=\"" + Generators.sequenceNameGenerator() + "\" Caption=\"" + feedbackCaption(row) + "\" Mode=\"Pull\" UseHeaderFooter=\"True\">\n" +
@@ -150,27 +151,13 @@ public class FeedbackSequence extends Sequence {
 
     private String replyDataFormatWithLeadingZero(int row, int column) {
         if (leadingZero) {
-            if (String.valueOf(column).matches("\\b([0-9]|9)\\b")) {
-                if (carriageReturn && lineFeed) {
-                    return Generators.dataEncoder(replyCommand1 + 0 + row + replyCommand2 + column);
-                } else if (carriageReturn) {
-                    return Generators.dataEncoder(replyCommand1 + 0 + row + replyCommand2 + column);
-                } else if (lineFeed) {
-                    return Generators.dataEncoder(replyCommand1 + 0 + row + replyCommand2 + column);
-                }
+            if (isInteger(row) && isInteger(column)) {
+                return Generators.dataEncoder(replyCommand1 + 0 + row + replyCommand2 + 0 + column);
+            } else if (isInteger(row)) {
                 return Generators.dataEncoder(replyCommand1 + 0 + row + replyCommand2 + column);
+            } else if (isInteger(column)) {
+                return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + 0 + column);
             }
-            return replyCommandFormat(row, column);
-        }
-        return replyCommandFormat(row, column);
-    }
-
-    private String replyCommandFormat(int row, int column) {
-        if (carriageReturn && lineFeed) {
-            return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + column);
-        } else if (carriageReturn) {
-            return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + column);
-        } else if (lineFeed) {
             return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + column);
         }
         return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + column);
@@ -187,6 +174,10 @@ public class FeedbackSequence extends Sequence {
                     "                   </Reply>";
         }
         return result;
+    }
+
+    private static boolean isInteger(int integerPassed) {
+        return String.valueOf(integerPassed).matches("\\b([0-9]|9)\\b");
     }
 
     public void startFromZero() {
