@@ -46,39 +46,30 @@ public class Generators<T> {
     public static String dataEncoder(String dataPassed) {
 
         if (!isHexadecimal(dataPassed)) {
-            dataPassed = dataPassed.toUpperCase();
             StringBuilder resultString = new StringBuilder();
             byte[] byteArr = dataPassed.getBytes(StandardCharsets.US_ASCII);
             for (byte bytePosition : byteArr) {
                 resultString.append(String.format("%02X", bytePosition));
             }
             return resultString.toString();
+        } else {
+            StringBuilder resultString = new StringBuilder();
+            dataPassed = dataPassed.toUpperCase();
+            resultString.append(dataPassed);
+            if (dataPassed.charAt(dataPassed.length() - 2) == '\r' && dataPassed.charAt(dataPassed.length() - 1) == '\n') {
+                resultString.replace(dataPassed.length() - 2, dataPassed.length() - 1, "ODOA");
+            } else if (dataPassed.charAt(dataPassed.length() - 1) == '\r') {
+                resultString.replace(dataPassed.length() - 1, dataPassed.length() - 1, "OD");
+            } else if (dataPassed.charAt(dataPassed.length() - 1) == '\n') {
+                resultString.replace(dataPassed.length() - 1, dataPassed.length() - 1, "OA");
+            }
+
+            return resultString.toString();
         }
 
-        return dataPassed;
     }
-
     protected static boolean isHexadecimal(String s) {
-        boolean carryFlag;
-        s = s.toUpperCase();
-        int n = s.length();
-        for (int i = 0; i < n; i++) {
-            char ch = s.charAt(i);
-            if ((ch < '0' || ch > '9') && (ch < 'A' || ch > 'F')) {
-                carryFlag = isCarriageReturnOrLineFeed(ch);
-            } else {
-                carryFlag = true;
-            }
-            if (!carryFlag) {
-                return carryFlag;
-            }
-        }
-        return true;
+        return s.chars().allMatch(c -> "0123456789ABCDEFabcdef\r\n".indexOf(c) >= 0);
     }
-
-    protected static boolean isCarriageReturnOrLineFeed(char crOrLf) {
-        return crOrLf == '\r' || crOrLf == '\n';
-    }
-
 
 }

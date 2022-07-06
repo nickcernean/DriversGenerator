@@ -5,6 +5,7 @@ import tools.ChecksumCalculator;
 import tools.Generators;
 import tools.WriteToFile;
 
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,7 +30,7 @@ public class CreateControlSequences {
         /*------------------------------------------------------------*/
 
         ControlSequence controlSequence = new ControlSequence(4, "Mute Output", "Off",
-                "ebf3df", "", "", true, true);
+                "Mute ON", "", "", true, false);
 
 //        ControlSequence controlSequence = new ControlSequence(4, "Mute Output", "Off",
 //                "MUTE OUTPUT1", "", "", true, false);
@@ -52,28 +53,5 @@ public class CreateControlSequences {
 //        System.out.println(ChecksumCalculator.hexToBinary("474b169c89969f101286ca894305e9"));
 //        System.out.println(Integer.parseInt("01000111",2));
 
-
-        System.out.println(isHexadecimal("ebf3df33d11fb5c76b11f534ce232771211131"));
-
-    }
-
-    protected static boolean isHexadecimal(String s) {
-        boolean carryFlag;
-        s = s.toUpperCase();
-        int n = s.length();
-        for (int i = 0; i < n; i++) {
-            char ch = s.charAt(i);
-            if ((ch < '0' || ch > '9')
-                    && (ch < 'A' || ch > 'F')) {
-                carryFlag = false;
-            } else {
-                carryFlag = true;
-            }
-            if (!carryFlag)
-            {
-                return carryFlag;
-            }
-        }
-        return true;
     }
 }

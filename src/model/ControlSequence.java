@@ -23,8 +23,9 @@ public class ControlSequence extends Sequence {
     private boolean startFromZero;
 
     private boolean leadingZero;
-    private final static char CR = '\r';
+
     private final static char LF = '\n';
+    private final static char CR = '\r';
 
     public ControlSequence(int rows,int columns,String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
