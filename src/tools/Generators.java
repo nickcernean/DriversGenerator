@@ -17,14 +17,13 @@ public class Generators<T> {
         return objectTypeArray;
     }
 
-    public Object[] sequenceGenerator(Sequence sequence, int rows,int columns) {
+    public Object[] sequenceGenerator(Sequence sequence, int rows, int columns) {
         Object[] objectTypeArray = new Object[rows];
         for (int i = 0; i <= rows - 1; i++) {
             objectTypeArray[i] = sequence.sequence(i, columns);
         }
         return objectTypeArray;
     }
-
 
 
     public static String sequenceNameGenerator() {
@@ -47,19 +46,38 @@ public class Generators<T> {
     public static String dataEncoder(String dataPassed) {
 
         if (!isHexadecimal(dataPassed)) {
+            dataPassed = dataPassed.toUpperCase();
             StringBuilder resultString = new StringBuilder();
-            byte[] byteArr = dataPassed.getBytes(StandardCharsets.ISO_8859_1);
+            byte[] byteArr = dataPassed.getBytes(StandardCharsets.US_ASCII);
             for (byte bytePosition : byteArr) {
                 resultString.append(String.format("%02X", bytePosition));
             }
             return resultString.toString();
-        } else {
-            return dataPassed;
         }
+
+        return dataPassed;
     }
 
     protected static boolean isHexadecimal(String s) {
-        return s.chars().allMatch(c -> "0123456789ABCDEFabcdef".indexOf(c) >= 0);
+        boolean carryFlag;
+        s = s.toUpperCase();
+        int n = s.length();
+        for (int i = 0; i < n; i++) {
+            char ch = s.charAt(i);
+            if ((ch < '0' || ch > '9') && (ch < 'A' || ch > 'F')) {
+                carryFlag = isCarriageReturnOrLineFeed(ch);
+            } else {
+                carryFlag = true;
+            }
+            if (!carryFlag) {
+                return carryFlag;
+            }
+        }
+        return true;
+    }
+
+    protected static boolean isCarriageReturnOrLineFeed(char crOrLf) {
+        return crOrLf == '\r' || crOrLf == '\n';
     }
 
 

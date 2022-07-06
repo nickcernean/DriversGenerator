@@ -29,9 +29,10 @@ public class CreateControlSequences {
         /*------------------------------------------------------------*/
 
         ControlSequence controlSequence = new ControlSequence(4, "Mute Output", "Off",
-                "#MUTE ", ",1", "", true, false);
+                "ebf3df", "", "", true, true);
 
-
+//        ControlSequence controlSequence = new ControlSequence(4, "Mute Output", "Off",
+//                "MUTE OUTPUT1", "", "", true, false);
         //controlSequence.startFromZero();
         // controlSequence.addLeadingZero();
         /* The interface that contains the functions to generate either sequence or matrix*/
@@ -50,5 +51,29 @@ public class CreateControlSequences {
 //        System.out.println(ChecksumCalculator.BitwiseAND("474b169c89969f101286ca894305e9",0,9));
 //        System.out.println(ChecksumCalculator.hexToBinary("474b169c89969f101286ca894305e9"));
 //        System.out.println(Integer.parseInt("01000111",2));
+
+
+        System.out.println(isHexadecimal("ebf3df33d11fb5c76b11f534ce232771211131"));
+
+    }
+
+    protected static boolean isHexadecimal(String s) {
+        boolean carryFlag;
+        s = s.toUpperCase();
+        int n = s.length();
+        for (int i = 0; i < n; i++) {
+            char ch = s.charAt(i);
+            if ((ch < '0' || ch > '9')
+                    && (ch < 'A' || ch > 'F')) {
+                carryFlag = false;
+            } else {
+                carryFlag = true;
+            }
+            if (!carryFlag)
+            {
+                return carryFlag;
+            }
+        }
+        return true;
     }
 }

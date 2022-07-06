@@ -2,7 +2,9 @@ package tools;
 
 import jdk.jshell.spi.ExecutionControl;
 
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
@@ -12,13 +14,20 @@ public class ChecksumCalculator {
 
     public static String Add(String sequenceToCalculate, int startByte, int endByte) {
 
-        byte[] byteArr = sequenceToCalculate.getBytes(StandardCharsets.UTF_8);
-        int ans = byteArr[0];
-        // Traverse the array compute AND
-        for (int i = startByte; i <= endByte-1; i++) {
-            ans = (ans & byteArr[i]);
-        }
-        return String.valueOf(ans);
+//        int result = 0;
+//        // Traverse the array compute AND
+//        result = hexToDecimal((String)sequenceToCalculate.charAt(startByte));
+//        for (int i = startByte; i <= endByte - 1; i++) {
+//            if (i == startByte) {
+//                result = (result & hexToDecimal(sequenceToCalculate.charAt(i+1));
+//                i++;
+//            }
+//            else {
+//                result = (result & hexToDecimal(sequenceToCalculate.charAt(i));
+//            }
+//        }
+//        return decToHexadecimal(result);
+        return "";
     }
 
     public static String BitwiseAND(String argumentToAdd, int startByte, int endByte) {
@@ -213,5 +222,26 @@ public class ChecksumCalculator {
 
         // returning the final hex string
         return hexNumber;
+    }
+
+    public static int hexToDecimal(String hexNumber) {
+        hexNumber = hexNumber.toUpperCase();
+        int len = hexNumber.length();
+        int base = 1;
+        int decimalValue = 0;
+        for (int i = len - 1; i >= 0; i--) {
+            if (hexNumber.charAt(i) >= '0' && hexNumber.charAt(i) <= '9') {
+                decimalValue += (hexNumber.charAt(i) - 48) * base;
+                base = base * 16;
+            } else if (hexNumber.charAt(i) >= 'A' && hexNumber.charAt(i) <= 'F') {
+                decimalValue += (hexNumber.charAt(i) - 55) * base;
+                base = base * 16;
+            }
+        }
+        return decimalValue;
+    }
+
+    public static String decToHexadecimal(int decimalNumber) {
+        return Integer.toHexString(decimalNumber);
     }
 }
