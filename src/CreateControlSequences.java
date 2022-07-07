@@ -30,7 +30,7 @@ public class CreateControlSequences {
         /*------------------------------------------------------------*/
 
         ControlSequence controlSequence = new ControlSequence(4, "Mute Output", "Off",
-                "Mute ON", "", "", true, false);
+                "474b169c0A0A01", "", "", true, false);
 
 //        ControlSequence controlSequence = new ControlSequence(4, "Mute Output", "Off",
 //                "MUTE OUTPUT1", "", "", true, false);
@@ -48,10 +48,12 @@ public class CreateControlSequences {
 
 //        System.out.println(ChecksumCalculator.Add("474b169c89969f101286ca894305e9", 3, 5));
 //
-//       // System.out.println(ChecksumCalculator.hexToBinary("474b169c89969f101286ca894305e9"));
-//        System.out.println(ChecksumCalculator.BitwiseAND("474b169c89969f101286ca894305e9",0,9));
-//        System.out.println(ChecksumCalculator.hexToBinary("474b169c89969f101286ca894305e9"));
-//        System.out.println(Integer.parseInt("01000111",2));
+
+        System.out.println("Adding: " + ChecksumCalculator.Add(" 4b 16 9c 0A 0A ", 1, 5));
+        System.out.println("BitwiseAND: " + ChecksumCalculator.BitwiseAND("474b169c0A0A01", 1, 5));
+        System.out.println("BitwiseOR: " + ChecksumCalculator.BitwiseOR("474b169c0A0A01", 1, 5));
+        System.out.println("Subtract: " + ChecksumCalculator.Subtract("474b169c0A0A01", 1, 5));
+
 
     }
 }

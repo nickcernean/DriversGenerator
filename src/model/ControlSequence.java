@@ -136,6 +136,11 @@ public class ControlSequence extends Sequence {
         return Generators.dataEncoder(command1 + row + command2 + column + command3);
     }
 
+    private void addChecksum() {
+
+
+    }
+
     public void startFromZero() {
         startFromZero = true;
     }

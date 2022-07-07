@@ -14,7 +14,7 @@ public class CreateLevelSequences {
 
         WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
         LevelSequence levelSequence = new LevelSequence(10, "Set Input ", "Left Gain & Mix-Point",
-                LevelSequence.TypeValues.Continous, ESC + "3000", "G", "400", true, false);
+                LevelSequence.TypeValues.InDecrement, ESC + "3000", "G", "400", true, false);
         //LevelSequence levelSequence = new LevelSequence(16, "BiampCount", "1",
         // LevelSequence.TypeValues.Continous, "UpCommand1", "UpCommand1", "UPCommand1",
         // "DOWNCommand1","DOWNCommand1","DOWNCommand1", true, false);
