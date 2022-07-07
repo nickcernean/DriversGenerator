@@ -159,8 +159,8 @@ public class LevelSequence extends Sequence {
                 "              <Command>\n" +
                 "                <Data1>" + dataGenerator(row, column) + "</Data1>\n" +
                 "                <Data2 />\n" +
-                "                <Data3>" + data2Generator(row, column) + "</Data3>\n" +
-                "                <Data4 />\n" +
+                addData3Command(row, column) +
+                "                <Data4/>\n" +
                 "                <CountStart Value=\"" + countStartByte + "\" />\n" +
                 "                <CountStop Value=\"" + countEndByte + "\" />\n" +
                 "                <SecondCountStart Value=\"0\" />\n" +
@@ -232,24 +232,30 @@ public class LevelSequence extends Sequence {
         }
     }
 
-    private String data2Generator(int row, int column) {
+    private String addData3Command(int row, int column) {
         if (typeValues.equals(TypeValues.Continous)) {
-            if (startFromZero) {
-                if (column <= 0) {
-                    return sequenceData(row, downCommand1, downCommand2, carriageReturn, lineFeed);
-                } else {
-                    return matrixData(row, column, downCommand1, downCommand2, downCommand3, carriageReturn, lineFeed);
-                }
-            }
+            return "                <Data3>" + data2Generator(row, column) + "</Data3>\n";
+        }
+        return "                <Data3/>\n";
+    }
+
+    private String data2Generator(int row, int column) {
+        if (startFromZero) {
             if (column <= 0) {
-                row = row + 1;
                 return sequenceData(row, downCommand1, downCommand2, carriageReturn, lineFeed);
             } else {
-                row = row + 1;
-                column = column + 1;
                 return matrixData(row, column, downCommand1, downCommand2, downCommand3, carriageReturn, lineFeed);
             }
-        } else return "<Data3/>\n";
+        }
+        if (column <= 0) {
+            row = row + 1;
+            return sequenceData(row, downCommand1, downCommand2, carriageReturn, lineFeed);
+        } else {
+            row = row + 1;
+            column = column + 1;
+            return matrixData(row, column, downCommand1, downCommand2, downCommand3, carriageReturn, lineFeed);
+        }
+
     }
 
     private static String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed) {
@@ -263,6 +269,7 @@ public class LevelSequence extends Sequence {
     public void startFromZero() {
         this.startFromZero = true;
     }
+
     public void addLeadingZero() {
         this.leadingZero = true;
     }

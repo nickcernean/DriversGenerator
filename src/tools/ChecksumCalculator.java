@@ -244,4 +244,5 @@ public class ChecksumCalculator {
     public static String decToHexadecimal(int decimalNumber) {
         return Integer.toHexString(decimalNumber);
     }
+
 }

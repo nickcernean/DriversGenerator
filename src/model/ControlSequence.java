@@ -27,7 +27,7 @@ public class ControlSequence extends Sequence {
     private final static char LF = '\n';
     private final static char CR = '\r';
 
-    public ControlSequence(int rows,int columns,String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
+    public ControlSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -82,7 +82,7 @@ public class ControlSequence extends Sequence {
     }
 
     static String sequenceDataWithoutLeadingZero(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
-     return  sequenceDataFormat(row, command1, command2, carriageReturn, lineFeed, cr, lf);
+        return sequenceDataFormat(row, command1, command2, carriageReturn, lineFeed, cr, lf);
     }
 
     static String sequenceDataWithLeadingZero(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
@@ -161,7 +161,7 @@ public class ControlSequence extends Sequence {
             row = row + 1;
             column = column + 1;
             if (sequenceCaption2 == null) {
-                return sequenceCaption1 + " " + row + " " + column;
+                return sequenceCaption1 + " " + row;
             } else {
                 return sequenceCaption1 + " " + row + " " + sequenceCaption2 + " " + column;
             }
