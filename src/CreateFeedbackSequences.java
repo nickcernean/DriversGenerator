@@ -23,7 +23,7 @@ public class CreateFeedbackSequences {
          * */
         /*------------------------------------------------------------*/
 
-        FeedbackSequence feedbackSequence = new FeedbackSequence(8, 10, "Audio In Video Input", "State",
+        FeedbackSequence feedbackSequence = new FeedbackSequence(10, 3, "Audio In Video Input", "State",
                 "#AUD-EMB? ", ",0", "Audio In Video State", "", ""
                 , "", "", false, false);
 
