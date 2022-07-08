@@ -30,7 +30,7 @@ public class CreateControlSequences {
         /*------------------------------------------------------------*/
 
         ControlSequence controlSequence = new ControlSequence(4, "Mute Output", "Off",
-                "474b169c0A0A01", "", "", true, true);
+                "474b169c0A0A01", "", true, true);
 
 //        ControlSequence controlSequence = new ControlSequence(4, "Mute Output", "Off",
 //                "MUTE OUTPUT1", "", "", true, false);

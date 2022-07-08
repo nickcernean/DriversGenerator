@@ -13,7 +13,7 @@ public class CreateFeedbackSequences {
          *  Argument 3: name of the command that will be generated
          *  Argument 4: a second name that will be generated /CAN BE NULL/
          *  (e.g. Mute Input 1 On, the "On" will be the second sequence name)
-         *  Argument 5: command that will be generated (Output result: av input 1 On)
+         *  Argument 5: command that will be generated (Output result: av inp   ut 1 On)
          *  Argument 6: a second command that will be generated, if you have any command after the row /CAN BE NULL/
          *  NB: The order of CR and LF will be same as in the object
          *  (e.g. mute output 1 on, "on" will be second part of the command)
@@ -23,12 +23,12 @@ public class CreateFeedbackSequences {
          * */
         /*------------------------------------------------------------*/
 
-        FeedbackSequence feedbackSequence = new FeedbackSequence(10, 3, "Audio In Video Input", "State",
-                "#AUD-EMB? ", ",0", "Audio In Video State", "", "~01@AUD-EMB "
-                , ",0,", "", true, true);
+        FeedbackSequence feedbackSequence = new FeedbackSequence(8, 10, "Audio In Video Input", "State",
+                "#AUD-EMB? ", ",0", "Audio In Video State", "", ""
+                , "", "", false, false);
 
-        feedbackSequence.addLeadingZero();
-        feedbackSequence.startFromZero();
+        //feedbackSequence.addLeadingZero();
+        //feedbackSequence.startFromZero();
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator feedbackGenerator = new FeedbackGenerator(feedbackSequence);
 

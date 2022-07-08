@@ -3,8 +3,7 @@ import logic.ControlGenerator;
 import model.ControlSequence;
 import tools.WriteToFile;
 
-public class CreateControlMatrixSequences{
-
+public class CreateControlMatrixSequences {
 
 
     /*             Create Matrix Control Sequences      */
@@ -32,7 +31,7 @@ public class CreateControlMatrixSequences{
          *
          *  */
 
-        ControlSequence matrixSequence = new ControlSequence(8,3,"Set Audio In Video Input ", "to Status ",
+        ControlSequence matrixSequence = new ControlSequence(10, 8, "Set Audio In Video Input ", "to Status ",
                 "", "*", "!", false, false);
         /* The function that generates the control matrices,
          * be aware that in order to generate the sequence the column should not be -1 or 0!!!

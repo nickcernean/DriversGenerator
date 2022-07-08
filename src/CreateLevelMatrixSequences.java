@@ -10,7 +10,7 @@ public class CreateLevelMatrixSequences  {
 
         WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
         LevelSequence matrixLevelSequence = new LevelSequence(8, 2, "Mute Analog ", "Output On",
-                LevelSequence.TypeValues.InDecrement, "SET/MEDIA/STREAMS/AUDIO/D", "O", "/PORT.VolumePercent=30", true, true);
+                LevelSequence.TypeValues.InDecrement, "SET/MEDIA/STREAMS/AUDIO/D", "O", "/PORT.VolumePercent=30", false, false);
         /* To add counter to the level sequence remove each of the ´//´ before the line */
 
         /* To add string counter to the level sequence */

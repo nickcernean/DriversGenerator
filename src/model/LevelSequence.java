@@ -80,7 +80,7 @@ public class LevelSequence extends Sequence {
         this.leadingZero = false;
     }
 
-    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
+    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String command1, @Nullable String command2, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -89,7 +89,7 @@ public class LevelSequence extends Sequence {
         this.sequenceCaption2 = sequenceCaption2;
         this.command1 = command1;
         this.command2 = command2;
-        this.command3 = command3;
+        this.command3 = "";
         this.downCommand1 = null;
         this.downCommand2 = null;
         this.downCommand3 = null;
@@ -149,7 +149,9 @@ public class LevelSequence extends Sequence {
         this.leadingZero = false;
     }
 
-    @Override
+    public String sequence1(int row, int column) {
+        return "";
+    }
     public String sequence(int row, int column) {
         return "<Sequence Name=\"" + Generators.sequenceNameGenerator() + "\" Caption=\"" + sequenceCaptionGenerator(row, column) + "\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" Deletable=\"True\" SequenceType=\"Volume\" UseHeaderFooter=\"True\">\n" +
                 "              <Description />\n" +
@@ -159,15 +161,15 @@ public class LevelSequence extends Sequence {
                 "                <Data1>" + dataGenerator(row, column) + "</Data1>\n" +
                 "                <Data2 />\n" +
                 addData3Command(row, column) +
-                "                <Data4/>\n" +
-                "                <CountStart Value=\"" + countStartByte + "\" />\n" +
+                "                <Data4 />\n" +
+                "                <CountStart Value= \"" + countStartByte + "\" />\n" +
                 "                <CountStop Value=\"" + countEndByte + "\" />\n" +
                 "                <SecondCountStart Value=\"0\" />\n" +
                 "                <SecondCountStop Value=\"0\" />\n" +
                 "                <Delay Value=\"500\" />\n" +
                 "                <Delay2 Value=\"500\" />\n" +
                 "                <MinimumVolume Value=\"" + minimumValue + "\" />\n" +
-                "                <MaximumVolume Value=\"" + maximumValue + "\" />\n" +
+                "                <MaximumVolume Value=\"" + maximumValue + "\"/>\n" +
                 "                <VolumeStep Value=\"" + stepValue + "\" />\n" +
                 "                <RepeatSpeed Value=\"" + repeatSpeed + "\" />\n" +
                 "                <CountType Value=\"" + countType + "\" />\n" +
@@ -185,11 +187,9 @@ public class LevelSequence extends Sequence {
                 "                  <CRCBitNumber>0</CRCBitNumber>\n" +
                 "                </CheckSum>\n" +
                 "                <CountFormat Value=\"" + countFormat + "\" />\n" +
-                "                <AddLeadingZeros>" + leadingZero + "</AddLeadingZeros>\n" +
                 "              </Command>\n" +
-                "            </Sequence>";
+                "</Sequence>\n";
     }
-
 
     public void addStringCounter(int startByte, int endByte, CountFormat countFormat, int repeatSpeed, int stepValue, int minimumValue, int maximumValue) {
         this.countStartByte = startByte;
@@ -215,13 +215,13 @@ public class LevelSequence extends Sequence {
 
     private String dataGenerator(int row, int column) {
         if (startFromZero) {
-            if (column <= 0) {
+            if (column < 0) {
                 return sequenceData(row, command1, command2, carriageReturn, lineFeed);
             } else {
                 return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed);
             }
         }
-        if (column <= 0) {
+        if (column < 0) {
             row = row + 1;
             return sequenceData(row, command1, command2, carriageReturn, lineFeed);
         } else {
@@ -235,7 +235,7 @@ public class LevelSequence extends Sequence {
         if (typeValues.equals(TypeValues.Continous)) {
             return "                <Data3>" + data2Generator(row, column) + "</Data3>\n";
         }
-        return "                <Data3/>\n";
+        return "                <Data3 />\n";
     }
 
     private String data2Generator(int row, int column) {

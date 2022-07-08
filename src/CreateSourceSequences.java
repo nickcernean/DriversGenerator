@@ -10,10 +10,10 @@ public class CreateSourceSequences {
 
         WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
 
-        SourceSequence sourceSequence = new SourceSequence(16, "Switch Audio Output Mic", "", "< SET ", " AUDIO_OUT_LVL_SWITCH MIC_LVL >", "", false, false);
+        SourceSequence sourceSequence = new SourceSequence(16, "Switch Audio Output Mic", "", "< SET ", " AUDIO_OUT_LVL_SWITCH MIC_LVL >", "", true, true);
 
-        //sourceSequence.startFromZero();
-        //sourceSequence.addLeadingZero();
+        sourceSequence.startFromZero();
+        sourceSequence.addLeadingZero();
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator sourceGenerator = new SourceGenerator(sourceSequence);
 
