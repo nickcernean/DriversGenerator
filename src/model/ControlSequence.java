@@ -61,7 +61,7 @@ public class ControlSequence extends Sequence {
             if (column < 0) {
                 return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
             } else {
-                return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+                return sequenceMatrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
             }
         }
         if (column < 0) {
@@ -70,7 +70,7 @@ public class ControlSequence extends Sequence {
         } else {
             row = row + 1;
             column = column + 1;
-            return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+            return sequenceMatrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
         }
     }
 
@@ -111,11 +111,15 @@ public class ControlSequence extends Sequence {
     }
 
 
-    private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
-        return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
+    private String sequenceMatrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+        if (leadingZero) {
+            return sequenceMatrixDataWithLeadingZero(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
+        }
+        return sequenceMatrixDataFormat(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
     }
 
-    static String getString(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+    static String sequenceMatrixDataWithLeadingZero(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+
         if (String.valueOf(row).matches("\\b([0-9]|9)\\b") && String.valueOf(column).matches("\\b([0-9]|9)\\b")) {
             if (carriageReturn && lineFeed) {
                 return Generators.dataEncoder(command1 + 0 + row + command2 + 0 + column + command3 + cr + lf);
@@ -126,6 +130,10 @@ public class ControlSequence extends Sequence {
             }
             return Generators.dataEncoder(command1 + 0 + row + command2 + 0 + column + command3);
         }
+        return sequenceMatrixDataFormat(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
+    }
+
+    static String sequenceMatrixDataFormat(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
         if (carriageReturn && lineFeed) {
             return Generators.dataEncoder(command1 + row + command2 + column + command3 + cr + lf);
         } else if (carriageReturn) {

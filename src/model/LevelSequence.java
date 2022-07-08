@@ -3,8 +3,7 @@ package model;
 import org.jetbrains.annotations.Nullable;
 import tools.Generators;
 
-import static model.ControlSequence.getString;
-import static model.ControlSequence.sequenceDataWithoutLeadingZero;
+import static model.ControlSequence.*;
 
 public class LevelSequence extends Sequence {
     public enum CountType {
@@ -258,12 +257,18 @@ public class LevelSequence extends Sequence {
 
     }
 
-    private static String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed) {
+    private String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed) {
+        if (leadingZero) {
+            return sequenceDataWithLeadingZero(row, command1, command2, carriageReturn, lineFeed, LevelSequence.CR, LevelSequence.LF);
+        }
         return sequenceDataWithoutLeadingZero(row, command1, command2, carriageReturn, lineFeed, LevelSequence.CR, LevelSequence.LF);
     }
 
-    private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed) {
-        return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, LevelSequence.CR, LevelSequence.LF);
+    private String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed) {
+        if (leadingZero) {
+            return sequenceMatrixDataWithLeadingZero(row, column, command1, command2, command3, carriageReturn, lineFeed, LevelSequence.CR, LevelSequence.LF);
+        }
+        return sequenceMatrixDataFormat(row, column, command1, command2, command3, carriageReturn, lineFeed, LevelSequence.CR, LevelSequence.LF);
     }
 
     public void startFromZero() {

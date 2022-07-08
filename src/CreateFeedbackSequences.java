@@ -23,11 +23,11 @@ public class CreateFeedbackSequences {
          * */
         /*------------------------------------------------------------*/
 
-        FeedbackSequence feedbackSequence = new FeedbackSequence(13, 3, "Audio In Video Input", "State",
+        FeedbackSequence feedbackSequence = new FeedbackSequence(10, 3, "Audio In Video Input", "State",
                 "#AUD-EMB? ", ",0", "Audio In Video State", "", "~01@AUD-EMB "
-                , ",0,", "", true, false);
+                , ",0,", "", true, true);
 
-        //feedbackSequence.addLeadingZero();
+        feedbackSequence.addLeadingZero();
         feedbackSequence.startFromZero();
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator feedbackGenerator = new FeedbackGenerator(feedbackSequence);

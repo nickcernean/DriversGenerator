@@ -105,13 +105,17 @@ public class SourceSequence extends Sequence {
         return sequenceDataWithoutLeadingZero(row, command1, command2, carriageReturn, lineFeed, cr, lf);
     }
 
-    private static String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
-        return getString(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
+    private String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+        if (leadingZero) {
+            return sequenceMatrixDataWithLeadingZero(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
+        }
+        return sequenceMatrixDataFormat(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
     }
 
     public void startFromZero() {
         startFromZero = true;
     }
+
     public void addLeadingZero() {
         leadingZero = true;
     }
