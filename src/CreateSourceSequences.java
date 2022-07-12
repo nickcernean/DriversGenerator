@@ -8,7 +8,7 @@ public class CreateSourceSequences {
 
     public static void main(String[] args) {
 
-        WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
+        WriteToFile fileWriter = new WriteToFile();
 
         SourceSequence sourceSequence = new SourceSequence(16, "Switch Audio Output Mic", "", "< SET ", " AUDIO_OUT_LVL_SWITCH MIC_LVL >", "", true, true);
 

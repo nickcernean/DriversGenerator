@@ -3,9 +3,13 @@ package model;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tools.ChecksumCalculator;
 import tools.Generators;
 
 public class ControlSequence extends Sequence {
+    public enum ChecksumType {
+        ADD, SUBTRACT, BITWISE_AND, BITWISE_OR
+    }
 
     private final int rows;
     private final int columns;
@@ -144,9 +148,16 @@ public class ControlSequence extends Sequence {
         return Generators.dataEncoder(command1 + row + command2 + column + command3);
     }
 
-    private void addChecksum() {
+    public String addChecksum(ChecksumType checksumType, int startByte, int endByte) {
+
+       /* switch (checksumType) {
+            case ADD:
+                return
 
 
+
+        }*/
+        return "";
     }
 
     public void startFromZero() {

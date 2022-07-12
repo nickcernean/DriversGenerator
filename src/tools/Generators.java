@@ -63,10 +63,8 @@ public class Generators<T> {
             } else if (dataPassed.charAt(dataPassed.length() - 1) == '\n') {
                 resultString.replace(dataPassed.length() - 1, dataPassed.length() - 1, "OA");
             }
-
             return resultString.toString();
         }
-
     }
 
     protected static boolean isHexadecimal(String hexadecimalPassed) {
