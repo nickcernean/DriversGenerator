@@ -203,8 +203,4 @@ public class ControlSequence extends Sequence {
         return columns;
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

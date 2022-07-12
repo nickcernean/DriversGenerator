@@ -23,9 +23,9 @@ public class CreateFeedbackSequences {
          * */
         /*------------------------------------------------------------*/
 
-        FeedbackSequence feedbackSequence = new FeedbackSequence(10, 3, "Audio In Video Input", "State",
-                "#AUD-EMB? ", ",0", "Audio In Video State", "", ""
-                , "", "", false, false);
+        FeedbackSequence feedbackSequence = new FeedbackSequence(10, 3, "Audio In Video Input1", "State",
+                "120A0B0C0D0E0F", "", "Test Caption", "to", ""
+                , "120A0B0C0D0E0F", "", FeedbackSequence.ReplyDataFormat.RowAndColumn, false, false);
 
         //feedbackSequence.addLeadingZero();
         //feedbackSequence.startFromZero();
@@ -37,8 +37,6 @@ public class CreateFeedbackSequences {
          * be aware that in order to generate the sequence the column has to be initialized to -1!!!
          *
          *  */
-
         fileWriter.writeTo(feedbackGenerator.generateSequence());
-        System.out.println(String.valueOf(9).matches("\\b([0-9]|9)\\b"));
     }
 }

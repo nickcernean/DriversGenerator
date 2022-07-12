@@ -81,7 +81,7 @@ public class SourceSequence extends Sequence {
             if (column <= 0) {
                 return sequenceData(row, command1, command2, carriageReturn, lineFeed, CR, LF);
             } else {
-                return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+                return sequenceMatrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
             }
         }
         if (column <= 0) {
@@ -90,7 +90,7 @@ public class SourceSequence extends Sequence {
         } else {
             row = row + 1;
             column = column + 1;
-            return matrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
+            return sequenceMatrixData(row, column, command1, command2, command3, carriageReturn, lineFeed, CR, LF);
         }
     }
 
@@ -105,7 +105,7 @@ public class SourceSequence extends Sequence {
         return sequenceDataWithoutLeadingZero(row, command1, command2, carriageReturn, lineFeed, cr, lf);
     }
 
-    private String matrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
+    private String sequenceMatrixData(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
         if (leadingZero) {
             return sequenceMatrixDataWithLeadingZero(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
         }

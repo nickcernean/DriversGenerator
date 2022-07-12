@@ -30,13 +30,13 @@ public class CreateControlSequences {
         /*------------------------------------------------------------*/
 
         ControlSequence controlSequence = new ControlSequence(4, "Mute Output", "Off",
-                "474b169c0A0A01", "", true, true);
+                "120A0B0C0D0E0F", "", false, false);
 
 //        ControlSequence controlSequence = new ControlSequence(4, "Mute Output", "Off",
 //                "MUTE OUTPUT1", "", "", true, false);
 
-        controlSequence.startFromZero();
-        controlSequence.addLeadingZero();
+        //controlSequence.startFromZero();
+        //controlSequence.addLeadingZero();
         /* The interface that contains the functions to generate either sequence or matrix*/
         ISequencesGenerator controlGenerator = new ControlGenerator(controlSequence);
 
