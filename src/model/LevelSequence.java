@@ -47,14 +47,14 @@ public class LevelSequence extends Sequence {
     private final String downCommand3;
     private int countStartByte;
     private int countEndByte;
+    private int repeatSpeed;
     private final static char CR = '\r';
     private final static char LF = '\n';
-    private int repeatSpeed;
+    private boolean startFromZero;
+    private boolean leadingZero;
     private CountType countType;
     private ByteOrder byteOrder;
     private CountFormat countFormat;
-    private boolean startFromZero;
-    private boolean leadingZero;
 
 
     public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
@@ -149,9 +149,6 @@ public class LevelSequence extends Sequence {
         this.leadingZero = false;
     }
 
-    public String sequence1(int row, int column) {
-        return "";
-    }
     public String sequence(int row, int column) {
         return "<Sequence Name=\"" + Generators.sequenceNameGenerator() + "\" Caption=\"" + sequenceCaptionGenerator(row, column) + "\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" Deletable=\"True\" SequenceType=\"Volume\" UseHeaderFooter=\"True\">\n" +
                 "              <Description />\n" +
@@ -160,7 +157,7 @@ public class LevelSequence extends Sequence {
                 "              <Command>\n" +
                 "                <Data1>" + dataGenerator(row, column) + "</Data1>\n" +
                 "                <Data2 />\n" +
-                addData3Command(row, column) +
+                data3Command(row, column) +
                 "                <Data4 />\n" +
                 "                <CountStart Value= \"" + countStartByte + "\" />\n" +
                 "                <CountStop Value=\"" + countEndByte + "\" />\n" +
@@ -231,7 +228,7 @@ public class LevelSequence extends Sequence {
         }
     }
 
-    private String addData3Command(int row, int column) {
+    private String data3Command(int row, int column) {
         if (typeValues.equals(TypeValues.Continous)) {
             return "                <Data3>" + data2Generator(row, column) + "</Data3>\n";
         }

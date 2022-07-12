@@ -68,8 +68,9 @@ public class Generators<T> {
         }
 
     }
-    protected static boolean isHexadecimal(String s) {
-        return s.chars().allMatch(c -> "0123456789ABCDEFabcdef\r\n".indexOf(c) >= 0);
+
+    protected static boolean isHexadecimal(String hexadecimalPassed) {
+        return hexadecimalPassed.chars().allMatch(hexadecimalSequence -> "0123456789ABCDEFabcdef\r\n".indexOf(hexadecimalSequence) >= 0);
     }
 
 }
