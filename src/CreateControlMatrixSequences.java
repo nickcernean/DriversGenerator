@@ -9,7 +9,7 @@ public class CreateControlMatrixSequences {
     /*             Create Matrix Control Sequences      */
     public static void main(String[] args) {
 
-        WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
+        WriteToFile fileWriter = new WriteToFile();
 
         /* Object to be used to generate control sequences*/
         /*  Argument 1: number of commands to be generated

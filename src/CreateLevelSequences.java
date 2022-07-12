@@ -3,8 +3,6 @@ import logic.LevelGenerator;
 import model.LevelSequence;
 import tools.WriteToFile;
 
-import java.nio.charset.Charset;
-
 
 public class CreateLevelSequences {
     private static String ESC = Character.toString((char) 27);
@@ -12,7 +10,7 @@ public class CreateLevelSequences {
     public static void main(String[] args) {
 
 
-        WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
+        WriteToFile fileWriter = new WriteToFile();
         LevelSequence levelSequence = new LevelSequence(10, "Set Input ", "Left Gain Mix-Point",
                 LevelSequence.TypeValues.InDecrement, "120A0B0C0D0E0F", "    ", false, false);
         //LevelSequence levelSequence = new LevelSequence(16, "BiampCount", "1",

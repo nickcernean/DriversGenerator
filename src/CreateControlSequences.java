@@ -1,17 +1,11 @@
 import interfaces.ISequencesGenerator;
 import logic.ControlGenerator;
 import model.ControlSequence;
-import tools.ChecksumCalculator;
-import tools.Generators;
 import tools.WriteToFile;
-
-import java.nio.charset.StandardCharsets;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CreateControlSequences {
     public static void main(String[] args) {
-        WriteToFile fileWriter = new WriteToFile(WriteToFile.WORKDESTINATION);
+        WriteToFile fileWriter = new WriteToFile();
 
         /* Object to be used to generate control sequences*/
         /*  Argument 1: number of rows to be generated
@@ -32,9 +26,6 @@ public class CreateControlSequences {
         ControlSequence controlSequence = new ControlSequence(4, "Mute Output", "Off",
                 "120A0B0C0D0E0F", "", false, false);
 
-//        ControlSequence controlSequence = new ControlSequence(4, "Mute Output", "Off",
-//                "MUTE OUTPUT1", "", "", true, false);
-
         //controlSequence.startFromZero();
         //controlSequence.addLeadingZero();
         /* The interface that contains the functions to generate either sequence or matrix*/
@@ -46,15 +37,5 @@ public class CreateControlSequences {
          *  */
 
         fileWriter.writeTo(controlGenerator.generateSequence());
-
-//        System.out.println(ChecksumCalculator.Add("474b169c89969f101286ca894305e9", 3, 5));
-//
-
-        System.out.println("Adding: " + ChecksumCalculator.Add(" 4b 16 9c 0A 0A ", 1, 5));
-        System.out.println("BitwiseAND: " + ChecksumCalculator.BitwiseAND("474b169c0A0A01", 1, 5));
-        System.out.println("BitwiseOR: " + ChecksumCalculator.BitwiseOR("474b169c0A0A01", 1, 5));
-        System.out.println("Subtract: " + ChecksumCalculator.Subtract("474b169c0A0A01", 1, 5));
-
-
     }
 }
