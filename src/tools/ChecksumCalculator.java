@@ -1,4 +1,7 @@
 package tools;
+
+import java.util.Arrays;
+
 public class ChecksumCalculator {
 
 
@@ -55,6 +58,23 @@ public class ChecksumCalculator {
             }
         }
         return decToHexadecimal(result);
+    }
+
+    public static String placeChecksumResult(String sequenceToCalculate, String checksumResult, int checksumByte) {
+        String[] hexToModify = stringToHexArray(sequenceToCalculate);
+        hexToModify[checksumByte] = checksumResult;
+
+        String newarr[] = new String[hexToModify.length + 1];
+
+        for (int i = 0; i < hexToModify.length + 1; i++) {
+            if (i < checksumByte - 1)
+                newarr[i] = hexToModify[i];
+            else if (i == checksumByte - 1)
+                newarr[i] = checksumResult;
+            else
+                newarr[i] = hexToModify[i - 1];
+        }
+        return Arrays.toString(newarr);
     }
 
     public static String Subtract(String sequenceToCalculate, int startByte, int endByte) {
