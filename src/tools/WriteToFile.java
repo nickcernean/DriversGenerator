@@ -15,7 +15,6 @@ public class WriteToFile {
 
     public WriteToFile() {
         loadTheUserPath();
-
         fileObject = new File(DESTINATION);
         dateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
     }

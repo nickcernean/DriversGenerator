@@ -149,6 +149,7 @@ public class LevelSequence extends Sequence {
         this.leadingZero = false;
     }
 
+
     public String sequence(int row, int column) {
         return "<Sequence Name=\"" + Generators.sequenceNameGenerator() + "\" Caption=\"" + sequenceCaptionGenerator(row, column) + "\" DeviceMenu=\"True\" ProjectMenu=\"True\" Selectable=\"True\" Deletable=\"True\" SequenceType=\"Volume\" UseHeaderFooter=\"True\">\n" +
                 "              <Description />\n" +

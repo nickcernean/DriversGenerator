@@ -27,6 +27,7 @@ public class ControlSequence extends Sequence {
     private boolean startFromZero;
 
     private boolean leadingZero;
+    private boolean checksum;
 
     private final static char LF = '\n';
     private final static char CR = '\r';
@@ -43,6 +44,7 @@ public class ControlSequence extends Sequence {
         this.command3 = command3;
         this.startFromZero = false;
         this.leadingZero = false;
+        this.checksum = false;
     }
 
     public ControlSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, boolean carriageReturn, boolean lineFeed) {
@@ -57,7 +59,7 @@ public class ControlSequence extends Sequence {
         this.command3 = "";
         this.startFromZero = false;
         this.leadingZero = false;
-
+        this.checksum = false;
     }
 
     private String dataGenerator(int row, int column) {
@@ -149,15 +151,12 @@ public class ControlSequence extends Sequence {
     }
 
     public String addChecksum(ChecksumType checksumType, int startByte, int endByte) {
-
-       /* switch (checksumType) {
-            case ADD:
-                return
-
-
-
-        }*/
-        return "";
+        return switch (checksumType) {
+            case ADD -> ChecksumCalculator.Add("", startByte, endByte);
+            case SUBTRACT -> ChecksumCalculator.Subtract("", startByte, endByte);
+            case BITWISE_AND -> ChecksumCalculator.BitwiseAND("", startByte, endByte);
+            case BITWISE_OR -> ChecksumCalculator.BitwiseOR("", startByte, endByte);
+        };
     }
 
     public void startFromZero() {
@@ -166,6 +165,9 @@ public class ControlSequence extends Sequence {
 
     public void addLeadingZero() {
         leadingZero = true;
+    }
+    public void addChecksum() {
+        checksum = true;
     }
 
     private String sequenceCaptionGenerator(int row, int column) {

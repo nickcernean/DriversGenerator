@@ -10,29 +10,37 @@ public class CreateSourceMatrixSequences {
 
         WriteToFile fileWriter = new WriteToFile();
 
-        /* Object to be used to generate control sequences*/
-        /*  Argument 1: number of rows to be generated
-         *  Argument 2: number of columns to be generated (relevant for matrices)
-         *  Argument 3: name of the command that will be generated
-         *  Argument 4: a second name that will be generated /CAN BE NULL/
-         *  (e.g. Mute Input 1 On, the "On" will be the second sequence name)
-         *  Argument 5: command that will be generated (Output result: av input 1 On)
-         *  Argument 6: a second command that will be generated, if you have any command after the row /CAN BE NULL/
-         *  NB: The order of CR and LF will be same as in the object
-         *  (e.g. mute output 1 on, "on" will be second part of the command)
-         *  Argument 7: will the carriage return be generated or not (CAN BE TRUE/FALSE)
-         *  Argument 8: will the line feed be generated or not (CAN BE TRUE/FALSE)
-         * NB: The order of CR and LF will be same as in the object
-         * */
+        /*comment Object to be used to generate control sequences
+         *  {rows}: number of rows in the matrix to be generated
+         *  {columns}: number of columns in the matrix to be generated
+         *  {sequenceCaption1}: first name of the command that will be generated
+         *  {sequenceCaption2}:  a second name that will be generated (e.g. Mute Input 1 On, the "On" will be the second sequence name)
+         *  {command1}: the first part of the command that will be generated (Output result: av input 1 On)
+         *  {command2}:a second command that will be generated, if you have any command after the row
+         *  {command3}:a third command that will be generated, will be inserted after column in the command sequence.(e.g. mute output 1 on, "on" will be second part of the command)
+         *  {carriageReturn}: will the carriage return be generated or not (CAN BE TRUE/FALSE)
+         *  {lineFeed}: will the line feed be generated or not (CAN BE TRUE/FALSE)
+         *  caution//CAUTION!!
+         *   1) The order of CR and LF will be same as in the object
+         *   2) if you don't want to have a second sequenceCaption2 or command2, just leave the field empty
+         *   3) do not insert any special character nor sequenceCaption1 or sequenceCaption2 (e.g. !"#¤%&/()=?)
+         */
 
-        /*------------------------------------------------------------*/
 
+        /*caution//------------------------------------------------------------*/
+        //comment// Changes to be made here
         SourceSequence matrixSourceSequence = new SourceSequence(30, 30, "Switch Input", "to Output",
                 "CALL/MEDIA/XP/VIDEO:switch(I", ":O", ")", true, true);
-        /* The function that generates the control matrices,
-         * be aware that in order to generate the sequence the column should not be -1!!!
-         *
-         *  */
+        /*caution//------------------------------------------------------------*/
+
+        /* comment// the following function will start counting from zero.
+         * caution// to remove this function simply add '//'*/
+        //matrixSourceSequence.startFromZero();
+
+        /* comment// the following function will add a zero to digits from 0-9.
+         * caution// to remove this function simply add '//'*/
+        //matrixSourceSequence.addLeadingZero();
+
         ISequencesGenerator matrixSourceSequenceGenerator = new SourceGenerator(matrixSourceSequence);
 
 
