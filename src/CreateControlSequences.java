@@ -42,9 +42,8 @@ public class CreateControlSequences {
 
         ISequencesGenerator controlGenerator = new ControlGenerator(controlSequence);
 
-
-        System.out.println(ChecksumCalculator.placeChecksumResult("12 0A 0B 0C 0D 0E 0F", ChecksumCalculator.Add("120A0B0C0D0E0F", 2, 5), 6));
-
         fileWriter.writeTo(controlGenerator.generateSequence());
+
     }
+
 }

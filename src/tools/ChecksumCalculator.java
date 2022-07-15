@@ -1,9 +1,10 @@
 package tools;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ChecksumCalculator {
-
 
     public static String Add(String sequenceToCalculate, int startByte, int endByte) {
         String[] hexToCalculate = stringToHexArray(sequenceToCalculate);
@@ -61,20 +62,18 @@ public class ChecksumCalculator {
     }
 
     public static String placeChecksumResult(String sequenceToCalculate, String checksumResult, int checksumByte) {
+
         String[] hexToModify = stringToHexArray(sequenceToCalculate);
-        hexToModify[checksumByte] = checksumResult;
 
-        String newarr[] = new String[hexToModify.length + 1];
+        List<String> list = new ArrayList<>(Arrays.asList(hexToModify));
 
-        for (int i = 0; i < hexToModify.length + 1; i++) {
-            if (i < checksumByte - 1)
-                newarr[i] = hexToModify[i];
-            else if (i == checksumByte - 1)
-                newarr[i] = checksumResult;
-            else
-                newarr[i] = hexToModify[i - 1];
+        if (checksumByte <= hexToModify.length - 1) {
+            list.add(checksumByte - 1, checksumResult);
+        } else {
+            list.add(checksumResult);
         }
-        return Arrays.toString(newarr);
+        hexToModify = list.toArray(hexToModify);
+        return Arrays.toString(hexToModify);
     }
 
     public static String Subtract(String sequenceToCalculate, int startByte, int endByte) {
