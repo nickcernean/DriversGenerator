@@ -131,7 +131,7 @@ public class Converter {
     }
 
     protected static boolean isHexadecimal(String hexadecimalPassed) {
-        return hexadecimalPassed.chars().allMatch(hexadecimalSequence -> "0123456789ABCDEFabcdef\r\n".indexOf(hexadecimalSequence) >= 0);
+        return hexadecimalPassed.chars().allMatch(hexadecimalSequence -> "0123456789ABCDEFabcdef\r\n ".indexOf(hexadecimalSequence) >= 0);
     }
 
 

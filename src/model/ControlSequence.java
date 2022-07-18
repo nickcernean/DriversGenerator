@@ -30,6 +30,11 @@ public class ControlSequence extends Sequence {
     private boolean startFromZero;
 
     private boolean leadingZero;
+    private int startByteChecksum;
+    private int endByteChecksum;
+    private ChecksumType checksumType;
+    private int checksumOnByte;
+
     private boolean checksum;
 
     private final static char LF = '\n';
@@ -63,6 +68,13 @@ public class ControlSequence extends Sequence {
         this.startFromZero = false;
         this.leadingZero = false;
         this.checksum = false;
+    }
+
+    private String dataGeneratorWithChecksum(int row, int column) {
+        if (checksum) {
+            return ChecksumCalculator.placeChecksumResult(dataGenerator(row, column), calculateChecksum(dataGenerator(row, column), checksumType, startByteChecksum, endByteChecksum), checksumOnByte);
+        }
+        return dataGenerator(row, column);
     }
 
     private String dataGenerator(int row, int column) {
@@ -131,13 +143,13 @@ public class ControlSequence extends Sequence {
 
         if (isInteger(row) && isInteger(column)) {
             if (carriageReturn && lineFeed) {
-                return Converter.dataEncoder(command1 + 0, row, command2+ 0, column, command3, cr, lf);
+                return Converter.dataEncoder(command1 + 0, row, command2 + 0, column, command3, cr, lf);
             } else if (carriageReturn) {
-                return Converter.dataEncoder(command1 + 0, row, command2+ 0, column, command3, cr, ' ');
+                return Converter.dataEncoder(command1 + 0, row, command2 + 0, column, command3, cr, ' ');
             } else if (lineFeed) {
-                return Converter.dataEncoder(command1 + 0, row, command2+ 0, column, command3, ' ', lf);
+                return Converter.dataEncoder(command1 + 0, row, command2 + 0, column, command3, ' ', lf);
             }
-            return Converter.dataEncoder(command1 + 0, row, command2+ 0, column, command3, ' ', ' ');
+            return Converter.dataEncoder(command1 + 0, row, command2 + 0, column, command3, ' ', ' ');
         }
         return sequenceMatrixDataFormat(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
     }
@@ -153,12 +165,12 @@ public class ControlSequence extends Sequence {
         return Converter.dataEncoder(command1, row, command2, column, command3, ' ', ' ');
     }
 
-    public String addChecksum(ChecksumType checksumType, int startByte, int endByte) {
+    public String calculateChecksum(String sequenceToCalculate, ChecksumType checksumType, int startByte, int endByte) {
         return switch (checksumType) {
-            case ADD -> ChecksumCalculator.Add("", startByte, endByte);
-            case SUBTRACT -> ChecksumCalculator.Subtract("", startByte, endByte);
-            case BITWISE_AND -> ChecksumCalculator.BitwiseAND("", startByte, endByte);
-            case BITWISE_OR -> ChecksumCalculator.BitwiseOR("", startByte, endByte);
+            case ADD -> ChecksumCalculator.Add(sequenceToCalculate, startByte, endByte);
+            case SUBTRACT -> ChecksumCalculator.Subtract(sequenceToCalculate, startByte, endByte);
+            case BITWISE_AND -> ChecksumCalculator.BitwiseAND(sequenceToCalculate, startByte, endByte);
+            case BITWISE_OR -> ChecksumCalculator.BitwiseOR(sequenceToCalculate, startByte, endByte);
         };
     }
 
@@ -170,8 +182,12 @@ public class ControlSequence extends Sequence {
         leadingZero = true;
     }
 
-    public void addChecksum() {
-        checksum = true;
+    public void addChecksum(ChecksumType checksumType, int startByte, int endByte, int placeChecksumOnByte) {
+        this.checksum = true;
+        this.checksumType = checksumType;
+        this.startByteChecksum = startByte;
+        this.endByteChecksum = endByte;
+        this.checksumOnByte = placeChecksumOnByte;
     }
 
     private String sequenceCaptionGenerator(int row, int column) {
@@ -204,7 +220,7 @@ public class ControlSequence extends Sequence {
                 + "<Description />\n"
                 + "<Image />\n"
                 + "<Command>\n"
-                + "<Data1>" + dataGenerator(row, column) + "</Data1>\n"
+                + "<Data1>" + dataGeneratorWithChecksum(row, column) + "</Data1>\n"
                 + "<Data2 />\n"
                 + "<Lock1 Value=\"100\" />\n"
                 + "<Lock2 Value=\"2\" />\n"
@@ -215,6 +231,7 @@ public class ControlSequence extends Sequence {
     private static boolean isInteger(int integerPassed) {
         return String.valueOf(integerPassed).matches("\\b([0-9]|9)\\b");
     }
+
     public int getRows() {
         return rows;
     }

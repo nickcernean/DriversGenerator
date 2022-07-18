@@ -31,7 +31,7 @@ public class CreateControlSequences {
         /*caution//------------------------------------------------------------*/
         //comment// Changes to be made here
         ControlSequence controlSequence = new ControlSequence(25, "Mute Output15", "Off",
-                "120A0B0C0D0E0F", "", true, true);
+                "12131415", "", true, true);
         /*caution------------------------------------------------------------*/
 
         /* comment// the following function will start counting from zero.
@@ -44,9 +44,16 @@ public class CreateControlSequences {
          */
         //controlSequence.addLeadingZero();
 
+        /* comment// the following function will calculate the checksum for the control sequence.
+         * caution// to remove this function simply add '//'
+         * Even though the checksum is placed after the end byte of the sequence, the checksum will be placed on the last byte
+         * (e.g. length of the command is 5 bytes and checksum is placed on the 7'th, the checksum will be placed on the 6'th byte)
+         */
+        controlSequence.addChecksum(ControlSequence.ChecksumType.ADD,1,4,6);
 
         ISequencesGenerator controlGenerator = new ControlGenerator(controlSequence);
         fileWriter.writeTo(controlGenerator.generateSequence());
+
     }
 
 

@@ -42,34 +42,4 @@ public class Generators<T> {
         }
         return sb.toString();
     }
-
-    public static String dataEncoder(String dataPassed) {
-
-        if (!isHexadecimal(dataPassed)) {
-            StringBuilder resultString = new StringBuilder();
-            byte[] byteArr = dataPassed.getBytes(StandardCharsets.US_ASCII);
-            for (byte bytePosition : byteArr) {
-                resultString.append(String.format("%02X", bytePosition));
-            }
-            return resultString.toString();
-        } else {
-            StringBuilder resultString = new StringBuilder();
-            dataPassed = dataPassed.toUpperCase();
-            resultString.append(dataPassed);
-            if (dataPassed.charAt(dataPassed.length() - 2) == '\r' && dataPassed.charAt(dataPassed.length() - 1) == '\n') {
-                resultString.replace(dataPassed.length() - 2, dataPassed.length() - 1, "ODOA");
-            } else if (dataPassed.charAt(dataPassed.length() - 1) == '\r') {
-                resultString.replace(dataPassed.length() - 1, dataPassed.length() - 1, "OD");
-            } else if (dataPassed.charAt(dataPassed.length() - 1) == '\n') {
-                resultString.replace(dataPassed.length() - 1, dataPassed.length() - 1, "OA");
-            }
-            return resultString.toString();
-        }
-    }
-
-
-    protected static boolean isHexadecimal(String hexadecimalPassed) {
-        return hexadecimalPassed.chars().allMatch(hexadecimalSequence -> "0123456789ABCDEFabcdef\r\n".indexOf(hexadecimalSequence) >= 0);
-    }
-
 }
