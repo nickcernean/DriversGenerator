@@ -4,7 +4,10 @@ package model;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tools.ChecksumCalculator;
+import tools.Converter;
 import tools.Generators;
+
+import java.nio.charset.StandardCharsets;
 
 public class ControlSequence extends Sequence {
     public enum ChecksumType {
@@ -92,28 +95,28 @@ public class ControlSequence extends Sequence {
     }
 
     static String sequenceDataWithLeadingZero(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
-        if (String.valueOf(row).matches("\\b([0-9]|9)\\b")) {
+        if (isInteger(row)) {
             if (carriageReturn && lineFeed) {
-                return Generators.dataEncoder(command1 + 0 + row + command2 + cr + lf);
+                return Converter.dataEncoder(command1 + 0, row, command2, -1, "", cr, lf);
             } else if (carriageReturn) {
-                return Generators.dataEncoder(command1 + 0 + row + command2 + cr);
+                return Converter.dataEncoder(command1 + 0, row, command2, -1, "", cr, ' ');
             } else if (lineFeed) {
-                return Generators.dataEncoder(command1 + 0 + row + command2 + lf);
+                return Converter.dataEncoder(command1 + 0, row, command2, -1, "", ' ', lf);
             }
-            return Generators.dataEncoder(command1 + 0 + row + command2);
+            return Converter.dataEncoder(command1 + 0, row, command2, -1, "", ' ', ' ');
         }
         return sequenceDataFormat(row, command1, command2, carriageReturn, lineFeed, cr, lf);
     }
 
     private static String sequenceDataFormat(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
         if (carriageReturn && lineFeed) {
-            return Generators.dataEncoder(command1 + row + command2 + cr + lf);
+            return Converter.dataEncoder(command1, row, command2, -1, "", cr, lf);
         } else if (carriageReturn) {
-            return Generators.dataEncoder(command1 + row + command2 + cr);
+            return Converter.dataEncoder(command1, row, command2, -1, "", cr, ' ');
         } else if (lineFeed) {
-            return Generators.dataEncoder(command1 + row + command2 + lf);
+            return Converter.dataEncoder(command1, row, command2, -1, "", ' ', lf);
         }
-        return Generators.dataEncoder(command1 + row + command2);
+        return Converter.dataEncoder(command1, row, command2, -1, "", ' ', ' ');
     }
 
 
@@ -126,28 +129,28 @@ public class ControlSequence extends Sequence {
 
     static String sequenceMatrixDataWithLeadingZero(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
 
-        if (String.valueOf(row).matches("\\b([0-9]|9)\\b") && String.valueOf(column).matches("\\b([0-9]|9)\\b")) {
+        if (isInteger(row) && isInteger(column)) {
             if (carriageReturn && lineFeed) {
-                return Generators.dataEncoder(command1 + 0 + row + command2 + 0 + column + command3 + cr + lf);
+                return Converter.dataEncoder(command1 + 0, row, command2+ 0, column, command3, cr, lf);
             } else if (carriageReturn) {
-                return Generators.dataEncoder(command1 + 0 + row + command2 + 0 + column + command3 + cr);
+                return Converter.dataEncoder(command1 + 0, row, command2+ 0, column, command3, cr, ' ');
             } else if (lineFeed) {
-                return Generators.dataEncoder(command1 + 0 + row + command2 + 0 + column + command3 + lf);
+                return Converter.dataEncoder(command1 + 0, row, command2+ 0, column, command3, ' ', lf);
             }
-            return Generators.dataEncoder(command1 + 0 + row + command2 + 0 + column + command3);
+            return Converter.dataEncoder(command1 + 0, row, command2+ 0, column, command3, ' ', ' ');
         }
         return sequenceMatrixDataFormat(row, column, command1, command2, command3, carriageReturn, lineFeed, cr, lf);
     }
 
     static String sequenceMatrixDataFormat(int row, int column, String command1, String command2, String command3, boolean carriageReturn, boolean lineFeed, char cr, char lf) {
         if (carriageReturn && lineFeed) {
-            return Generators.dataEncoder(command1 + row + command2 + column + command3 + cr + lf);
+            return Converter.dataEncoder(command1, row, command2, column, command3, cr, lf);
         } else if (carriageReturn) {
-            return Generators.dataEncoder(command1 + row + command2 + column + command3 + cr);
+            return Converter.dataEncoder(command1, row, command2, column, command3, cr, ' ');
         } else if (lineFeed) {
-            return Generators.dataEncoder(command1 + row + command2 + column + command3 + lf);
+            return Converter.dataEncoder(command1, row, command2, column, command3, ' ', lf);
         }
-        return Generators.dataEncoder(command1 + row + command2 + column + command3);
+        return Converter.dataEncoder(command1, row, command2, column, command3, ' ', ' ');
     }
 
     public String addChecksum(ChecksumType checksumType, int startByte, int endByte) {
@@ -166,6 +169,7 @@ public class ControlSequence extends Sequence {
     public void addLeadingZero() {
         leadingZero = true;
     }
+
     public void addChecksum() {
         checksum = true;
     }
@@ -208,6 +212,9 @@ public class ControlSequence extends Sequence {
                 + "</Sequence>\n";
     }
 
+    private static boolean isInteger(int integerPassed) {
+        return String.valueOf(integerPassed).matches("\\b([0-9]|9)\\b");
+    }
     public int getRows() {
         return rows;
     }

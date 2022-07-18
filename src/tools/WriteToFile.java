@@ -58,6 +58,8 @@ public class WriteToFile {
                     DESTINATION = "C:/Users/Michael.Bruun/OneDrive - Biamp Systems/Desktop/Result.txt";
             case "gabriela.dicusar" ->
                     DESTINATION = "C:/Users/gabriela.dicusar/OneDrive - Biamp Systems, LLC/Desktop/Result.txt";
+            case "viorelc" ->
+                    DESTINATION = "C:/Users/viorelc/Desktop/Result.txt";
         }
     }
 

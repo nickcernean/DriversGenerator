@@ -29,8 +29,8 @@ public class CreateControlMatrixSequences {
 
         /*caution//------------------------------------------------------------*/
         //comment// Changes to be made here
-        ControlSequence matrixControlSequence = new ControlSequence(10, 8, "Set Audio In Video Input ", "to Status ",
-                "", "*", "!", false, false);
+        ControlSequence matrixControlSequence = new ControlSequence(5, 25, "Set Audio In Video Input ", "to Status ",
+                "Mute", "to", "", true, true);
         /*caution//------------------------------------------------------------*/
 
         /* comment// the following function will start counting from zero.

@@ -30,9 +30,9 @@ public class CreateFeedbackSequences {
 
         /*caution//------------------------------------------------------------*/
         //comment// Changes to be made here
-        FeedbackSequence feedbackSequence = new FeedbackSequence(10, 3, "Audio In Video Input1", "State",
-                "120A0B0C0D0E0F", "", "Test Caption", "to", ""
-                , "120A0B0C0D0E0F", "", FeedbackSequence.ReplyDataFormat.RowAndColumn, false, false);
+        FeedbackSequence feedbackSequence = new FeedbackSequence(15, 10, "Audio In Video Input1", "State",
+                "12", "", "Test Caption", "to", ""
+                , "12", "", FeedbackSequence.ReplyDataFormat.RowAndColumn, false, false);
         /*caution//------------------------------------------------------------*/
 
         /* comment// the following function will start counting from zero.

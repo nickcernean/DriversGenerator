@@ -2,6 +2,7 @@ package model;
 
 
 import org.jetbrains.annotations.Nullable;
+import tools.Converter;
 import tools.Generators;
 
 public class FeedbackSequence extends Sequence {
@@ -125,15 +126,15 @@ public class FeedbackSequence extends Sequence {
 
     private String requestCommandFormatWithLeadingZero(int row) {
         if (leadingZero) {
-            if (String.valueOf(row).matches("\\b([0-9]|9)\\b")) {
+            if (isInteger(row)) {
                 if (carriageReturn && lineFeed) {
-                    return Generators.dataEncoder(requestCommand1 + 0 + row + requestCommand2 + CR + LF);
+                    return Converter.dataEncoder(requestCommand1 + 0, row, requestCommand2, -1, " ", CR, LF);
                 } else if (carriageReturn) {
-                    return Generators.dataEncoder(requestCommand1 + 0 + row + requestCommand2 + CR);
+                    return Converter.dataEncoder(requestCommand1 + 0, row, requestCommand2, -1, " ", CR, ' ');
                 } else if (lineFeed) {
-                    return Generators.dataEncoder(requestCommand1 + 0 + row + requestCommand2 + LF);
+                    return Converter.dataEncoder(requestCommand1 + 0, row, requestCommand2, -1, " ", ' ', LF);
                 }
-                return Generators.dataEncoder(requestCommand1 + 0 + row + requestCommand2);
+                return Converter.dataEncoder(requestCommand1 + 0, row, requestCommand2, -1, " ", ' ', ' ');
             }
             return requestCommandFormat(row);
         }
@@ -142,13 +143,13 @@ public class FeedbackSequence extends Sequence {
 
     private String requestCommandFormat(int row) {
         if (carriageReturn && lineFeed) {
-            return Generators.dataEncoder(requestCommand1 + row + requestCommand2 + CR + LF);
+            return Converter.dataEncoder(requestCommand1, row, requestCommand2, -1, " ", CR, LF);
         } else if (carriageReturn) {
-            return Generators.dataEncoder(requestCommand1 + row + requestCommand2 + CR);
+            return Converter.dataEncoder(requestCommand1, row, requestCommand2, -1, " ", CR, ' ');
         } else if (lineFeed) {
-            return Generators.dataEncoder(requestCommand1 + row + requestCommand2 + LF);
+            return Converter.dataEncoder(requestCommand1, row, requestCommand2, -1, " ", ' ', LF);
         }
-        return Generators.dataEncoder(requestCommand1 + row + requestCommand2);
+        return Converter.dataEncoder(requestCommand1, row, requestCommand2, -1, " ", ' ', ' ');
     }
 
     private String replyCommandSequence(int row, int column) {
@@ -173,35 +174,35 @@ public class FeedbackSequence extends Sequence {
     private String replyDataFormatWithLeadingZero(int row, int column) {
         if (leadingZero) {
             if (isInteger(row) && isInteger(column)) {
-                return Generators.dataEncoder(replyCommand1 + 0 + row + replyCommand2 + 0 + column + replyCommand3);
+                return Converter.dataEncoder(replyCommand1 + 0, row, replyCommand2 + 0, column, replyCommand3, ' ', ' ');
             } else if (isInteger(row)) {
-                return Generators.dataEncoder(replyCommand1 + 0 + row + replyCommand2 + column + replyCommand3);
+                return Converter.dataEncoder(replyCommand1 + 0, row, replyCommand2, column, replyCommand3, ' ', ' ');
             } else if (isInteger(column)) {
-                return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + 0 + column + replyCommand3);
+                return Converter.dataEncoder(replyCommand1, row, replyCommand2 + 0, column, replyCommand3, ' ', ' ');
             }
-            return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + column + replyCommand3);
+            return Converter.dataEncoder(replyCommand1, row, replyCommand2, column, replyCommand3, ' ', ' ');
         }
-        return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + column + replyCommand3);
+        return Converter.dataEncoder(replyCommand1, row, replyCommand2, column, replyCommand3, ' ', ' ');
     }
 
     private String rowReplyDataFormatWithLeadingZero(int row) {
         if (leadingZero) {
             if (isInteger(row)) {
-                return Generators.dataEncoder(replyCommand1 + 0 + row + replyCommand2 + replyCommand3);
+                return Converter.dataEncoder(replyCommand1 + 0, row, replyCommand2, -1, "", ' ', ' ');
             }
-            return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + replyCommand3);
+            return Converter.dataEncoder(replyCommand1, row, replyCommand2, -1, "", ' ', ' ');
         }
-        return Generators.dataEncoder(replyCommand1 + row + replyCommand2 + replyCommand3);
+        return Converter.dataEncoder(replyCommand1, row, replyCommand2, -1, "", ' ', ' ');
     }
 
     private String columnReplyDataFormatWithLeadingZero(int column) {
         if (leadingZero) {
             if (isInteger(column)) {
-                return Generators.dataEncoder(replyCommand1 + replyCommand2 + 0 + column + replyCommand3);
+                return Converter.dataEncoder(replyCommand1, -1, replyCommand2 + 0, column, replyCommand3, ' ', ' ');
             }
-            return Generators.dataEncoder(replyCommand1 + replyCommand2 + column + replyCommand3);
+            return Converter.dataEncoder(replyCommand1, -1, replyCommand2, column, replyCommand3, ' ', ' ');
         }
-        return Generators.dataEncoder(replyCommand1 + replyCommand2 + column + replyCommand3);
+        return Converter.dataEncoder(replyCommand1, -1, replyCommand2, column, replyCommand3, ' ', ' ');
     }
 
     private String replySequence(int row, int column) {

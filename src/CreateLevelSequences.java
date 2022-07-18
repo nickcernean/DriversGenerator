@@ -93,8 +93,8 @@ public class CreateLevelSequences {
         //comment// Changes to be made here
 
         LevelSequence upDownLevelSequence = new LevelSequence(16, "BiampCount", "1",
-         LevelSequence.TypeValues.Continous, "UpCommand1", "UpCommand1", "UPCommand1",
-         "DOWNCommand1","DOWNCommand1","DOWNCommand1", true, false);
+         LevelSequence.TypeValues.Continous, "0A0B", "0A0B", "0A0B",
+         "0A0B","0A0B","0A0B", true, false);
         /*caution//------------------------------------------------------------*/
 
         /* comment// the following function will start counting from zero.
@@ -109,7 +109,7 @@ public class CreateLevelSequences {
         * caution// to switch between different types of level sequences change the name of the sequence
         *    (e.g. change the *incDecLevelSequence to upDownLevelSequence*)
         * */
-        ISequencesGenerator levelGenerator = new LevelGenerator(incDecLevelSequence);
+        ISequencesGenerator levelGenerator = new LevelGenerator(upDownLevelSequence);
 
         fileWriter.writeTo(levelGenerator.generateSequence());
 

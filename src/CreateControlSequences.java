@@ -1,8 +1,13 @@
 import interfaces.ISequencesGenerator;
 import logic.ControlGenerator;
 import model.ControlSequence;
+import org.jetbrains.annotations.Nullable;
 import tools.ChecksumCalculator;
+import tools.Converter;
+import tools.Generators;
 import tools.WriteToFile;
+
+import java.nio.charset.StandardCharsets;
 
 public class CreateControlSequences {
     public static void main(String[] args) {
@@ -25,8 +30,8 @@ public class CreateControlSequences {
 
         /*caution//------------------------------------------------------------*/
         //comment// Changes to be made here
-        ControlSequence controlSequence = new ControlSequence(4, "Mute Output15", "Off",
-                "120A0B0C0D0E0F", "", false, false);
+        ControlSequence controlSequence = new ControlSequence(25, "Mute Output15", "Off",
+                "120A0B0C0D0E0F", "", true, true);
         /*caution------------------------------------------------------------*/
 
         /* comment// the following function will start counting from zero.
@@ -41,9 +46,8 @@ public class CreateControlSequences {
 
 
         ISequencesGenerator controlGenerator = new ControlGenerator(controlSequence);
-
         fileWriter.writeTo(controlGenerator.generateSequence());
-
     }
+
 
 }
