@@ -1,6 +1,7 @@
 import interfaces.ISequencesGenerator;
 import logic.LevelGenerator;
 import model.LevelSequence;
+import tools.Enums;
 import tools.WriteToFile;
 
 public class CreateLevelMatrixSequences  {
@@ -25,13 +26,14 @@ public class CreateLevelMatrixSequences  {
          *   1) The order of CR and LF will be same as in the object
          *   2) if you don't want to have a second sequenceCaption2 or command2, just leave the field empty
          *   3) do not insert any special character nor sequenceCaption1 or sequenceCaption2 (e.g. !"#¤%&/()=?)
-         *   4) be aware of what type of level command you are generating, because they have different arguments and you encounter an error when pasting in the Device Editor
+         *   4) be aware of what type of level command you are generating, because they have different arguments, and you may encounter an error when pasting in the Device Editor
+         *   5) be extremely careful, if you are generating hex commands, do not insert "O" letter instead of "0"
          */
 
         /*caution//------------------------------------------------------------*/
         //comment// Changes to be made here
         LevelSequence incDecMatrixLevelSequence = new LevelSequence(8, 2, "Mute Analog ", "Output On",
-                LevelSequence.TypeValues.InDecrement, "SET/MEDIA/STREAMS/AUDIO/D", "O", "/PORT.VolumePercent=30", false, false);
+                Enums.TypeValues.InDecrement, "SET/MEDIA/STREAMS/AUDIO/D", "O", "/PORT.VolumePercent=30", false, false);
         /*caution//------------------------------------------------------------*/
 
         /* comment// the following function will start counting from zero.
@@ -52,7 +54,7 @@ public class CreateLevelMatrixSequences  {
          *  {stepValue}: the amount by which it will be counting
          *  {minimumValue}: lower boundary
          *  {maximumValue}: upper boundary */
-        incDecMatrixLevelSequence.addStringCounter(3, 5, LevelSequence.CountFormat.Decimal, 100, 1, -1000, 800);
+        incDecMatrixLevelSequence.addStringCounter(3, 5, Enums.CountFormat.Decimal, 100, 1, -1000, 800);
 
         /* comment// the following function will add binary counter.
          * caution// to remove this function simply add '//'
@@ -65,6 +67,13 @@ public class CreateLevelMatrixSequences  {
          *  {minimumValue}: lower boundary
          *  {maximumValue}: upper boundary */
         //incDecMatrixLevelSequence.addBinaryCounter(6, 7, LevelSequence.ByteOrder.MSB, 100, 1, 0, 150);
+
+        /* comment// the following function will calculate the checksum for the control sequence.
+         * caution// to remove this function simply add '//'
+         * Even though the checksum is placed after the end byte of the sequence, the checksum will be placed on the last byte
+         * (e.g. length of the command is 5 bytes and checksum is placed on the 7'th, the checksum will be placed on the 6'th byte)
+         */
+        //incDecMatrixLevelSequence.addChecksum(Enums.ChecksumType.ADD,1,4,6);
 
         /*comment Object to be used to generate control sequences
          *  {rows}: number of commands to be generated
@@ -90,8 +99,8 @@ public class CreateLevelMatrixSequences  {
         /*caution//------------------------------------------------------------*/
         //comment// Changes to be made here
 
-        LevelSequence upDownLevelSequence = new LevelSequence(16,2, "BiampCount", "1",
-                LevelSequence.TypeValues.Continous, "UpCommand1", "UpCommand1", "UPCommand1",
+        LevelSequence upDownMatrixLevelSequence = new LevelSequence(16,2, "BiampCount", "1",
+                Enums.TypeValues.Continous, "UpCommand1", "UpCommand1", "UPCommand1",
                 "DOWNCommand1","DOWNCommand1","DOWNCommand1", true, false);
         /*caution//------------------------------------------------------------*/
 
@@ -107,11 +116,15 @@ public class CreateLevelMatrixSequences  {
          * caution// to switch between different types of level sequences change the name of the sequence
          *    (e.g. change the *incDecMatrixLevelSequence to upDownMatrixLevelSequence*)
          * */
+
+        /* comment// the following function will calculate the checksum for the control sequence.
+         * caution// to remove this function simply add '//'
+         * Even though the checksum is placed after the end byte of the sequence, the checksum will be placed on the last byte
+         * (e.g. length of the command is 5 bytes and checksum is placed on the 7'th, the checksum will be placed on the 6'th byte)
+         */
+        //upDownMatrixLevelSequence.addChecksum(Enums.ChecksumType.ADD,1,4,6);
+
         ISequencesGenerator matrixLevelGenerator = new LevelGenerator(incDecMatrixLevelSequence);
-
-
         fileWriter.writeTo(matrixLevelGenerator.generateMatrixSequence());
-
-        /*------------------------------------------------------------*/
     }
 }

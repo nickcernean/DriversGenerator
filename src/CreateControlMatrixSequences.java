@@ -1,6 +1,7 @@
 import interfaces.ISequencesGenerator;
 import logic.ControlGenerator;
 import model.ControlSequence;
+import tools.Enums;
 import tools.WriteToFile;
 
 public class CreateControlMatrixSequences {
@@ -24,6 +25,7 @@ public class CreateControlMatrixSequences {
          *   1) The order of CR and LF will be same as in the object
          *   2) if you don't want to have a second sequenceCaption2 or command2, just leave the field empty
          *   3) do not insert any special character nor sequenceCaption1 or sequenceCaption2 (e.g. !"#¤%&/()=?)
+         * 4) be extremely careful, if you are generating hex commands, do not insert "O" letter instead of "0"
          */
 
 
@@ -41,9 +43,14 @@ public class CreateControlMatrixSequences {
          * caution// to remove this function simply add '//'*/
         //matrixControlSequence.addLeadingZero();
 
+        /* comment// the following function will calculate the checksum for the control sequence.
+         * caution// to remove this function simply add '//'
+         * Even though the checksum is placed after the end byte of the sequence, the checksum will be placed on the last byte
+         * (e.g. length of the command is 5 bytes and checksum is placed on the 7'th, the checksum will be placed on the 6'th byte)
+         */
+        matrixControlSequence.addChecksum(Enums.ChecksumType.ADD,1,4,9);
+
         ISequencesGenerator controlGenerator = new ControlGenerator(matrixControlSequence);
-
-
         fileWriter.writeTo(controlGenerator.generateMatrixSequence());
 
         /*------------------------------------------------------------*/

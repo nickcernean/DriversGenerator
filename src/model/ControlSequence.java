@@ -6,13 +6,10 @@ import org.jetbrains.annotations.Nullable;
 import tools.ChecksumCalculator;
 import tools.Converter;
 import tools.Generators;
-
+import tools.Enums;
 import java.nio.charset.StandardCharsets;
 
 public class ControlSequence extends Sequence {
-    public enum ChecksumType {
-        ADD, SUBTRACT, BITWISE_AND, BITWISE_OR
-    }
 
     private final int rows;
     private final int columns;
@@ -32,7 +29,7 @@ public class ControlSequence extends Sequence {
     private boolean leadingZero;
     private int startByteChecksum;
     private int endByteChecksum;
-    private ChecksumType checksumType;
+    private Enums.ChecksumType checksumType;
     private int checksumOnByte;
 
     private boolean checksum;
@@ -165,7 +162,11 @@ public class ControlSequence extends Sequence {
         return Converter.dataEncoder(command1, row, command2, column, command3, ' ', ' ');
     }
 
-    public String calculateChecksum(String sequenceToCalculate, ChecksumType checksumType, int startByte, int endByte) {
+    private String calculateChecksum(String sequenceToCalculate, Enums.ChecksumType checksumType, int startByte, int endByte)
+    {
+        return getStringChecksum( sequenceToCalculate,  checksumType,  startByte,  endByte);
+    }
+    public static String getStringChecksum(String sequenceToCalculate, Enums.ChecksumType checksumType, int startByte, int endByte) {
         return switch (checksumType) {
             case ADD -> ChecksumCalculator.Add(sequenceToCalculate, startByte, endByte);
             case SUBTRACT -> ChecksumCalculator.Subtract(sequenceToCalculate, startByte, endByte);
@@ -182,7 +183,7 @@ public class ControlSequence extends Sequence {
         leadingZero = true;
     }
 
-    public void addChecksum(ChecksumType checksumType, int startByte, int endByte, int placeChecksumOnByte) {
+    public void addChecksum(Enums.ChecksumType checksumType, int startByte, int endByte, int placeChecksumOnByte) {
         this.checksum = true;
         this.checksumType = checksumType;
         this.startByteChecksum = startByte;

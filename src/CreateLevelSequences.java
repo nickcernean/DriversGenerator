@@ -1,6 +1,7 @@
 import interfaces.ISequencesGenerator;
 import logic.LevelGenerator;
 import model.LevelSequence;
+import tools.Enums;
 import tools.WriteToFile;
 
 
@@ -25,7 +26,8 @@ public class CreateLevelSequences {
          *   1) The order of CR and LF will be same as in the object
          *   2) if you don't want to have a second sequenceCaption2 or command2, just leave the field empty
          *   3) do not insert any special character nor sequenceCaption1 or sequenceCaption2 (e.g. !"#¤%&/()=?)
-         *   4) be aware of what type of level command you are generating, because they have different arguments and you encounter an error when pasting in the Device Editor
+         *   4) be aware of what type of level command you are generating, because they have different arguments, and you may encounter an error when pasting in the Device Editor
+         *   5) be extremely careful, if you are generating hex commands, do not insert "O" letter instead of "0"
          */
 
         /*caution//------------------------------------------------------------*/
@@ -33,7 +35,7 @@ public class CreateLevelSequences {
         WriteToFile fileWriter = new WriteToFile();
 
         LevelSequence incDecLevelSequence = new LevelSequence(10, "Set Input ", "Left Gain Mix-Point",
-                LevelSequence.TypeValues.InDecrement, "120A0B0C0D0E0F", "    ", false, false);
+                Enums.TypeValues.InDecrement, "120A0B0C0D0E0F", "    ", false, false);
 
         /* comment// the following function will start counting from zero.
          * caution// to remove this function simply add '//'*/
@@ -53,7 +55,7 @@ public class CreateLevelSequences {
          *  {stepValue}: the amount by which it will be counting
          *  {minimumValue}: lower boundary
          *  {maximumValue}: upper boundary */
-        incDecLevelSequence.addStringCounter(3, 5, LevelSequence.CountFormat.Decimal, 100, 1, -1000, 800);
+        incDecLevelSequence.addStringCounter(3, 5, Enums.CountFormat.Decimal, 100, 1, -1000, 800);
 
         /* comment// the following function will add binary counter.
          * caution// to remove this function simply add '//'
@@ -66,6 +68,13 @@ public class CreateLevelSequences {
          *  {minimumValue}: lower boundary
          *  {maximumValue}: upper boundary */
         //levelSequence.addBinaryCounter(6, 7, LevelSequence.ByteOrder.MSB, 100, 1, 0, 150);
+
+        /* comment// the following function will calculate the checksum for the control sequence.
+         * caution// to remove this function simply add '//'
+         * Even though the checksum is placed after the end byte of the sequence, the checksum will be placed on the last byte
+         * (e.g. length of the command is 5 bytes and checksum is placed on the 7'th, the checksum will be placed on the 6'th byte)
+         */
+        //incDecLevelSequence.addChecksum(Enums.ChecksumType.ADD,1,4,6);
 
 
         /*comment Object to be used to generate control sequences
@@ -93,7 +102,7 @@ public class CreateLevelSequences {
         //comment// Changes to be made here
 
         LevelSequence upDownLevelSequence = new LevelSequence(16, "BiampCount", "1",
-         LevelSequence.TypeValues.Continous, "0A0B", "0A0B", "0A0B",
+                Enums.TypeValues.Continous, "0A0B", "0A0B", "0A0B",
          "0A0B","0A0B","0A0B", true, false);
         /*caution//------------------------------------------------------------*/
 
@@ -109,10 +118,15 @@ public class CreateLevelSequences {
         * caution// to switch between different types of level sequences change the name of the sequence
         *    (e.g. change the *incDecLevelSequence to upDownLevelSequence*)
         * */
+
+        /* comment// the following function will calculate the checksum for the control sequence.
+         * caution// to remove this function simply add '//'
+         * Even though the checksum is placed after the end byte of the sequence, the checksum will be placed on the last byte
+         * (e.g. length of the command is 5 bytes and checksum is placed on the 7'th, the checksum will be placed on the 6'th byte)
+         */
+        //upDownLevelSequence.addChecksum(Enums.ChecksumType.ADD,1,4,6);
+
         ISequencesGenerator levelGenerator = new LevelGenerator(upDownLevelSequence);
-
         fileWriter.writeTo(levelGenerator.generateSequence());
-
-        /*------------------------------------------------------------*/
     }
 }

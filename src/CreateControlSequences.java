@@ -2,10 +2,7 @@ import interfaces.ISequencesGenerator;
 import logic.ControlGenerator;
 import model.ControlSequence;
 import org.jetbrains.annotations.Nullable;
-import tools.ChecksumCalculator;
-import tools.Converter;
-import tools.Generators;
-import tools.WriteToFile;
+import tools.*;
 
 import java.nio.charset.StandardCharsets;
 
@@ -25,7 +22,8 @@ public class CreateControlSequences {
          *  caution//CAUTION!!
          *   1) The order of CR and LF will be same as in the object
          *   2) if you don't want to have a second sequenceCaption2 or command2, just leave the field empty
-         *   3) do not insert any special character nor sequenceCaption1 or sequenceCaption2 (e.g. !"#¤%&/()=?)
+         *   3) do not insert any special character nor sequenceCaption1 or sequenceCaption2 (e.g. !"#¤%&/()=?)#
+         *   4) be extremely careful, if you are generating hex commands, do not insert "O" letter instead of "0"
          */
 
         /*caution//------------------------------------------------------------*/
@@ -49,7 +47,7 @@ public class CreateControlSequences {
          * Even though the checksum is placed after the end byte of the sequence, the checksum will be placed on the last byte
          * (e.g. length of the command is 5 bytes and checksum is placed on the 7'th, the checksum will be placed on the 6'th byte)
          */
-        controlSequence.addChecksum(ControlSequence.ChecksumType.ADD,1,4,6);
+        controlSequence.addChecksum(Enums.ChecksumType.ADD,0,7,10);
 
         ISequencesGenerator controlGenerator = new ControlGenerator(controlSequence);
         fileWriter.writeTo(controlGenerator.generateSequence());

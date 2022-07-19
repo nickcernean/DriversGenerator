@@ -1,26 +1,16 @@
 package model;
 
 import org.jetbrains.annotations.Nullable;
+import tools.ChecksumCalculator;
+import tools.Enums;
 import tools.Generators;
+
+import java.util.Objects;
 
 import static model.ControlSequence.*;
 
 public class LevelSequence extends Sequence {
-    public enum CountType {
-        String, Binary
-    }
 
-    public enum CountFormat {
-        Decimal, Hexdecimal
-    }
-
-    public enum TypeValues {
-        Continous, InDecrement, StartStop
-    }
-
-    public enum ByteOrder {
-        MSB, LSB
-    }
 
     private final int rows;
     private final int columns;
@@ -29,7 +19,7 @@ public class LevelSequence extends Sequence {
     private int minimumValue;
     private int maximumValue;
     private int stepValue;
-    private final TypeValues typeValues;
+    private final Enums.TypeValues typeValues;
 
     private final String sequenceCaption1;
     @Nullable
@@ -52,12 +42,17 @@ public class LevelSequence extends Sequence {
     private final static char LF = '\n';
     private boolean startFromZero;
     private boolean leadingZero;
-    private CountType countType;
-    private ByteOrder byteOrder;
-    private CountFormat countFormat;
+    private Enums.CountType countType;
+    private Enums.ByteOrder byteOrder;
+    private Enums.CountFormat countFormat;
+    private boolean checksum;
+    private Enums.ChecksumType checksumType;
+    private int startByteChecksum;
+    private int endByteChecksum;
+    private int checksumOnByte;
 
 
-    public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
+    public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, Enums.TypeValues typeValue, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
         this.rows = rows;
         this.columns = columns;
         this.sequenceCaption1 = sequenceCaption1;
@@ -72,15 +67,16 @@ public class LevelSequence extends Sequence {
         this.lineFeed = lineFeed;
         this.repeatSpeed = 500;
         this.typeValues = typeValue;
-        this.countType = CountType.String;
-        this.byteOrder = ByteOrder.LSB;
-        this.countFormat = CountFormat.Decimal;
+        this.countType = Enums.CountType.String;
+        this.byteOrder = Enums.ByteOrder.LSB;
+        this.countFormat = Enums.CountFormat.Decimal;
         this.stepValue = 1;
         this.startFromZero = false;
         this.leadingZero = false;
+        this.checksum = false;
     }
 
-    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String command1, @Nullable String command2, boolean carriageReturn, boolean lineFeed) {
+    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable Enums.TypeValues typeValue, String command1, @Nullable String command2, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -95,15 +91,16 @@ public class LevelSequence extends Sequence {
         this.downCommand3 = null;
         this.repeatSpeed = 500;
         this.typeValues = typeValue;
-        this.countType = CountType.String;
-        this.byteOrder = ByteOrder.LSB;
-        this.countFormat = CountFormat.Decimal;
+        this.countType = Enums.CountType.String;
+        this.byteOrder = Enums.ByteOrder.LSB;
+        this.countFormat = Enums.CountFormat.Decimal;
         this.stepValue = 1;
         this.startFromZero = false;
         this.leadingZero = false;
+        this.checksum = false;
     }
 
-    public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, TypeValues typeValue, String upCommand1, @Nullable String upCommand2, @Nullable String upCommand3, @Nullable String downCommand1, @Nullable String downCommand2, @Nullable String downCommand3, boolean carriageReturn, boolean lineFeed) {
+    public LevelSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, Enums.TypeValues typeValue, String upCommand1, @Nullable String upCommand2, @Nullable String upCommand3, @Nullable String downCommand1, @Nullable String downCommand2, @Nullable String downCommand3, boolean carriageReturn, boolean lineFeed) {
         this.rows = rows;
         this.columns = columns;
         this.sequenceCaption1 = sequenceCaption1;
@@ -118,15 +115,16 @@ public class LevelSequence extends Sequence {
         this.lineFeed = lineFeed;
         this.repeatSpeed = 500;
         this.typeValues = typeValue;
-        this.countType = CountType.String;
-        this.byteOrder = ByteOrder.LSB;
-        this.countFormat = CountFormat.Decimal;
+        this.countType = Enums.CountType.String;
+        this.byteOrder = Enums.ByteOrder.LSB;
+        this.countFormat = Enums.CountFormat.Decimal;
         this.stepValue = 1;
         this.startFromZero = false;
         this.leadingZero = false;
+        this.checksum = false;
     }
 
-    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable TypeValues typeValue, String upCommand1, @Nullable String upCommand2, @Nullable String upCommand3, @Nullable String downCommand1, @Nullable String downCommand2, @Nullable String downCommand3, boolean carriageReturn, boolean lineFeed) {
+    public LevelSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, @Nullable Enums.TypeValues typeValue, String upCommand1, @Nullable String upCommand2, @Nullable String upCommand3, @Nullable String downCommand1, @Nullable String downCommand2, @Nullable String downCommand3, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -141,12 +139,13 @@ public class LevelSequence extends Sequence {
         this.downCommand3 = downCommand3;
         this.repeatSpeed = 500;
         this.typeValues = typeValue;
-        this.countType = CountType.String;
-        this.byteOrder = ByteOrder.LSB;
-        this.countFormat = CountFormat.Decimal;
+        this.countType = Enums.CountType.String;
+        this.byteOrder = Enums.ByteOrder.LSB;
+        this.countFormat = Enums.CountFormat.Decimal;
         this.stepValue = 1;
         this.startFromZero = false;
         this.leadingZero = false;
+        this.checksum = false;
     }
 
 
@@ -156,7 +155,7 @@ public class LevelSequence extends Sequence {
                 "              <Image />\n" +
                 "              <Type Value=\"" + typeValues + "\" />\n" +
                 "              <Command>\n" +
-                "                <Data1>" + dataGenerator(row, column) + "</Data1>\n" +
+                "                <Data1>" + dataGeneratorWithChecksum(row, column) + "</Data1>\n" +
                 "                <Data2 />\n" +
                 data3Command(row, column) +
                 "                <Data4 />\n" +
@@ -189,26 +188,33 @@ public class LevelSequence extends Sequence {
                 "</Sequence>\n";
     }
 
-    public void addStringCounter(int startByte, int endByte, CountFormat countFormat, int repeatSpeed, int stepValue, int minimumValue, int maximumValue) {
+    public void addStringCounter(int startByte, int endByte, Enums.CountFormat countFormat, int repeatSpeed, int stepValue, int minimumValue, int maximumValue) {
         this.countStartByte = startByte;
         this.countEndByte = endByte;
         this.minimumValue = minimumValue;
         this.maximumValue = maximumValue;
         this.repeatSpeed = repeatSpeed;
-        this.countType = CountType.String;
+        this.countType = Enums.CountType.String;
         this.countFormat = countFormat;
         this.stepValue = stepValue;
     }
 
-    public void addBinaryCounter(int startByte, int endByte, ByteOrder byteOrder, int repeatSpeed, int stepValue, int minimumValue, int maximumValue) {
+    public void addBinaryCounter(int startByte, int endByte, Enums.ByteOrder byteOrder, int repeatSpeed, int stepValue, int minimumValue, int maximumValue) {
         this.countStartByte = startByte;
         this.countEndByte = endByte;
         this.minimumValue = minimumValue;
         this.maximumValue = maximumValue;
         this.repeatSpeed = repeatSpeed;
-        this.countType = CountType.Binary;
+        this.countType = Enums.CountType.Binary;
         this.byteOrder = byteOrder;
         this.stepValue = stepValue;
+    }
+
+    private String dataGeneratorWithChecksum(int row, int column) {
+        if (checksum) {
+            return ChecksumCalculator.placeChecksumResult(dataGenerator(row, column), getStringChecksum(dataGenerator(row, column), checksumType, startByteChecksum, endByteChecksum), checksumOnByte);
+        }
+        return dataGenerator(row, column);
     }
 
     private String dataGenerator(int row, int column) {
@@ -230,31 +236,11 @@ public class LevelSequence extends Sequence {
     }
 
     private String data3Command(int row, int column) {
-        if (typeValues.equals(TypeValues.Continous)) {
-            return "                <Data3>" + data2Generator(row, column) + "</Data3>\n";
+        if (Objects.equals(typeValues, Enums.TypeValues.Continous)) {
+            return "                <Data3>" + dataGeneratorWithChecksum(row, column) + "</Data3>\n";
         }
         return "                <Data3 />\n";
     }
-
-    private String data2Generator(int row, int column) {
-        if (startFromZero) {
-            if (column <= 0) {
-                return sequenceData(row, downCommand1, downCommand2, carriageReturn, lineFeed);
-            } else {
-                return matrixData(row, column, downCommand1, downCommand2, downCommand3, carriageReturn, lineFeed);
-            }
-        }
-        if (column <= 0) {
-            row = row + 1;
-            return sequenceData(row, downCommand1, downCommand2, carriageReturn, lineFeed);
-        } else {
-            row = row + 1;
-            column = column + 1;
-            return matrixData(row, column, downCommand1, downCommand2, downCommand3, carriageReturn, lineFeed);
-        }
-
-    }
-
     private String sequenceData(int row, String command1, String command2, boolean carriageReturn, boolean lineFeed) {
         if (leadingZero) {
             return sequenceDataWithLeadingZero(row, command1, command2, carriageReturn, lineFeed, LevelSequence.CR, LevelSequence.LF);
@@ -279,6 +265,14 @@ public class LevelSequence extends Sequence {
 
     private String sequenceCaptionGenerator(int row, int column) {
         return getString(row, column, sequenceCaption1, sequenceCaption2);
+    }
+
+    public void addChecksum(Enums.ChecksumType checksumType, int startByte, int endByte, int placeChecksumOnByte) {
+        this.checksum = true;
+        this.checksumType = checksumType;
+        this.startByteChecksum = startByte;
+        this.endByteChecksum = endByte;
+        this.checksumOnByte = placeChecksumOnByte;
     }
 
     @Override

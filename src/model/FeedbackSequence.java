@@ -2,14 +2,14 @@ package model;
 
 
 import org.jetbrains.annotations.Nullable;
+import tools.ChecksumCalculator;
 import tools.Converter;
+import tools.Enums;
 import tools.Generators;
 
-public class FeedbackSequence extends Sequence {
+import static model.ControlSequence.getStringChecksum;
 
-    public enum ReplyDataFormat {
-        Row, Column, RowAndColumn
-    }
+public class FeedbackSequence extends Sequence {
 
     private final int rows;
     private final int columns;
@@ -29,14 +29,25 @@ public class FeedbackSequence extends Sequence {
     private final String replyCommand3;
     private final String requestCommand1;
     private final String requestCommand2;
-    private final ReplyDataFormat replyDataFormat;
+    private final Enums.ReplyDataFormat replyDataFormat;
     private boolean startFromZero;
     private boolean leadingZero;
+    private int startByteChecksum;
+    private int endByteChecksum;
+    private Enums.ChecksumType checksumType;
+    private int checksumOnByte;
+    private boolean checksum;
+
+    private int replyStartByteChecksum;
+    private int replyEndByteChecksum;
+    private Enums.ChecksumType replyChecksumType;
+    private int replyChecksumOnByte;
+    private boolean replyChecksum;
     private final static char CR = '\r';
     private final static char LF = '\n';
 
 
-    public FeedbackSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, String requestCommand1, String requestCommand2, String replyCaption1, @Nullable String replyCaption2, String replyCommand1, @Nullable String replyCommand2, @Nullable String replyCommand3, ReplyDataFormat replyDataFormat, boolean carriageReturn, boolean lineFeed) {
+    public FeedbackSequence(int rows, int columns, String sequenceCaption1, @Nullable String sequenceCaption2, String requestCommand1, String requestCommand2, String replyCaption1, @Nullable String replyCaption2, String replyCommand1, @Nullable String replyCommand2, @Nullable String replyCommand3, Enums.ReplyDataFormat replyDataFormat, boolean carriageReturn, boolean lineFeed) {
         this.carriageReturn = carriageReturn;
         this.lineFeed = lineFeed;
         this.rows = rows;
@@ -53,25 +64,13 @@ public class FeedbackSequence extends Sequence {
         this.replyDataFormat = replyDataFormat;
         this.startFromZero = false;
         this.leadingZero = false;
+        this.checksum = false;
+        this.replyChecksum = false;
     }
 
     @Override
     public String sequence(int row, int column) {
-        return "<FeedbackSequence Name=\"" + Generators.sequenceNameGenerator() + "\" Caption=\"" + feedbackCaption(row) + "\" Mode=\"Pull\" UseHeaderFooter=\"True\">\n" +
-                "              <RequestCommand>" + requestCommandSequence(row) + "</RequestCommand>\n" +
-                "              <RequestInterval Value=\"3000\" />\n" +
-                "              <ReplyDataType Value=\"String\" />\n" +
-                "              <ReplyNumberRange Min=\"0\" Max=\"0\" />\n" +
-                "              <ReplyByteOffset Value=\"0\" />\n" +
-                "              <ReplyValueType Value=\"\" />\n" +
-                "              <ReplyValueFormat Value=\"\" />\n" +
-                "              <ReplyThousandSeperator Value=\"\" />\n" +
-                "              <ReplyTimeFormat Value=\"\" />\n" +
-                "              <ReplyByteOrder Value=\"\" />\n" +
-                "              <ReplyMaxNumberOfBytesForValue Value=\"\" />\n" +
-                "                 <Replies>" + replySequence(row, column) +
-                "\n               </Replies>\n" +
-                "            </FeedbackSequence>\n";
+        return "<FeedbackSequence Name=\"" + Generators.sequenceNameGenerator() + "\" Caption=\"" + feedbackCaption(row) + "\" Mode=\"Pull\" UseHeaderFooter=\"True\">\n" + "              <RequestCommand>" + dataGeneratorWithChecksum(row) + "</RequestCommand>\n" + "              <RequestInterval Value=\"3000\" />\n" + "              <ReplyDataType Value=\"String\" />\n" + "              <ReplyNumberRange Min=\"0\" Max=\"0\" />\n" + "              <ReplyByteOffset Value=\"0\" />\n" + "              <ReplyValueType Value=\"\" />\n" + "              <ReplyValueFormat Value=\"\" />\n" + "              <ReplyThousandSeperator Value=\"\" />\n" + "              <ReplyTimeFormat Value=\"\" />\n" + "              <ReplyByteOrder Value=\"\" />\n" + "              <ReplyMaxNumberOfBytesForValue Value=\"\" />\n" + "                 <Replies>" + replySequence(row, column) + "\n               </Replies>\n" + "            </FeedbackSequence>\n";
     }
 
     private String feedbackCaption(int row) {
@@ -116,6 +115,20 @@ public class FeedbackSequence extends Sequence {
         }
     }
 
+    private String dataGeneratorWithChecksum(int row) {
+        if (checksum) {
+            return ChecksumCalculator.placeChecksumResult(requestCommandSequence(row), getStringChecksum(requestCommandSequence(row), checksumType, startByteChecksum, endByteChecksum), checksumOnByte);
+        }
+        return requestCommandSequence(row);
+    }
+
+    private String replyDataGeneratorWithChecksum(int row, int column) {
+        if (replyChecksum) {
+            return ChecksumCalculator.placeChecksumResult(replyCommandSequence(row, column), getStringChecksum(replyCommandSequence(row, column), replyChecksumType, replyStartByteChecksum, replyEndByteChecksum), replyChecksumOnByte);
+        }
+        return replyCommandSequence(row, column);
+    }
+
     private String requestCommandSequence(int row) {
         if (!startFromZero) {
             row += 1;
@@ -128,13 +141,13 @@ public class FeedbackSequence extends Sequence {
         if (leadingZero) {
             if (isInteger(row)) {
                 if (carriageReturn && lineFeed) {
-                    return Converter.dataEncoder(requestCommand1 + 0, row, requestCommand2, -1, " ", CR, LF);
+                    return Converter.dataEncoder(requestCommand1 + 0, row, requestCommand2, -1, "", CR, LF);
                 } else if (carriageReturn) {
-                    return Converter.dataEncoder(requestCommand1 + 0, row, requestCommand2, -1, " ", CR, ' ');
+                    return Converter.dataEncoder(requestCommand1 + 0, row, requestCommand2, -1, "", CR, ' ');
                 } else if (lineFeed) {
-                    return Converter.dataEncoder(requestCommand1 + 0, row, requestCommand2, -1, " ", ' ', LF);
+                    return Converter.dataEncoder(requestCommand1 + 0, row, requestCommand2, -1, "", ' ', LF);
                 }
-                return Converter.dataEncoder(requestCommand1 + 0, row, requestCommand2, -1, " ", ' ', ' ');
+                return Converter.dataEncoder(requestCommand1 + 0, row, requestCommand2, -1, "", ' ', ' ');
             }
             return requestCommandFormat(row);
         }
@@ -143,13 +156,13 @@ public class FeedbackSequence extends Sequence {
 
     private String requestCommandFormat(int row) {
         if (carriageReturn && lineFeed) {
-            return Converter.dataEncoder(requestCommand1, row, requestCommand2, -1, " ", CR, LF);
+            return Converter.dataEncoder(requestCommand1, row, requestCommand2, -1, "", CR, LF);
         } else if (carriageReturn) {
-            return Converter.dataEncoder(requestCommand1, row, requestCommand2, -1, " ", CR, ' ');
+            return Converter.dataEncoder(requestCommand1, row, requestCommand2, -1, "", CR, ' ');
         } else if (lineFeed) {
-            return Converter.dataEncoder(requestCommand1, row, requestCommand2, -1, " ", ' ', LF);
+            return Converter.dataEncoder(requestCommand1, row, requestCommand2, -1, "", ' ', LF);
         }
-        return Converter.dataEncoder(requestCommand1, row, requestCommand2, -1, " ", ' ', ' ');
+        return Converter.dataEncoder(requestCommand1, row, requestCommand2, -1, "", ' ', ' ');
     }
 
     private String replyCommandSequence(int row, int column) {
@@ -209,17 +222,29 @@ public class FeedbackSequence extends Sequence {
         // StringBuilder result = new StringBuilder();
         String result = "";
         for (int i = 0; i <= column - 1; i++) {
-            result += "\n                  <Reply Caption=\"" + replyCaptionFormat(row, i) +
-                    "\" Guid=\"" + Generators.sequenceNameGenerator() + "\">\n" +
-                    "                      <Data>" + replyCommandSequence(row, i) + "</Data>\n" +
-                    "                      <MappedToSeq Value=\"\" />\n" +
-                    "                   </Reply>";
+            result += "\n                  <Reply Caption=\"" + replyDataGeneratorWithChecksum(row, i) + "\" Guid=\"" + Generators.sequenceNameGenerator() + "\">\n" + "                      <Data>" + replyCommandSequence(row, i) + "</Data>\n" + "                      <MappedToSeq Value=\"\" />\n" + "                   </Reply>";
         }
         return result;
     }
 
     private static boolean isInteger(int integerPassed) {
         return String.valueOf(integerPassed).matches("\\b([0-9]|9)\\b");
+    }
+
+    public void addChecksum(Enums.ChecksumType checksumType, int startByte, int endByte, int placeChecksumOnByte) {
+        this.checksum = true;
+        this.checksumType = checksumType;
+        this.startByteChecksum = startByte;
+        this.endByteChecksum = endByte;
+        this.checksumOnByte = placeChecksumOnByte;
+    }
+
+    public void addReplyChecksum(Enums.ChecksumType replyChecksumType, int replyStartByteChecksum, int replyEndByteChecksum, int replyChecksumOnByte) {
+        this.replyChecksum = true;
+        this.replyChecksumType = replyChecksumType;
+        this.replyStartByteChecksum = replyStartByteChecksum;
+        this.replyEndByteChecksum = replyEndByteChecksum;
+        this.replyChecksumOnByte = replyChecksumOnByte;
     }
 
     public void startFromZero() {

@@ -9,7 +9,5 @@ public class CalculateChecksum {
         System.out.println("Checksum Subtract result: " + ChecksumCalculator.Subtract("14FE0131", 0, 3));
         System.out.println("Checksum BitwiseAND result: " + ChecksumCalculator.BitwiseAND("14FE0131", 0, 3));
         System.out.println("Checksum BitwiseOr result: " + ChecksumCalculator.BitwiseOR("14FE0131", 0, 3));
-
-
     }
 }

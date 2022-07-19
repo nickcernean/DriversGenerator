@@ -1,13 +1,13 @@
 package model;
 
 import org.jetbrains.annotations.Nullable;
+import tools.ChecksumCalculator;
+import tools.Enums;
 import tools.Generators;
 
 import static model.ControlSequence.*;
 
 public class SourceSequence extends Sequence {
-
-
     private final int rows;
     private final int columns;
     private final boolean carriageReturn;
@@ -22,6 +22,11 @@ public class SourceSequence extends Sequence {
     private final String command3;
     private boolean startFromZero;
     private boolean leadingZero;
+    private boolean checksum;
+    private Enums.ChecksumType checksumType;
+    private int startByteChecksum;
+    private int endByteChecksum;
+    private int checksumOnByte;
     private final static char CR = '\r';
     private final static char LF = '\n';
 
@@ -38,6 +43,7 @@ public class SourceSequence extends Sequence {
         this.command3 = command3;
         this.startFromZero = false;
         this.leadingZero = false;
+        this.checksum = false;
     }
 
     public SourceSequence(int rows, String sequenceCaption1, @Nullable String sequenceCaption2, String command1, @Nullable String command2, @Nullable String command3, boolean carriageReturn, boolean lineFeed) {
@@ -52,6 +58,7 @@ public class SourceSequence extends Sequence {
         this.command3 = command3;
         this.startFromZero = false;
         this.leadingZero = false;
+        this.checksum = false;
     }
 
     @Override
@@ -67,13 +74,20 @@ public class SourceSequence extends Sequence {
                 "              <Description />\n" +
                 "              <Image />\n" +
                 "              <Command>\n" +
-                "                <Data1>" + dataGenerator(row, column) +
+                "                <Data1>" + dataGeneratorWithChecksum(row, column) +
                 "</Data1>\n" +
                 "                <Data2 />\n" +
                 "                <Lock1 Value=\"100\" />\n" +
                 "                <Lock2 Value=\"2\" />\n" +
                 "              </Command>\n" +
                 "            </Sequence>\n";
+    }
+
+    private String dataGeneratorWithChecksum(int row, int column) {
+        if (checksum) {
+            return ChecksumCalculator.placeChecksumResult(dataGenerator(row, column), getStringChecksum(dataGenerator(row, column), checksumType, startByteChecksum, endByteChecksum), checksumOnByte);
+        }
+        return dataGenerator(row, column);
     }
 
     private String dataGenerator(int row, int column) {
@@ -118,6 +132,14 @@ public class SourceSequence extends Sequence {
 
     public void addLeadingZero() {
         leadingZero = true;
+    }
+
+    public void addChecksum(Enums.ChecksumType checksumType, int startByte, int endByte, int placeChecksumOnByte) {
+        this.checksum = true;
+        this.checksumType = checksumType;
+        this.startByteChecksum = startByte;
+        this.endByteChecksum = endByte;
+        this.checksumOnByte = placeChecksumOnByte;
     }
 
     @Override
